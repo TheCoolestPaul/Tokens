@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="D:/SpigotCoding/BuildTools/Spigot/Spigot-API/target/spigot-api-1.14.4-R0.1-SNAPSHOT-shaded.jar"/>
-	<classpathentry kind="lib" path="D:/SpigotCoding/Eclipse/server/plugins/mcMMO.jar"/>
+	<classpathentry kind="lib" path="D:/SpigotCoding/TestServer/plugins/mcMMO.jar"/>
 	<classpathentry kind="lib" path="D:/SpigotCoding/Depo/mysql-connector-java-5.1.48.jar"/>
 	<classpathentry kind="lib" path="D:/SpigotCoding/Depo/mongo-java-driver-2.13.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
