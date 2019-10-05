@@ -1,0 +1,14 @@
+name: McMMO-Tokens
+author: Paul
+main: main.java.Tokens
+depend: [mcMMO]
+prefix: Tokens
+website: https://github.com/TheCoolestPaul/McMMO-Tokens
+version: 1.0.1
+api-version: 1.13
+description: Tokens are redeemed to advanced mcmmo skill levels.
+commands:
+   tokens:
+      default: true
+      description: Main command for Tokens
+      usage: /tokens <bal|balance|redeem>

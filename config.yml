@@ -1,0 +1,12 @@
+#
+#  Settings for using a mySQL database
+###
+Storage-type: sqllite
+MySQL:
+    Username: UserName
+    Password: UserPassword
+    Database-Name: DataBaseName
+    Server:
+        SSL: false
+        Port: 3306
+        Address: localhost
