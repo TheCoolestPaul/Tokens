@@ -8,7 +8,11 @@ version: 1.0.1
 api-version: 1.13
 description: Tokens are redeemed to advanced mcmmo skill levels or to gain permanet factions power.
 commands:
-   tokens:
-      default: true
-      description: Main command for Tokens
-      usage: /tokens <bal|balance|redeem>
+  tokens:
+    default: true
+    description: Main command for Tokens
+    usage: /tokens
+  redeem:
+    default: true
+    description: Command for redeeming Tokens
+    usage: /redeem

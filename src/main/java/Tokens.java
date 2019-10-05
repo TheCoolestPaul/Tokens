@@ -6,6 +6,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import main.java.LogFilter;
+import main.java.commands.CMDRedeem;
 import main.java.commands.CMDTokens;
 import main.java.sqllite.Database;
 import main.java.sqllite.SQLite;
@@ -19,8 +20,8 @@ public class Tokens extends JavaPlugin {
 	boolean mysqlEnabled = false;
 	private MySQLHandler mysql;
 	private Database sqllite;
-	boolean hasFactions = false;
-	boolean hasMCMMO = false;
+	public boolean hasFactions = false;
+	public boolean hasMCMMO = false;
 	
 	@Override
     public void onEnable() {
@@ -60,6 +61,7 @@ public class Tokens extends JavaPlugin {
 		
     	System.out.println("Enabling commands");
     	this.getCommand("tokens").setExecutor(new CMDTokens(this));
+    	this.getCommand("redeem").setExecutor(new CMDRedeem(this));
     	
     }
 	
