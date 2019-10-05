@@ -1,12 +1,12 @@
-name: McMMO-Tokens
+name: Tokens
 author: Paul
 main: main.java.Tokens
-depend: [mcMMO]
+softdepend: [Factions, mcMMO]
 prefix: Tokens
-website: https://github.com/TheCoolestPaul/McMMO-Tokens
+website: https://github.com/TheCoolestPaul/Tokens
 version: 1.0.1
 api-version: 1.13
-description: Tokens are redeemed to advanced mcmmo skill levels.
+description: Tokens are redeemed to advanced mcmmo skill levels or to gain permanet factions power.
 commands:
    tokens:
       default: true

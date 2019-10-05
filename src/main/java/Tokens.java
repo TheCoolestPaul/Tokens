@@ -2,7 +2,10 @@ package main.java;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import main.java.LogFilter;
 import main.java.commands.CMDTokens;
 import main.java.sqllite.Database;
 import main.java.sqllite.SQLite;
@@ -13,18 +16,19 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class Tokens extends JavaPlugin {
-	String storageType = "sqllite";
+	boolean mysqlEnabled = false;
 	private MySQLHandler mysql;
-	private MongoDB mongo;
 	private Database sqllite;
+	boolean hasFactions = false;
+	boolean hasMCMMO = false;
 	
 	@Override
     public void onEnable() {
+		getLogger().setFilter(new LogFilter(this));
 		this.saveDefaultConfig();
+		mysqlEnabled = this.getConfig().getBoolean("MySQL.Enabled");
 		getServer().getPluginManager().registerEvents(new TokenListeners(), this);
-		storageType = this.getConfig().getString("Storage-type");
-		System.out.println("Storage type is "+storageType);
-		if( storageType=="mysql" ) {
+		if( mysqlEnabled==true ) {
 			MySQLHandler mysql = new MySQLHandler(); 
 			System.out.println("Connecting to the database");
 			mysql.username = this.getConfig().getString("MySQL.Username");
@@ -34,12 +38,24 @@ public class Tokens extends JavaPlugin {
 			mysql.dbAddress = this.getConfig().getString("MySQL.Server.Address");
 			mysql.dbSSL = this.getConfig().getString("MySQL.Server.SSL");
 			mysql.startSQLConnection();
-		}else if( storageType=="mongodb" ){
-			mongo = new MongoDB();
-			mongo.connect("localhost", 27017);
 		}else {
 			this.sqllite = new SQLite(this);
 	        this.sqllite.load();
+		}
+		
+		Plugin factions = getServer().getPluginManager().getPlugin("Factions");
+		if (factions != null && factions.isEnabled()) {
+			getLogger().info("Hooked into Factions");
+			hasFactions = true;
+		}else {
+			getLogger().info("Factions was not found");
+		}
+		Plugin mcmmo = getServer().getPluginManager().getPlugin("mcMMO");
+		if (mcmmo != null && mcmmo.isEnabled()) {
+			getLogger().info("Hooked into mcMMO");
+			hasMCMMO = true;
+		}else {
+			getLogger().info("mcMMO was not found");
 		}
 		
     	System.out.println("Enabling commands");
@@ -49,14 +65,9 @@ public class Tokens extends JavaPlugin {
 	
     @Override
     public void onDisable() {
-    	if( storageType=="mysql" ) {
+    	if( mysqlEnabled==true ) {
 	    	System.out.println("Disconnecting from the database ");
 	    	mysql.stopSQLConnection();
-    	}else if( storageType=="mongodb" ){
-    		for(Player player : Bukkit.getOnlinePlayers()) {
-    			System.out.println("Saving player "+player.getName());
-    			mongo.pluginDisableSavePlayers(player, mongo.getPlayerTokens(player));
-    		}
     	}
     	//Don't have to do anything for SQLLite <3
     }
@@ -70,10 +81,8 @@ public class Tokens extends JavaPlugin {
 	    public void onPlayerJoin(PlayerJoinEvent event){
 	    	Player player = event.getPlayer();
 	        Bukkit.broadcastMessage("Welcome to the server "+player.getName()+"!");
-	        if( storageType=="mysql" ) {
+	        if( mysqlEnabled==true ) {
 	        	//TODO
-	        }else if( storageType=="mongodb" ){
-	        	mongo.storePlayer(player, player.getName(), mongo.getPlayerTokens(player));
 	        }else {
 	        	sqllite.setTokens(player.getUniqueId(), sqllite.getTokens(player.getUniqueId()));
 	        }
@@ -82,10 +91,8 @@ public class Tokens extends JavaPlugin {
 	    @EventHandler
 	    public void onPlayerQuit(PlayerQuitEvent event) {
 	    	Player player = event.getPlayer();
-	    	if( storageType=="mysql" ) {
+	    	if( mysqlEnabled==true ) {
 	        	//TODO
-	        }else if( storageType=="mongodb" ){
-	        	mongo.storePlayer(player, player.getName(), mongo.getPlayerTokens(player));
 	        }else {
 	        	sqllite.setTokens(player.getUniqueId(), sqllite.getTokens(player.getUniqueId()));
 	        }
