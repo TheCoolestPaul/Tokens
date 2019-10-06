@@ -10,3 +10,25 @@ MySQL:
       SSL: false
       Port: 3306
       Address: localhost
+
+#
+#  Settings for Factions compatability
+#  
+#  Enabled: (true/false) Is the support enabled?
+#  Tokens-To-Power: (any number) How much faction power is 1 token worth?
+#
+###
+Factions:
+  Enabled: false
+  Tokens-To-Power: 2
+
+#
+#  Settings for CombatLogX compatability
+#  
+#  Enabled: (true/false) Is the support enabled?
+#  Block-Tokens: (true/false) Are the token commands blocked in combat?
+#
+###
+CombatLogX:
+  Enabled: false
+  Block-Tokens: true

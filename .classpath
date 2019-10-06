@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="D:/SpigotCoding/TestServer/plugins/mcMMO.jar"/>
 	<classpathentry kind="lib" path="D:/SpigotCoding/Depo/mysql-connector-java-5.1.48.jar"/>
 	<classpathentry kind="lib" path="D:/SpigotCoding/Depo/mongo-java-driver-2.13.1.jar"/>
+	<classpathentry kind="lib" path="D:/SpigotCoding/TestServer/plugins/CombatLogX.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

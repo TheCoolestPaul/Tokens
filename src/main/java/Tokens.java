@@ -22,6 +22,7 @@ public class Tokens extends JavaPlugin {
 	private Database sqllite;
 	public boolean hasFactions = false;
 	public boolean hasMCMMO = false;
+	public boolean hasCombatLogX = false;
 	
 	@Override
     public void onEnable() {
@@ -49,14 +50,21 @@ public class Tokens extends JavaPlugin {
 			getLogger().info("Hooked into Factions");
 			hasFactions = true;
 		}else {
-			getLogger().info("Factions was not found");
+			//getLogger().info("Factions was not found");
 		}
 		Plugin mcmmo = getServer().getPluginManager().getPlugin("mcMMO");
 		if (mcmmo != null && mcmmo.isEnabled()) {
 			getLogger().info("Hooked into mcMMO");
 			hasMCMMO = true;
 		}else {
-			getLogger().info("mcMMO was not found");
+			//getLogger().info("mcMMO was not found");
+		}
+		Plugin combatlogx = getServer().getPluginManager().getPlugin("CombatLogX");
+		if (combatlogx != null && combatlogx.isEnabled()) {
+			getLogger().info("Hooked into CombatLogX");
+			hasCombatLogX = true;
+		}else {
+			//getLogger().info("mcMMO was not found");
 		}
 		
     	System.out.println("Enabling commands");
