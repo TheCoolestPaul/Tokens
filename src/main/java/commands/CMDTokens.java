@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.combatlogx.utility.CombatUtil;
+
 import main.java.Tokens;
 
 public class CMDTokens implements CommandExecutor {
@@ -21,6 +23,12 @@ public class CMDTokens implements CommandExecutor {
     	if (sender instanceof Player) {
     		int senderTokens = plugin.getRDatabase().getTokens(((Player) sender).getUniqueId());
     		if(args.length==0) {
+    			if(plugin.combatLogXBlockTokens == true && plugin.combatLogXEnabled == true) {
+    				if(CombatUtil.isInCombat((Player) sender)) {
+	    				sender.sendMessage(ChatColor.RED+"You can't use tokens while in combat!");
+	    				return true;
+    				}
+    			}
 	            sender.sendMessage("You have "+ChatColor.GOLD+""+senderTokens+""+ChatColor.WHITE+" tokens" );
 	            return true;
     		}else if(args[0].equalsIgnoreCase("set")){
@@ -45,6 +53,12 @@ public class CMDTokens implements CommandExecutor {
     				return true;
     			}
     		}else if(args[0].equalsIgnoreCase("give")) {
+    			if(plugin.combatLogXBlockTokens == true && plugin.combatLogXEnabled == true) {
+    				if(CombatUtil.isInCombat((Player) sender)) {
+	    				sender.sendMessage(ChatColor.RED+"You can't use tokens while in combat!");
+	    				return true;
+    				}
+    			}
     			if(args.length == 3) {
     				if(senderTokens >= Integer.parseInt(args[2])) {
     					Player target = Bukkit.getPlayer(args[1]);

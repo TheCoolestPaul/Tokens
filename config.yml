@@ -27,6 +27,7 @@ Factions:
 #  
 #  Enabled: (true/false) Is the support enabled?
 #  Block-Tokens: (true/false) Are the token commands blocked in combat?
+#  ^ This option kinda disables the use of hooking into combat log but ¯\_(ツ)_/¯ more options is better?
 #
 ###
 CombatLogX:

@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.util.EventUtils;
@@ -24,6 +25,12 @@ public class CMDRedeem implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     	if (sender instanceof Player) {
     		if(args.length != 0) {
+    			if(plugin.combatLogXBlockTokens == true && plugin.combatLogXEnabled == true) {
+    				if(CombatUtil.isInCombat((Player) sender)) {
+	    				sender.sendMessage(ChatColor.RED+"You can't use tokens while in combat!");
+	    				return true;
+    				}
+    			}
 				if(args[0]!= null && (args[0].equalsIgnoreCase("factions") || args[0].equalsIgnoreCase("faction")) ) {
 					//do faction shit
 					return true;

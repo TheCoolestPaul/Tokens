@@ -20,9 +20,9 @@ public class Tokens extends JavaPlugin {
 	boolean mysqlEnabled = false;
 	private MySQLHandler mysql;
 	private Database sqllite;
-	public boolean hasFactions = false;
-	public boolean hasMCMMO = false;
-	public boolean hasCombatLogX = false;
+	public boolean hasFactions, factionsEnabled = false;
+	public boolean hasMCMMO, mcmmoEnabled = false;
+	public boolean hasCombatLogX, combatLogXEnabled, combatLogXBlockTokens = false;
 	
 	@Override
     public void onEnable() {
@@ -40,9 +40,11 @@ public class Tokens extends JavaPlugin {
 			mysql.dbAddress = this.getConfig().getString("MySQL.Server.Address");
 			mysql.dbSSL = this.getConfig().getString("MySQL.Server.SSL");
 			mysql.startSQLConnection();
+			getLogger().info("Using MySQL");
 		}else {
 			this.sqllite = new SQLite(this);
 	        this.sqllite.load();
+	        getLogger().info("Using SQLlite");
 		}
 		
 		Plugin factions = getServer().getPluginManager().getPlugin("Factions");
@@ -63,8 +65,13 @@ public class Tokens extends JavaPlugin {
 		if (combatlogx != null && combatlogx.isEnabled()) {
 			getLogger().info("Hooked into CombatLogX");
 			hasCombatLogX = true;
+			combatLogXEnabled = this.getConfig().getBoolean("CombatLogX.Enabled");
+			combatLogXBlockTokens = this.getConfig().getBoolean("CombatLogX.Block-Tokens");
 		}else {
-			//getLogger().info("mcMMO was not found");
+			if(this.getConfig().getBoolean("CombatLogX.Enabled")) {
+				getLogger().warning("CombatLogX is enabled but not installed!");
+			}
+			//getLogger().info("CombatLogX was not found");
 		}
 		
     	System.out.println("Enabling commands");
