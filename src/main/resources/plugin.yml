@@ -1,0 +1,18 @@
+name: Tokens
+author: Paul
+main: net.thirdshift.Tokens
+softdepend: [Factions, mcMMO, Vault]
+prefix: Tokens
+website: https://github.com/TheCoolestPaul/Tokens
+version: 3.1.1
+api-version: 1.14
+description: Tokens is a plugin about getting tokens to redeem to rewards
+commands:
+  tokens:
+    default: true
+    description: Main command for Tokens
+    usage: /tokens
+  redeem:
+    default: true
+    description: Command for redeeming Tokens
+    usage: /redeem
