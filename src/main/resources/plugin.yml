@@ -4,15 +4,25 @@ main: net.thirdshift.Tokens
 softdepend: [Factions, mcMMO, Vault, CombatLogX]
 prefix: Tokens
 website: https://github.com/TheCoolestPaul/Tokens
-version: 3.1.1
+version: 3.2.1
 api-version: 1.14
 description: Tokens is a plugin about getting tokens to redeem to rewards
 commands:
   tokens:
-    default: true
+    permission: tokens.use
     description: Main command for Tokens
     usage: /tokens
   redeem:
     default: true
     description: Command for redeeming Tokens
     usage: /redeem
+permissions:
+  tokens.use:
+    default: true
+    description: Require to use /tokens
+  tokens.set:
+    description: Required to use /tokens set
+  tokens.add:
+    description: Required to use /tokens add
+  tokens.remove:
+    description: Required to use /tokens remove
