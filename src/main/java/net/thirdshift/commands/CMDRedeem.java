@@ -4,6 +4,8 @@ import com.SirBlobman.combatlogx.utility.CombatUtil;
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.util.EventUtils;
+import com.massivecraft.factions.FPlayer;
+import com.massivecraft.factions.FPlayers;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.thirdshift.Tokens;
 import org.bukkit.ChatColor;
@@ -33,8 +35,27 @@ public class CMDRedeem implements CommandExecutor {
                     }
                 }
                 if (args[0] != null && (args[0].equalsIgnoreCase("factions") || args[0].equalsIgnoreCase("faction"))) {
-                    //do faction shit
-                    return true;
+                    if(args.length == 2){
+                        int tokeToPower = plugin.tokenToFactionPower;
+                        int toRedeem = Integer.parseInt(args[1]);
+                        if(toRedeem <= plugin.getRDatabase().getTokens(senderPly.getUniqueId())) {
+                            FPlayer facPly = FPlayers.getInstance().getByPlayer(senderPly);
+                            if (facPly != null) {
+                                facPly.setPowerBoost(facPly.getPowerBoost()+(toRedeem*tokeToPower));
+                                plugin.getRDatabase().setTokens(((Player) sender).getUniqueId(), plugin.getRDatabase().getTokens(((Player) sender).getUniqueId()) - toRedeem);
+                                sender.sendMessage("You redeemed "+ChatColor.GOLD+""+toRedeem+" token(s)");
+                                sender.sendMessage("Your maximum faction power is now "+ChatColor.GREEN+""+ facPly.getPowerMax());
+                                return true;
+                            }
+                            return true;
+                        }else{
+                            sender.sendMessage(ChatColor.RED + "You don't that many tokens to redeem!");
+                            return true;
+                        }
+                    }else{
+                        sender.sendMessage("/redeem factions <token amount>");
+                        return true;
+                    }
                 } else if (args[0] != null && args[0].equalsIgnoreCase("mcmmo")) {
                     if (args.length == 3) {
                         PrimarySkillType skill;
@@ -63,23 +84,27 @@ public class CMDRedeem implements CommandExecutor {
                             return true;
                         }
                     } else {
-                        sender.sendMessage(ChatColor.RED + "Invalid command use");
                         sender.sendMessage(ChatColor.RED + "/redeem mcmmo <skill name> <token amount");
                         return true;
                     }
                 } else if(args[0] !=null &&  (args[0].equalsIgnoreCase("cash") || args[0].equalsIgnoreCase("money") ) && plugin.vaultEnabled && plugin.vaultSell) {
                     if(args.length == 2 && args[1] != null){
                         int toRedeem = Integer.parseInt(args[1]);
-                        EconomyResponse r = Tokens.economy.depositPlayer(senderPly, plugin.vaultSellPrice*toRedeem );
-                            if(r.transactionSuccess()) {
-                            sender.sendMessage(String.format("You have successfully redeemed "+ChatColor.GOLD+""+toRedeem+""+ChatColor.WHITE+" token(s) for %s", Tokens.economy.format(r.amount)));
-                            return true;
-                        } else {
-                            sender.sendMessage(String.format("An error occurred: %s", r.errorMessage));
+                        if(toRedeem <= plugin.getRDatabase().getTokens(senderPly.getUniqueId())) {
+                            EconomyResponse r = Tokens.economy.depositPlayer(senderPly, plugin.vaultSellPrice * toRedeem);
+                            if (r.transactionSuccess()) {
+                                sender.sendMessage(String.format("You have successfully redeemed " + ChatColor.GOLD + "" + toRedeem + "" + ChatColor.WHITE + " token(s) for %s", Tokens.economy.format(r.amount)));
+                                plugin.getRDatabase().setTokens(((Player) sender).getUniqueId(), plugin.getRDatabase().getTokens(((Player) sender).getUniqueId()) - toRedeem);
+                                return true;
+                            } else {
+                                sender.sendMessage(String.format("An error occurred: %s", r.errorMessage));
+                                return true;
+                            }
+                        }else{
+                            sender.sendMessage(ChatColor.RED + "You don't that many tokens to redeem!");
                             return true;
                         }
                     }else{
-                        sender.sendMessage(ChatColor.RED+"Invalid command use");
                         sender.sendMessage(ChatColor.RED+"/redeem <money> <token amount>");
                         return true;
                     }
@@ -100,13 +125,13 @@ public class CMDRedeem implements CommandExecutor {
     private String whatHooks() {
         String response = "< ";
         if ( plugin.hasFactions && plugin.factionsEnabled) {
-            response = response+"| factions";
+            response = response+"| factions ";
         }
         if (plugin.hasMCMMO && plugin.mcmmoEnabled) {
-            response = response+"| mcmmo";
+            response = response+"| mcmmo ";
         }
         if(plugin.hasVault && plugin.vaultEnabled && plugin.vaultSell){
-            response = response+"| cash";
+            response = response+"| cash ";
         }
         response=response+"|>";
         return response;

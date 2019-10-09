@@ -1,7 +1,7 @@
 name: Tokens
 author: Paul
 main: net.thirdshift.Tokens
-softdepend: [Factions, mcMMO, Vault]
+softdepend: [Factions, mcMMO, Vault, CombatLogX]
 prefix: Tokens
 website: https://github.com/TheCoolestPaul/Tokens
 version: 3.1.1
