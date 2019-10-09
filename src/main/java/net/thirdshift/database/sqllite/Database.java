@@ -14,7 +14,7 @@ public abstract class Database {
     Tokens plugin;
     Connection connection;
 
-    public String table = "tokens_table";
+    private String table = "tokens_table";
     public int tokens = 0;
     public Database(Tokens instance){
         plugin = instance;
@@ -50,7 +50,6 @@ public abstract class Database {
                 plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionClose(), ex);
             }
         }
-        plugin.getLogger().log(Level.SEVERE, "Fallback 0");
         return 0;
     }
 
@@ -63,7 +62,6 @@ public abstract class Database {
             ps.setString(1, playerID.toString());
             ps.setInt(2, tokens);
             ps.executeUpdate();
-            return;
         } catch (SQLException ex) {
             plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
         } finally {
@@ -76,7 +74,6 @@ public abstract class Database {
                 plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionClose(), ex);
             }
         }
-        return;      
     }
 
 

@@ -14,7 +14,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-
+//TODO: perms
 public class CMDRedeem implements CommandExecutor {
     private Tokens plugin;
     public CMDRedeem(Tokens instance){
@@ -31,7 +31,6 @@ public class CMDRedeem implements CommandExecutor {
                         sender.sendMessage(ChatColor.RED+"You can't use tokens while in combat!");
                         return true;
                     }
-                    return true;
                 }
                 if (args[0] != null && (args[0].equalsIgnoreCase("factions") || args[0].equalsIgnoreCase("faction"))) {
                     //do faction shit
@@ -69,12 +68,20 @@ public class CMDRedeem implements CommandExecutor {
                         return true;
                     }
                 } else if(args[0] !=null &&  (args[0].equalsIgnoreCase("cash") || args[0].equalsIgnoreCase("money") ) && plugin.vaultEnabled && plugin.vaultSell) {
-                    sender.sendMessage(String.format("You have %s", Tokens.economy.format(Tokens.economy.getBalance(senderPly))));
-                    EconomyResponse r = Tokens.economy.depositPlayer(senderPly, 10.00 );
-                    if(r.transactionSuccess()) {
-                        sender.sendMessage(String.format("You were given %s and now have %s", Tokens.economy.format(r.amount), Tokens.economy.format(r.balance)));
-                    } else {
-                        sender.sendMessage(String.format("An error occurred: %s", r.errorMessage));
+                    if(args.length == 2 && args[1] != null){
+                        int toRedeem = Integer.parseInt(args[1]);
+                        EconomyResponse r = Tokens.economy.depositPlayer(senderPly, plugin.vaultSellPrice*toRedeem );
+                            if(r.transactionSuccess()) {
+                            sender.sendMessage(String.format("You have successfully redeemed "+ChatColor.GOLD+""+toRedeem+""+ChatColor.WHITE+" token(s) for %s", Tokens.economy.format(r.amount)));
+                            return true;
+                        } else {
+                            sender.sendMessage(String.format("An error occurred: %s", r.errorMessage));
+                            return true;
+                        }
+                    }else{
+                        sender.sendMessage(ChatColor.RED+"Invalid command use");
+                        sender.sendMessage(ChatColor.RED+"/redeem <money> <token amount>");
+                        return true;
                     }
                 }else{
                     sender.sendMessage(ChatColor.RED + "/redeem " + whatHooks());
@@ -88,22 +95,20 @@ public class CMDRedeem implements CommandExecutor {
             plugin.getLogger().info("Console issued the /redeem command");
             return true;
         }
-        return true;
     }
 
     private String whatHooks() {
-        String response = "";
-        if (plugin.hasFactions && plugin.hasMCMMO && plugin.hasVault) {
-            response = "<mcmmo | money | factions>";
-        } else if (plugin.hasFactions) {
-            response = "factions";
-        } else if (plugin.hasMCMMO) {
-            response = "mcmmo";
-        }else if(plugin.hasVault){
-            response = "cash";
-        }else{
-            response="ERROR";
+        String response = "< ";
+        if ( plugin.hasFactions && plugin.factionsEnabled) {
+            response = response+"| factions";
         }
+        if (plugin.hasMCMMO && plugin.mcmmoEnabled) {
+            response = response+"| mcmmo";
+        }
+        if(plugin.hasVault && plugin.vaultEnabled && plugin.vaultSell){
+            response = response+"| cash";
+        }
+        response=response+"|>";
         return response;
     }
 

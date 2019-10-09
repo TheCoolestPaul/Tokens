@@ -9,19 +9,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
+//TODO: perms
 public class CMDTokens implements CommandExecutor {
-	Tokens plugin = null;
+	private Tokens plugin;
 	 public CMDTokens(Tokens instance){
 		 plugin = instance;
     }
-	// This method is called, when somebody uses our command
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     	if (sender instanceof Player) {
     		int senderTokens = plugin.getRDatabase().getTokens(((Player) sender).getUniqueId());
     		if(args.length==0) {
-    			if(plugin.combatLogXBlockTokens == true && plugin.combatLogXEnabled == true) {
+    			if(plugin.combatLogXBlockTokens && plugin.combatLogXEnabled) {
     				if(CombatUtil.isInCombat((Player) sender)) {
 	    				sender.sendMessage(ChatColor.RED+"You can't use tokens while in combat!");
 	    				return true;
@@ -31,27 +30,21 @@ public class CMDTokens implements CommandExecutor {
 	            return true;
     		}else if(args[0].equalsIgnoreCase("set")){
     			if(args[1]!=null && args[2]!=null) {
-	    			if(args[1]!=null) {
-	    				Player target = Bukkit.getPlayer(args[1]);
-	    				if(target!=null) {
-	    					plugin.getRDatabase().setTokens(target.getUniqueId(), Integer.parseInt(args[2]));
-	    					return true;
-	    				}else {
-	    					sender.sendMessage(ChatColor.RED+"Targeted player was invalid!");
-	    					return true;
-	    				}
-	    			}else {
-	    				sender.sendMessage(ChatColor.RED+"Invalid command use");
-	    				sender.sendMessage(ChatColor.RED+"/tokens set <player name> <token amount>");
-	    				return true;
-	    			}
-    			}else {
+					Player target = Bukkit.getPlayer(args[1]);
+					if(target!=null) {
+						plugin.getRDatabase().setTokens(target.getUniqueId(), Integer.parseInt(args[2]));
+						return true;
+					}else {
+						sender.sendMessage(ChatColor.RED+"Targeted player was invalid!");
+						return true;
+					}
+				}else {
     				sender.sendMessage(ChatColor.RED+"Invalid command use");
     				sender.sendMessage(ChatColor.RED+"/tokens set <player name> <token amount>");
     				return true;
     			}
     		}else if(args[0].equalsIgnoreCase("give")) {
-    			if(plugin.combatLogXBlockTokens == true && plugin.combatLogXEnabled == true) {
+    			if(plugin.combatLogXBlockTokens && plugin.combatLogXEnabled) {
     				if(CombatUtil.isInCombat((Player) sender)) {
 	    				sender.sendMessage(ChatColor.RED+"You can't use tokens while in combat!");
 	    				return true;
@@ -64,9 +57,9 @@ public class CMDTokens implements CommandExecutor {
 	    					plugin.getRDatabase().setTokens(target.getUniqueId(), plugin.getRDatabase().getTokens(target.getUniqueId())+Integer.parseInt(args[2]));
 	    					plugin.getRDatabase().setTokens(((Entity) sender).getUniqueId(), senderTokens-Integer.parseInt(args[2]));
 	    					sender.sendMessage("You sent "+ChatColor.GOLD+""+args[2]+""+ChatColor.WHITE+" token(s) to "+ChatColor.GREEN+""+target.getName());
-	    					target.sendMessage("You recieved "+ChatColor.GOLD+""+args[2]+""+ChatColor.WHITE+" token(s) from "+ChatColor.GREEN+""+sender.getName());
+	    					target.sendMessage("You received "+ChatColor.GOLD+""+args[2]+""+ChatColor.WHITE+" token(s) from "+ChatColor.GREEN+""+sender.getName());
 	    					return true;
-	    				}else {
+						}else {
 	    					sender.sendMessage(ChatColor.RED+"Targeted player was invalid!");
 	    					return true;
 	    				}

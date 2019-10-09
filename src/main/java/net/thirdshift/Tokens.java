@@ -2,6 +2,7 @@ package net.thirdshift;
 
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.commands.CMDRedeem;
+import net.thirdshift.commands.CMDTokens;
 import net.thirdshift.database.mysql.MySQLHandler;
 import net.thirdshift.database.sqllite.Database;
 import net.thirdshift.database.sqllite.SQLite;
@@ -15,13 +16,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-//import net.thirdshift.commands.CMDTokens;
-
 public class Tokens extends JavaPlugin {
     private boolean mysqlEnabled = false;
     private MySQLHandler mysql;
     private Database sqllite;
     public boolean hasFactions, factionsEnabled = false;
+    public int tokenToFactionPower;
     public boolean hasMCMMO, mcmmoEnabled = false;
     public boolean hasCombatLogX, combatLogXEnabled, combatLogXBlockTokens = false;
     public boolean hasVault, vaultEnabled, vaultBuy, vaultSell = false;
@@ -34,7 +34,7 @@ public class Tokens extends JavaPlugin {
         this.saveDefaultConfig();
         mysqlEnabled = this.getConfig().getBoolean("MySQL.Enabled");
         getServer().getPluginManager().registerEvents(new TokenListeners(), this);
-        if( mysqlEnabled==true ) {
+        if(mysqlEnabled) {
             MySQLHandler mysql = new MySQLHandler();
             System.out.println("Connecting to the database");
             mysql.username = this.getConfig().getString("MySQL.Username");
@@ -55,36 +55,39 @@ public class Tokens extends JavaPlugin {
         if (factions != null && factions.isEnabled()) {
             getLogger().info("Hooked into Factions");
             hasFactions = true;
-        }else {
-            getLogger().info("Factions was not found");
+            factionsEnabled = this.getConfig().getBoolean("Factions.Enabled");
+            tokenToFactionPower = this.getConfig().getInt("Factions.Tokens-To-Power");
+        }else if (this.getConfig().getBoolean("Factions.Enabled")){
+            getLogger().info("Factions is enabled but not installed!");
         }
+
         Plugin mcmmo = getServer().getPluginManager().getPlugin("mcMMO");
         if (mcmmo != null && mcmmo.isEnabled()) {
             getLogger().info("Hooked into mcMMO");
             hasMCMMO = true;
-        }else {
-            getLogger().info("mcMMO was not found");
+            mcmmoEnabled = this.getConfig().getBoolean("mcMMO.Enabled");
+        }else if(this.getConfig().getBoolean("mcMMO.Enabled")){
+            getLogger().warning("mcMMO is enabled but not installed!");
         }
+
         Plugin combatlogx = getServer().getPluginManager().getPlugin("CombatLogX");
         if (combatlogx != null && combatlogx.isEnabled()) {
             getLogger().info("Hooked into CombatLogX");
             hasCombatLogX = true;
             combatLogXEnabled = this.getConfig().getBoolean("CombatLogX.Enabled");
             combatLogXBlockTokens = this.getConfig().getBoolean("CombatLogX.Block-Tokens");
-        }else {
-            if(this.getConfig().getBoolean("CombatLogX.Enabled")) {
-                getLogger().warning("CombatLogX is enabled but not installed!");
-            }
-            getLogger().info("CombatLogX was not found");
+        }else if(this.getConfig().getBoolean("CombatLogX.Enabled")) {
+            getLogger().warning("CombatLogX is enabled but not installed!");
         }
+
         Plugin valutplug = getServer().getPluginManager().getPlugin("Vault");
         if(valutplug != null && valutplug.isEnabled()){
-            getLogger().info("Hooked into vault");
             boolean maybe = setupEconomy();
-            if(maybe==false) {
+            if(!maybe) {
                 hasVault = false;
                 getLogger().warning("Vault doesn't have an economy plugin!");
             }else{
+                getLogger().info("Hooked into Vault Economy");
                 hasVault = true;
                 vaultEnabled = this.getConfig().getBoolean("VaultEco.Enabled");
                 vaultBuy = this.getConfig().getBoolean("VaultEco.Buy-Tokens");
@@ -92,18 +95,18 @@ public class Tokens extends JavaPlugin {
                 vaultSell = this.getConfig().getBoolean("VaultEco.Sell-Tokens");
                 vaultSellPrice = this.getConfig().getDouble("VaultEco.Sell-Price");
             }
-        }else{
-            getLogger().info("No vault");
+        }else if(this.getConfig().getBoolean("VaultEco.Enabled")){
+            getLogger().warning("Vault is enabled but not installed!");
         }
-        System.out.println("Enabling commands");
-        //this.getCommand("tokens").setExecutor(new CMDTokens(this));
+        getLogger().info("Enabling commands");
+        this.getCommand("tokens").setExecutor(new CMDTokens(this));
         this.getCommand("redeem").setExecutor(new CMDRedeem(this));
 
     }
 
     @Override
     public void onDisable() {
-        if( mysqlEnabled==true ) {
+        if( mysqlEnabled ) {
             System.out.println("Disconnecting from the database ");
             mysql.stopSQLConnection();
         }
@@ -128,8 +131,9 @@ public class Tokens extends JavaPlugin {
         public void onPlayerJoin(PlayerJoinEvent event){
             Player player = event.getPlayer();
             Bukkit.broadcastMessage("Welcome to the server "+player.getName()+"!");
-            if( mysqlEnabled==true ) {
+            if( mysqlEnabled ) {
                 //TODO
+                getLogger().info("MySQL isn't fully implemented yet.");
             }else {
                 sqllite.setTokens(player.getUniqueId(), sqllite.getTokens(player.getUniqueId()));
             }
@@ -138,12 +142,15 @@ public class Tokens extends JavaPlugin {
         @EventHandler
         public void onPlayerQuit(PlayerQuitEvent event) {
             Player player = event.getPlayer();
-            if( mysqlEnabled==true ) {
+            if( mysqlEnabled ) {
                 //TODO
+                getLogger().info("MySQL isn't fully implemented yet.");
             }else {
                 sqllite.setTokens(player.getUniqueId(), sqllite.getTokens(player.getUniqueId()));
             }
         }
     }
+
+
 
 }
