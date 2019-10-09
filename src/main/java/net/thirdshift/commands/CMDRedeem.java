@@ -16,7 +16,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.List;
-//TODO: perms
+
 public class CMDRedeem implements CommandExecutor {
     private Tokens plugin;
     public CMDRedeem(Tokens instance){
