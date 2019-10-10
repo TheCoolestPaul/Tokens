@@ -9,7 +9,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-//TODO: perms
+
 public class CMDTokens implements CommandExecutor {
 	private Tokens plugin;
 	 public CMDTokens(Tokens instance){
@@ -28,7 +28,7 @@ public class CMDTokens implements CommandExecutor {
     			}
 	            sender.sendMessage("You have "+ChatColor.GOLD+""+senderTokens+""+ChatColor.WHITE+" tokens" );
 	            return true;
-    		}else if(args[0].equalsIgnoreCase("set")){
+    		}else if(args[0].equalsIgnoreCase("set") && sender.hasPermission("tokens.set")){
     			if(args[1]!=null && args[2]!=null) {
 					Player target = Bukkit.getPlayer(args[1]);
 					if(target!=null) {
@@ -72,7 +72,7 @@ public class CMDTokens implements CommandExecutor {
     				sender.sendMessage(ChatColor.RED+"/tokens give <player name> <token amount>");
     				return true;
     			}
-    		}else if(args[0].equalsIgnoreCase("add")) {
+    		}else if(args[0].equalsIgnoreCase("add") && sender.hasPermission("tokens.add")) {
     			if(args.length == 3) {
     				Player target = Bukkit.getPlayer(args[1]);
     				if(target!=null) {
@@ -89,7 +89,7 @@ public class CMDTokens implements CommandExecutor {
     				sender.sendMessage(ChatColor.RED+"/tokens add <player name> <token amount>");
     				return true;
     			}
-    		}else if(args[0].equalsIgnoreCase("remove")) {
+    		}else if(args[0].equalsIgnoreCase("remove") && sender.hasPermission("tokens.remove")) {
     			if(args.length == 3) {
     				Player target = Bukkit.getPlayer(args[1]);
     				if(target!=null) {
@@ -111,9 +111,16 @@ public class CMDTokens implements CommandExecutor {
     				sender.sendMessage(ChatColor.RED+"/tokens remove <player name> <token amount>");
     				return true;
     			}
-    		}
-    		sender.sendMessage("Invalid command use");
-    		return true;// catch all sort of thing.
+    		}else if(args[0].equalsIgnoreCase("help")){
+				sender.sendMessage(ChatColor.GREEN+ "===============[ " +ChatColor.GOLD+ "Tokens Help"+ ChatColor.GREEN +" ]===============");
+				sender.sendMessage("/tokens help "+ChatColor.GRAY+" Displays this helpful text");
+				sender.sendMessage("/tokens"+ChatColor.GRAY+" Displays your number of tokens");
+				sender.sendMessage("/redeem"+ChatColor.GRAY+" Displays help using the redeem command");
+				return true;
+			}
+    		sender.sendMessage(ChatColor.RED+"Invalid command use");
+    		sender.sendMessage(ChatColor.GRAY+"Use "+ChatColor.RED+"/tokens help"+ChatColor.GRAY+" for command usage");
+    		return true;
         }
     	System.out.println("Console used the /tokens command!");
         return true;
