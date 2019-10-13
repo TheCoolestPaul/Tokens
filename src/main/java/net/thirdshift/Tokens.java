@@ -6,7 +6,6 @@ import net.thirdshift.commands.CMDTokens;
 import net.thirdshift.database.mysql.MySQLHandler;
 import net.thirdshift.database.sqllite.Database;
 import net.thirdshift.database.sqllite.SQLite;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,8 +34,7 @@ public class Tokens extends JavaPlugin {
         mysqlEnabled = this.getConfig().getBoolean("MySQL.Enabled");
         getServer().getPluginManager().registerEvents(new TokenListeners(), this);
         if(mysqlEnabled) {
-            MySQLHandler mysql = new MySQLHandler();
-            System.out.println("Connecting to the database");
+            this.mysql = new MySQLHandler(this);
             mysql.username = this.getConfig().getString("MySQL.Username");
             mysql.password = this.getConfig().getString("MySQL.Password");
             mysql.dbName = this.getConfig().getString("MySQL.Database-Name");
@@ -107,7 +105,7 @@ public class Tokens extends JavaPlugin {
     @Override
     public void onDisable() {
         if( mysqlEnabled ) {
-            System.out.println("Disconnecting from the database ");
+            getLogger().info("Disconnecting from MySQL");
             mysql.stopSQLConnection();
         }
     }
@@ -126,15 +124,27 @@ public class Tokens extends JavaPlugin {
         return (economy != null);
     }
 
+    public int getTokens(Player player){
+        if(mysqlEnabled){
+            return mysql.getTokens(player);
+        }else{
+            return sqllite.getTokens(player.getUniqueId());
+        }
+    }
+
+    public void setTokens(Player player, int tokens){
+        if(mysqlEnabled){
+            mysql.setTokens(player, tokens);
+        }else{
+            sqllite.setTokens(player.getUniqueId(), tokens);
+        }
+    }
+
     public class TokenListeners implements Listener{
         @EventHandler
         public void onPlayerJoin(PlayerJoinEvent event){
             Player player = event.getPlayer();
-            Bukkit.broadcastMessage("Welcome to the server "+player.getName()+"!");
-            if( mysqlEnabled ) {
-                //TODO
-                getLogger().info("MySQL isn't fully implemented yet.");
-            }else {
+            if( !mysqlEnabled ) {
                 sqllite.setTokens(player.getUniqueId(), sqllite.getTokens(player.getUniqueId()));
             }
         }
@@ -142,13 +152,9 @@ public class Tokens extends JavaPlugin {
         @EventHandler
         public void onPlayerQuit(PlayerQuitEvent event) {
             Player player = event.getPlayer();
-            if( mysqlEnabled ) {
-                //TODO
-                getLogger().info("MySQL isn't fully implemented yet.");
-            }else {
+            if( !mysqlEnabled ) {
                 sqllite.setTokens(player.getUniqueId(), sqllite.getTokens(player.getUniqueId()));
             }
         }
     }
-
 }

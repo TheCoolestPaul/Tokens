@@ -7,18 +7,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class CMDTokens implements CommandExecutor {
 	private Tokens plugin;
-	 public CMDTokens(Tokens instance){
+	public CMDTokens(Tokens instance){
 		 plugin = instance;
     }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
     	if (sender instanceof Player) {
-    		int senderTokens = plugin.getRDatabase().getTokens(((Player) sender).getUniqueId());
     		if(args.length==0) {
     			if(plugin.combatLogXBlockTokens && plugin.combatLogXEnabled) {
     				if(CombatUtil.isInCombat((Player) sender)) {
@@ -26,13 +24,15 @@ public class CMDTokens implements CommandExecutor {
 	    				return true;
     				}
     			}
+				int senderTokens = plugin.getTokens(((Player) sender));
 	            sender.sendMessage("You have "+ChatColor.GOLD+""+senderTokens+""+ChatColor.WHITE+" tokens" );
 	            return true;
     		}else if(args[0].equalsIgnoreCase("set") && sender.hasPermission("tokens.set")){
     			if(args[1]!=null && args[2]!=null) {
 					Player target = Bukkit.getPlayer(args[1]);
 					if(target!=null) {
-						plugin.getRDatabase().setTokens(target.getUniqueId(), Integer.parseInt(args[2]));
+						plugin.setTokens(target, Integer.parseInt(args[2]));
+						sender.sendMessage("Set "+ChatColor.GRAY+""+target.getName()+"'s "+ChatColor.WHITE+"tokens to "+ChatColor.GOLD+""+args[2]);
 						return true;
 					}else {
 						sender.sendMessage(ChatColor.RED+"Targeted player was invalid!");
@@ -51,11 +51,12 @@ public class CMDTokens implements CommandExecutor {
     				}
     			}
     			if(args.length == 3) {
+					int senderTokens = plugin.getTokens(((Player) sender));
     				if(senderTokens >= Integer.parseInt(args[2])) {
     					Player target = Bukkit.getPlayer(args[1]);
 	    				if(target!=null) {
-	    					plugin.getRDatabase().setTokens(target.getUniqueId(), plugin.getRDatabase().getTokens(target.getUniqueId())+Integer.parseInt(args[2]));
-	    					plugin.getRDatabase().setTokens(((Entity) sender).getUniqueId(), senderTokens-Integer.parseInt(args[2]));
+	    					plugin.setTokens(target, (plugin.getTokens(target)+Integer.parseInt(args[2])));
+	    					plugin.setTokens((Player) sender, (senderTokens-Integer.parseInt(args[2])));
 	    					sender.sendMessage("You sent "+ChatColor.GOLD+""+args[2]+""+ChatColor.WHITE+" token(s) to "+ChatColor.GREEN+""+target.getName());
 	    					target.sendMessage("You received "+ChatColor.GOLD+""+args[2]+""+ChatColor.WHITE+" token(s) from "+ChatColor.GREEN+""+sender.getName());
 	    					return true;
@@ -76,8 +77,7 @@ public class CMDTokens implements CommandExecutor {
     			if(args.length == 3) {
     				Player target = Bukkit.getPlayer(args[1]);
     				if(target!=null) {
-    					// Long but gets the job done ¯\_(ツ)_/¯
-    					plugin.getRDatabase().setTokens(target.getUniqueId(), (Integer.parseInt(args[2])+plugin.getRDatabase().getTokens(target.getUniqueId())));
+    					plugin.setTokens(target, (Integer.parseInt(args[2])+plugin.getTokens(target)));
     					sender.sendMessage(ChatColor.GREEN+"Added "+ChatColor.GOLD+""+args[2]+""+ChatColor.WHITE+" to "+ChatColor.GRAY+""+target.getName()+""+ChatColor.WHITE+"'s tokens");
     					return true;
     				}else {
@@ -93,12 +93,12 @@ public class CMDTokens implements CommandExecutor {
     			if(args.length == 3) {
     				Player target = Bukkit.getPlayer(args[1]);
     				if(target!=null) {
-    					int targetTokens = plugin.getRDatabase().getTokens(target.getUniqueId());
+    					int targetTokens = plugin.getTokens(target);
     					int toRemove = Integer.parseInt(args[2]);
     					if (targetTokens >= toRemove) {
-    						plugin.getRDatabase().setTokens(target.getUniqueId(), targetTokens-toRemove);
+    						plugin.setTokens(target, (targetTokens-toRemove));
     					}else {
-    						plugin.getRDatabase().setTokens(target.getUniqueId(), 0);
+    						plugin.setTokens(target, 0);
     					}
     					sender.sendMessage(ChatColor.RED+"Removed "+ChatColor.GOLD+""+toRemove+""+ChatColor.WHITE+" from "+ChatColor.GRAY+""+target.getName()+""+ChatColor.WHITE+"'s tokens");
     					return true;
