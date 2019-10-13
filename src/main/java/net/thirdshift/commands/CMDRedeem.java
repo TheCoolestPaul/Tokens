@@ -38,11 +38,11 @@ public class CMDRedeem implements CommandExecutor {
                     if(args.length == 2){
                         int tokeToPower = plugin.tokenToFactionPower;
                         int toRedeem = Integer.parseInt(args[1]);
-                        if(toRedeem <= plugin.getRDatabase().getTokens(senderPly.getUniqueId())) {
+                        if(toRedeem <= plugin.getTokens((Player) sender)) {
                             FPlayer facPly = FPlayers.getInstance().getByPlayer(senderPly);
                             if (facPly != null) {
                                 facPly.setPowerBoost(facPly.getPowerBoost()+(toRedeem*tokeToPower));
-                                plugin.getRDatabase().setTokens(((Player) sender).getUniqueId(), plugin.getRDatabase().getTokens(((Player) sender).getUniqueId()) - toRedeem);
+                                plugin.setTokens((Player)sender, (plugin.getTokens((Player)sender) - toRedeem));
                                 sender.sendMessage("You redeemed "+ChatColor.GOLD+""+toRedeem+" token(s)");
                                 sender.sendMessage("Your maximum faction power is now "+ChatColor.GREEN+""+ facPly.getPowerMax());
                                 return true;
@@ -60,14 +60,14 @@ public class CMDRedeem implements CommandExecutor {
                     if (args.length == 3) {
                         PrimarySkillType skill;
                         int toRedeem = Integer.parseInt(args[2]);
-                        if (plugin.getRDatabase().getTokens(((Player) sender).getUniqueId()) >= toRedeem) {
+                        if (plugin.getTokens((Player)sender) >= toRedeem) {
                             if ((PrimarySkillType.getSkill(args[1])) != null) {
-                                if (plugin.getRDatabase().getTokens(((Player) sender).getUniqueId()) >= Integer.parseInt(args[2])) {
+                                if (plugin.getTokens((Player)sender) >= Integer.parseInt(args[2])) {
                                     skill = PrimarySkillType.getSkill(args[1]);
                                     McMMOPlayer senderMcMMO = EventUtils.getMcMMOPlayer((Entity) sender);
                                     senderMcMMO.addLevels(skill, toRedeem);
                                     sender.sendMessage("You successfully redeemed " + ChatColor.GOLD + "" + toRedeem + "" + ChatColor.WHITE + " token(s) to the mcMMO skill " + ChatColor.GRAY + "" + skill.getName());
-                                    plugin.getRDatabase().setTokens(((Player) sender).getUniqueId(), plugin.getRDatabase().getTokens(((Player) sender).getUniqueId()) - toRedeem);
+                                    plugin.setTokens((Player)sender, (plugin.getTokens((Player)sender)-toRedeem));
                                     return true;
                                 } else {
                                     sender.sendMessage(ChatColor.RED + "You don't have enough tokens for that");
@@ -90,11 +90,11 @@ public class CMDRedeem implements CommandExecutor {
                 } else if(args[0] !=null &&  (args[0].equalsIgnoreCase("cash") || args[0].equalsIgnoreCase("money") ) && plugin.vaultEnabled && plugin.vaultSell) {
                     if(args.length == 2 && args[1] != null){
                         int toRedeem = Integer.parseInt(args[1]);
-                        if(toRedeem <= plugin.getRDatabase().getTokens(senderPly.getUniqueId())) {
+                        if(toRedeem <= plugin.getTokens((Player)sender)) {
                             EconomyResponse r = Tokens.economy.depositPlayer(senderPly, plugin.vaultSellPrice * toRedeem);
                             if (r.transactionSuccess()) {
                                 sender.sendMessage(String.format("You have successfully redeemed " + ChatColor.GOLD + "" + toRedeem + "" + ChatColor.WHITE + " token(s) for %s", Tokens.economy.format(r.amount)));
-                                plugin.getRDatabase().setTokens(((Player) sender).getUniqueId(), plugin.getRDatabase().getTokens(((Player) sender).getUniqueId()) - toRedeem);
+                                plugin.setTokens((Player)sender,(plugin.getTokens((Player)sender)-toRedeem));
                                 return true;
                             } else {
                                 sender.sendMessage(String.format("An error occurred: %s", r.errorMessage));
