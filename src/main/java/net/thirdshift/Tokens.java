@@ -18,7 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 
 public class Tokens extends JavaPlugin {
-    private boolean mysqlEnabled = false;
+    public boolean mysqlEnabled = false;
     private MySQLHandler mysql;
     private Database sqllite;
     public boolean hasFactions, factionsEnabled = false;
