@@ -6,6 +6,7 @@ import net.thirdshift.commands.CMDTokens;
 import net.thirdshift.database.mysql.MySQLHandler;
 import net.thirdshift.database.sqllite.Database;
 import net.thirdshift.database.sqllite.SQLite;
+import net.thirdshift.util.SpigotUpdater;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,6 +32,17 @@ public class Tokens extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().setFilter(new LogFilter(this));
+        SpigotUpdater updater = new SpigotUpdater(this, 71941);
+        try {
+            if (updater.checkForUpdates()) {
+                getLogger().info("An update was found! New version: " + updater.getLatestVersion() + " download: " + updater.getResourceURL());
+            }else{
+                getLogger().info("is up to date!");
+            }
+        } catch (Exception e) {
+            getLogger().warning("Could not check for updates! Stacktrace:");
+            e.printStackTrace();
+        }
         this.saveDefaultConfig();
         mysqlEnabled = this.getConfig().getBoolean("MySQL.Enabled");
         getServer().getPluginManager().registerEvents(new TokenListeners(), this);
@@ -97,6 +109,18 @@ public class Tokens extends JavaPlugin {
         }else if(this.getConfig().getBoolean("VaultEco.Enabled")){
             getLogger().warning("Vault is enabled but not installed!");
         }
+        if(!hasFactions&&!hasMCMMO&&!hasCombatLogX&&!hasVault){
+            getLogger().info("You don't have any supported plugins installed");
+            this.setEnabled(false);
+        }
+            /*
+                public boolean hasFactions, factionsEnabled = false;
+                public int tokenToFactionPower;
+                public boolean hasMCMMO, mcmmoEnabled = false;
+                public boolean hasCombatLogX, combatLogXEnabled, combatLogXBlockTokens = false;
+                public boolean hasVault, vaultEnabled, vaultBuy, vaultSell = false;
+                public double vaultBuyPrice, vaultSellPrice = 0.0;
+             */
         getLogger().info("Enabling commands");
         this.getCommand("tokens").setExecutor(new CMDTokens(this));
         this.getCommand("redeem").setExecutor(new CMDRedeem(this));
