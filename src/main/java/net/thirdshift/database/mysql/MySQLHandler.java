@@ -33,6 +33,7 @@ public class MySQLHandler {
 		} catch (ClassNotFoundException e) {
 		    e.printStackTrace();
 		    System.err.println("jdbc driver unavailable!");
+			plugin.mysqlEnabled = false;
 		    return;
 		}
 		try {
@@ -48,11 +49,16 @@ public class MySQLHandler {
 			    e.printStackTrace();
 			}
 		} catch (SQLException e) { //catching errors)
-			if(e.getSQLState()=="28000"){
-				System.err.println("MySQL Login information was wrong! Check you config.yml");
+			if(e.getSQLState()=="28000") {
+				plugin.getLogger().warning("MySQL Login information was wrong! Check you config.yml");
+				plugin.mysqlEnabled = false;
+			}else if(e.getSQLState()=="08S01"){
+				plugin.getLogger().warning("MySQL Couldn't establish a connection!");
+				plugin.mysqlEnabled = false;
 			}else {
 				System.err.println("MySQL Error: "+e.getSQLState());
 				e.printStackTrace();
+				plugin.mysqlEnabled = false;
 			}
 		}
 	}

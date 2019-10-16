@@ -34,7 +34,7 @@ public abstract class Database {
             rs = ps.executeQuery();
             while(rs.next()){
                 if(rs.getString("player").equalsIgnoreCase(playerID.toString())){
-                	plugin.getLogger().log(Level.INFO, "Got it from database!");
+                	//plugin.getLogger().log(Level.INFO, "Got it from database!");
                     return rs.getInt("tokens");
                 }
             }
