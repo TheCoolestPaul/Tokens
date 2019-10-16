@@ -1,6 +1,7 @@
 package net.thirdshift.commands;
 
 import com.SirBlobman.combatlogx.utility.CombatUtil;
+import net.milkbowl.vault.economy.EconomyResponse;
 import net.thirdshift.Tokens;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -117,6 +118,23 @@ public class CMDTokens implements CommandExecutor {
 				sender.sendMessage("/tokens"+ChatColor.GRAY+" Displays your number of tokens");
 				sender.sendMessage("/redeem"+ChatColor.GRAY+" Displays help using the redeem command");
 				return true;
+			}else if(args[0].equalsIgnoreCase("buy") && plugin.vaultBuy){
+    			double price = plugin.vaultBuyPrice;
+    			double plyMoney = Tokens.economy.getBalance((Player)sender);
+    			int toBuy = Integer.parseInt(args[1]);
+    			double total = (toBuy*price);
+    			if(total <= plyMoney){
+    				EconomyResponse r = Tokens.economy.withdrawPlayer((Player)sender, total);
+					if (r.transactionSuccess()) {
+						sender.sendMessage(String.format("You have successfully purchased " + ChatColor.GOLD + "" + toBuy + "" + ChatColor.WHITE + " token(s) for %s" + ChatColor.GRAY, Tokens.economy.format(r.amount)));
+						plugin.addTokens((Player)sender, toBuy);
+					}else{
+						sender.sendMessage("There was an error withdrawing money from your account");
+					}
+				}else {
+    				sender.sendMessage(ChatColor.RED+"You don't have enough money to purchase that many tokens");
+				}
+    			return true;
 			}
     		sender.sendMessage(ChatColor.RED+"Invalid command use");
     		sender.sendMessage(ChatColor.GRAY+"Use "+ChatColor.RED+"/tokens help"+ChatColor.GRAY+" for command usage");

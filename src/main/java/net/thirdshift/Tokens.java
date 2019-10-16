@@ -161,6 +161,17 @@ public class Tokens extends JavaPlugin {
         }
     }
 
+    public void addTokens(Player player, int tokens){
+        int curTokens;
+        if(mysqlEnabled){
+            curTokens = mysql.getTokens(player);
+            mysql.setTokens(player, tokens+curTokens);
+        }else{
+            curTokens = sqllite.getTokens(player.getUniqueId());
+            sqllite.setTokens(player.getUniqueId(), curTokens+tokens);
+        }
+    }
+
     public class TokenListeners implements Listener{
         @EventHandler
         public void onPlayerJoin(PlayerJoinEvent event){
