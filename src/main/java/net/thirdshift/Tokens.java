@@ -15,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public class Tokens extends JavaPlugin {
     private boolean mysqlEnabled = false;
     private MySQLHandler mysql;
@@ -108,10 +109,6 @@ public class Tokens extends JavaPlugin {
             getLogger().info("Disconnecting from MySQL");
             mysql.stopSQLConnection();
         }
-    }
-
-    public Database getRDatabase() {
-        return this.sqllite;
     }
 
     private boolean setupEconomy()
