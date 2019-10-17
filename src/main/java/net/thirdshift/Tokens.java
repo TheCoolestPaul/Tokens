@@ -41,7 +41,6 @@ public class Tokens extends JavaPlugin {
         }
         this.saveDefaultConfig();
         mysqlEnabled = this.getConfig().getBoolean("MySQL.Enabled");
-        getServer().getPluginManager().registerEvents(new TokenListeners(), this);
         if(mysqlEnabled) {
             this.mysql = new MySQLHandler(this);
             mysql.username = this.getConfig().getString("MySQL.Username");
