@@ -113,14 +113,6 @@ public class Tokens extends JavaPlugin {
             getLogger().info("You don't have any supported plugins installed");
             this.setEnabled(false);
         }
-            /*
-                public boolean hasFactions, factionsEnabled = false;
-                public int tokenToFactionPower;
-                public boolean hasMCMMO, mcmmoEnabled = false;
-                public boolean hasCombatLogX, combatLogXEnabled, combatLogXBlockTokens = false;
-                public boolean hasVault, vaultEnabled, vaultBuy, vaultSell = false;
-                public double vaultBuyPrice, vaultSellPrice = 0.0;
-             */
         getLogger().info("Enabling commands");
         this.getCommand("tokens").setExecutor(new CMDTokens(this));
         this.getCommand("redeem").setExecutor(new CMDRedeem(this));
