@@ -65,7 +65,7 @@ public class CMDRedeem implements CommandExecutor {
                                 if (plugin.getTokens((Player)sender) >= Integer.parseInt(args[2])) {
                                     skill = PrimarySkillType.getSkill(args[1]);
                                     McMMOPlayer senderMcMMO = EventUtils.getMcMMOPlayer((Entity) sender);
-                                    senderMcMMO.addLevels(skill, toRedeem);
+                                    senderMcMMO.addLevels(skill, toRedeem*plugin.tokensToMCMMOLevels);
                                     sender.sendMessage("You successfully redeemed " + ChatColor.GOLD + "" + toRedeem + "" + ChatColor.WHITE + " token(s) to the mcMMO skill " + ChatColor.GRAY + "" + skill.getName());
                                     plugin.setTokens((Player)sender, (plugin.getTokens((Player)sender)-toRedeem));
                                     return true;

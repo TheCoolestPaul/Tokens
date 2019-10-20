@@ -20,6 +20,7 @@ public class Tokens extends JavaPlugin {
     public boolean hasFactions, factionsEnabled = false;
     public int tokenToFactionPower;
     public boolean hasMCMMO, mcmmoEnabled = false;
+    public int tokensToMCMMOLevels;
     public boolean hasCombatLogX, combatLogXEnabled, combatLogXBlockTokens = false;
     public boolean hasVault, vaultEnabled, vaultBuy, vaultSell = false;
     public double vaultBuyPrice, vaultSellPrice = 0.0;
@@ -72,6 +73,7 @@ public class Tokens extends JavaPlugin {
             getLogger().info("Hooked into mcMMO");
             hasMCMMO = true;
             mcmmoEnabled = this.getConfig().getBoolean("mcMMO.Enabled");
+            tokensToMCMMOLevels = this.getConfig().getInt("mcMMO.Tokens-To-Levels");
         }else if(this.getConfig().getBoolean("mcMMO.Enabled")){
             getLogger().warning("mcMMO is enabled but not installed!");
         }
