@@ -25,21 +25,12 @@ public class Tokens extends JavaPlugin {
     public boolean hasVault, vaultEnabled, vaultBuy, vaultSell = false;
     public double vaultBuyPrice, vaultSellPrice = 0.0;
     public static Economy economy;
+    private SpigotUpdater updater = new SpigotUpdater(this, 71941);
 
     @Override
     public void onEnable() {
         getLogger().setFilter(new LogFilter(this));
-        SpigotUpdater updater = new SpigotUpdater(this, 71941);
-        try {
-            if (updater.checkForUpdates()) {
-                getLogger().info("An update was found! New version: " + updater.getLatestVersion() + " download: " + updater.getResourceURL());
-            }else{
-                getLogger().info("is up to date!");
-            }
-        } catch (Exception e) {
-            getLogger().warning("Could not check for updates! Stacktrace:");
-            e.printStackTrace();
-        }
+        checkForUpdates();
         this.saveDefaultConfig();
         mysqlEnabled = this.getConfig().getBoolean("MySQL.Enabled");
         if(mysqlEnabled) {
@@ -158,6 +149,19 @@ public class Tokens extends JavaPlugin {
         }else{
             curTokens = sqllite.getTokens(player.getUniqueId());
             sqllite.setTokens(player.getUniqueId(), curTokens+tokens);
+        }
+    }
+
+    private void checkForUpdates(){
+        try {
+            if (updater.checkForUpdates()) {
+                getLogger().info("An update was found! New version: " + updater.getLatestVersion() + " download: " + updater.getResourceURL());
+            }else{
+                getLogger().info("is up to date!");
+            }
+        } catch (Exception e) {
+            getLogger().warning("Could not check for updates! Stacktrace:");
+            e.printStackTrace();
         }
     }
 }
