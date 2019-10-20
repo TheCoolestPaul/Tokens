@@ -56,7 +56,7 @@ public class CMDTokens implements CommandExecutor {
     				if(senderTokens >= Integer.parseInt(args[2])) {
     					Player target = Bukkit.getPlayer(args[1]);
 	    				if(target!=null) {
-	    					plugin.setTokens(target, (plugin.getTokens(target)+Integer.parseInt(args[2])));
+	    					plugin.addTokens(target, Integer.parseInt(args[2]));
 	    					plugin.setTokens((Player) sender, (senderTokens-Integer.parseInt(args[2])));
 	    					sender.sendMessage("You sent "+ChatColor.GOLD+""+args[2]+""+ChatColor.WHITE+" token(s) to "+ChatColor.GREEN+""+target.getName());
 	    					target.sendMessage("You received "+ChatColor.GOLD+""+args[2]+""+ChatColor.WHITE+" token(s) from "+ChatColor.GREEN+""+sender.getName());
@@ -78,7 +78,7 @@ public class CMDTokens implements CommandExecutor {
     			if(args.length == 3) {
     				Player target = Bukkit.getPlayer(args[1]);
     				if(target!=null) {
-    					plugin.setTokens(target, (Integer.parseInt(args[2])+plugin.getTokens(target)));
+    					plugin.addTokens(target, Integer.parseInt(args[2]));
     					sender.sendMessage(ChatColor.GREEN+"Added "+ChatColor.GOLD+""+args[2]+""+ChatColor.WHITE+" to "+ChatColor.GRAY+""+target.getName()+""+ChatColor.WHITE+"'s tokens");
     					return true;
     				}else {

@@ -14,11 +14,11 @@ MySQL:
 # Settings for mcMMO compatibility
 #
 # Enabled: (true/false) Is the support enabled?
-# Levels-To-Token: (any number) How many mcMMO levels are allowed per token?
+# Tokens-To-Levels: (any number) How many mcMMO levels are allowed per token?
 ###
 mcMMO:
   Enabled: false
-  Levels-To-Token: 1
+  Tokens-To-Levels: 1
 
 #
 #  Settings for Factions compatibility
