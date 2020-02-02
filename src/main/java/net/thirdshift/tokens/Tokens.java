@@ -21,25 +21,29 @@ public final class Tokens extends JavaPlugin {
     public boolean mysqlEnabled = false;
     private MySQLHandler mysql;
     //private Database sqllite;
-    public boolean hasFactions;
+
+    public boolean hasFactions = false;
     public boolean factionsEnabled = false;
-    public int tokenToFactionPower;
-    public boolean hasMCMMO;
+
+    public boolean hasMCMMO = false;
     public boolean mcmmoEnabled = false;
+    public int tokenToFactionPower;
     public int tokensToMCMMOLevels;
-    public boolean hasCombatLogX;
-    public boolean combatLogXEnabled;
+
+    public boolean hasCombatLogX = false;
+    public boolean combatLogXEnabled = false;
     public boolean combatLogXBlockTokens = false;
-    public boolean hasVault;
-    public boolean vaultEnabled;
-    public boolean vaultBuy;
+
+    public boolean hasVault = false;
+    public boolean vaultEnabled = false;
+    public boolean vaultBuy = false;
     public boolean vaultSell = false;
-    public double vaultBuyPrice;
-    public double vaultSellPrice = 0.0D;
-    public boolean useEnder = true;
+    public double vaultBuyPrice = 0.0;
+    public double vaultSellPrice = 0.0;
     public static Economy vaultEcon = null;
+
+    public boolean useEnder = true;
     public TokenItemStack tokenHandler = new TokenItemStack();
-    //public TokenMenus tokenMenus;
     private TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 
     @Override
@@ -57,7 +61,6 @@ public final class Tokens extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
         if(this.mysqlEnabled){
             mysql.stopSQLConnection();//Cut off any loose bois
         }
@@ -85,22 +88,17 @@ public final class Tokens extends JavaPlugin {
         this.mcmmoEnabled = this.getConfig().getBoolean("mcMMO.Enabled");
         this.tokensToMCMMOLevels = this.getConfig().getInt("mcMMO.Tokens-To-Levels");
         if (this.mysqlEnabled) {
-            this.mysql = new MySQLHandler(this);
-            this.mysql.username = this.getConfig().getString("MySQL.Username");
-            this.mysql.password = this.getConfig().getString("MySQL.Password");
-            this.mysql.dbName = this.getConfig().getString("MySQL.Database-Name");
-            this.mysql.dbPORT = this.getConfig().getString("MySQL.Server.Port");
-            this.mysql.dbAddress = this.getConfig().getString("MySQL.Server.Address");
-            this.mysql.dbSSL = this.getConfig().getString("MySQL.Server.SSL");
-            this.mysql.startSQLConnection();
-            this.getLogger().info("Using MySQL");
-        }/*
-        TODO: Re-add SQLLite
-        else {
-            this.sqllite = new SQLite(this);
-            this.sqllite.load();
-            this.getLogger().info("Using SQLlite");
-        }*/
+            this.getLogger().info("Storage Type: [ MySQL ]");
+            mySQLWork();
+        } else { //TODO: Re-add SQLLite support
+            if(this.mysql!=null){
+                this.mysql.stopSQLConnection();
+                this.mysql=null;
+            }
+            //this.sqllite = new SQLite(this);
+            //this.sqllite.load();
+            this.getLogger().info("Storage Type: [ SQLLite ] ( Default )");
+        }
 
         // Factions Check
         Plugin factionsPlug = this.getServer().getPluginManager().getPlugin("Factions");
@@ -139,6 +137,17 @@ public final class Tokens extends JavaPlugin {
             this.getLogger().warning("You don't have any supported plugins enabled.");
         }
         initializeTokensAddons();
+    }
+
+    public void mySQLWork(){
+        if(this.mysql==null) {
+            this.mysql = new MySQLHandler(this);
+        }else{
+            this.mysql.stopSQLConnection();
+        }
+        this.mysql.updateSettings();
+        this.getLogger().info("Updated MySQL connection.");
+        this.mysql.startSQLConnection();
     }
 
     public void initializeTokensAddons(){

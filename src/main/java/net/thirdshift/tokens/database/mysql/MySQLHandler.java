@@ -22,6 +22,15 @@ public class MySQLHandler {
 
     static Connection connection;
 
+    public void updateSettings(){
+        this.username = plugin.getConfig().getString("MySQL.Username");
+        this.password = plugin.getConfig().getString("MySQL.Password");
+        this.dbName = plugin.getConfig().getString("MySQL.Database-Name");
+        this.dbPORT = plugin.getConfig().getString("MySQL.Server.Port");
+        this.dbAddress = plugin.getConfig().getString("MySQL.Server.Address");
+        this.dbSSL = plugin.getConfig().getString("MySQL.Server.SSL");
+    }
+
     public void startSQLConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
