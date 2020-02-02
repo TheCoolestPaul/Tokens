@@ -1,0 +1,15 @@
+net\thirdshift\tokens\util\TokensSpigotUpdater.class
+net\thirdshift\tokens\item\TokenItemStack.class
+net\thirdshift\tokens\util\BStats.class
+net\thirdshift\tokens\util\BStats$AdvancedBarChart.class
+net\thirdshift\tokens\util\BStats$1.class
+net\thirdshift\tokens\util\BStats$SingleLineChart.class
+net\thirdshift\tokens\commands\CommandTokensReload.class
+net\thirdshift\tokens\util\BStats$SimplePie.class
+net\thirdshift\tokens\util\BStats$DrilldownPie.class
+net\thirdshift\tokens\util\BStats$SimpleBarChart.class
+net\thirdshift\tokens\util\BStats$AdvancedPie.class
+net\thirdshift\tokens\util\BStats$MultiLineChart.class
+net\thirdshift\tokens\database\MySQL\MySQLHandler.class
+net\thirdshift\tokens\util\BStats$CustomChart.class
+net\thirdshift\tokens\Tokens.class
