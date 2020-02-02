@@ -68,6 +68,14 @@ public class MySQLHandler {
         }
     }
 
+    public void addTokens(Player player, int tokensIn){
+        this.setTokens(player, (this.getTokens(player)+tokensIn) );
+    }
+
+    public void removeTokens(Player player, int tokensIn){
+        this.setTokens(player, Math.max( (this.getTokens(player)-tokensIn),0 ));// Can't have less than 0 tokens
+    }
+
     public int getTokens(Player player){
         int tokens = 0;
         try {

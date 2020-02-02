@@ -16,6 +16,8 @@ public final class Tokens extends JavaPlugin {
 
     private final Logger log = this.getLogger();
 
+    public TokensHandler handler = new TokensHandler(this);
+
     public boolean mysqlEnabled = false;
     private MySQLHandler mysql;
     //private Database sqllite;
@@ -191,6 +193,10 @@ public final class Tokens extends JavaPlugin {
         }
         vaultEcon = rsp.getProvider();
         return true;
+    }
+
+    public MySQLHandler getMySQL() {
+        return mysql;
     }
 
     public static Economy getEconomy() {
