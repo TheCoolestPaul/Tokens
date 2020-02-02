@@ -59,11 +59,9 @@ public class MySQLHandler {
     }
 
     public void stopSQLConnection() {
-        // invoke on disable.
-        try { //using a try catch to catch connection errors (like wrong sql password...)
-            if (connection!=null && !connection.isClosed()){ //checking if connection isn't null to
-                //avoid receiving a nullpointer
-                connection.close(); //closing the connection field variable.
+        try {
+            if (connection!=null && !connection.isClosed()){
+                connection.close();
             }
         } catch(Exception e) {
             e.printStackTrace();
