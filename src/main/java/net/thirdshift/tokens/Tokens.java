@@ -213,6 +213,20 @@ public final class Tokens extends JavaPlugin {
         return true;
     }
 
+    public String getAddons(){
+        String str = "";
+        if(this.mcmmoEnabled){
+            str+=" mcMMO ";
+        }
+        if(this.factionsEnabled){
+            str+=" factions ";
+        }
+        if(this.vaultEnabled){
+            str+=" money ";
+        }
+        return str;
+    }
+
     public SQLLite getSqllite() {
         return sqllite;
     }
