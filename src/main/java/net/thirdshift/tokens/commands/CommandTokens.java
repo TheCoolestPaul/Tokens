@@ -2,6 +2,7 @@ package net.thirdshift.tokens.commands;
 
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +18,7 @@ public class CommandTokens implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if(args[0].equalsIgnoreCase("add")) {// TODO: Remove after done testing
+        if(args[0].equalsIgnoreCase("add")) {// TODO: Edit for perms after done testing
             if (commandSender instanceof Player) {
                 int num = Integer.parseInt(args[1]);
                 plugin.handler.addTokens((Player) commandSender, num);
@@ -36,6 +37,8 @@ public class CommandTokens implements CommandExecutor {
                         if (target != null) {
                             plugin.handler.removeTokens((Player) commandSender, num);
                             plugin.handler.addTokens(target, num);
+                            commandSender.sendMessage("You sent " + ChatColor.GOLD + "" + args[2] + "" + ChatColor.WHITE + " token(s) to " + ChatColor.GREEN + "" + target.getName());
+                            target.sendMessage("You received " + ChatColor.GOLD + "" + args[2] + "" + ChatColor.WHITE + " token(s) from " + ChatColor.GREEN + "" + commandSender.getName());
                         } else {
                             commandSender.sendMessage("Couldn't find player " + args[1] + ". did you spell their username correct?");
                             commandSender.sendMessage("Try /tokens give <UserName> <Amount>");
