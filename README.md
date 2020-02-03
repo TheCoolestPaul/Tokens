@@ -17,23 +17,28 @@ Want a plugin on this list? Let me know  [here](https://github.com/TheCoolestPau
 1.  Download from Spigot
 2.  Drop into your plugins folder
 3.  Run the server
-4.  Stop the server
-5.  Edit config.yml to your liking.
+4.  Edit config.yml inside of the plugins/Tokens folder
+5.  /tokens reload
+6.  Profit??
 
 **How do I use it?**  
 
 -   /tokens (Used to show the player how many tokens they have)
+-   /tokens give [player name] [token amount] (Used for players to give tokens to one another)
 -   /tokens add [player name] [token amount] (Used to add a number of tokens to a player's tokens)
 -   /tokens remove [player name] [token amount] (Used to remove a number of tokens from a player's tokens)
 -   /tokens set [player name] [token amount] (Used to set a player's tokens to a number)
+-   /tokens reload (Used to reload the config into the plugin)
 -   /redeem (Command used to show help for redeeming tokens)
 
 **What are the permissions?**  
 
 -   tokens.use (Recommended for all users /tokens)
+-   tokens.give (Recommended for all users /tokens give)
 -   tokens.add (Recommended for admins /tokens add)
 -   tokens.remove (Recommended for admins/tokens remove)
 -   tokens.set (Recommended for admins /tokens set)
+-   tokens.reload (Recommended for admins /tokens reload)
 
 **What if I need support?**  
 
