@@ -91,6 +91,9 @@ public final class Tokens extends JavaPlugin {
         this.tokensToMCMMOLevels = this.getConfig().getInt("mcMMO.Tokens-To-Levels");
         if (this.mysqlEnabled) {
             this.getLogger().info("Storage Type: [ MySQL ]");
+            if(this.sqllite!=null){
+                this.sqllite=null;
+            }
             mySQLWork();
         } else {
             if(this.mysql!=null){
