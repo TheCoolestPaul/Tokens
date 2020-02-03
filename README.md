@@ -34,9 +34,11 @@ Want a plugin on this list? Let me know  [here](https://github.com/TheCoolestPau
 **What are the permissions?**  
 
 -   tokens.use (Recommended for all users /tokens)
+-   tokens.give (Recommended for all users /tokens give)
 -   tokens.add (Recommended for admins /tokens add)
 -   tokens.remove (Recommended for admins/tokens remove)
 -   tokens.set (Recommended for admins /tokens set)
+-   tokens.reload (Recommended for admins /tokens reload)
 
 **What if I need support?**  
 
