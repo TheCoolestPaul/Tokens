@@ -17,7 +17,7 @@ public class CommandTokens implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if(args[0].equalsIgnoreCase("add")) {
+        if(args[0].equalsIgnoreCase("add")) {// TODO: Remove after done testing
             if (commandSender instanceof Player) {
                 int num = Integer.parseInt(args[1]);
                 plugin.handler.addTokens((Player) commandSender, num);
