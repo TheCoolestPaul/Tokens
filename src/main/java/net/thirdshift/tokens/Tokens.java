@@ -3,6 +3,7 @@ package net.thirdshift.tokens;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.CommandTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
+import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.item.TokenItemStack;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
@@ -21,7 +22,7 @@ public final class Tokens extends JavaPlugin {
 
     public boolean mysqlEnabled = false;
     private MySQLHandler mysql;
-    //private Database sqllite;
+    private SQLLite sqllite;
 
     public boolean hasFactions = false;
     public boolean factionsEnabled = false;
@@ -91,13 +92,12 @@ public final class Tokens extends JavaPlugin {
         if (this.mysqlEnabled) {
             this.getLogger().info("Storage Type: [ MySQL ]");
             mySQLWork();
-        } else { //TODO: Re-add SQLLite support
+        } else {
             if(this.mysql!=null){
                 this.mysql.stopSQLConnection();
                 this.mysql=null;
             }
-            //this.sqllite = new SQLite(this);
-            //this.sqllite.load();
+            doSQLLiteWork();
             this.getLogger().info("Storage Type: [ SQLLite ] ( Default )");
         }
 
@@ -138,6 +138,11 @@ public final class Tokens extends JavaPlugin {
             this.getLogger().warning("You don't have any supported plugins enabled.");
         }
         initializeTokensAddons();
+    }
+
+    public void doSQLLiteWork(){
+        this.sqllite = new SQLLite(this);
+        this.sqllite.load();
     }
 
     public void mySQLWork(){
@@ -203,6 +208,10 @@ public final class Tokens extends JavaPlugin {
         }
         vaultEcon = rsp.getProvider();
         return true;
+    }
+
+    public SQLLite getSqllite() {
+        return sqllite;
     }
 
     public MySQLHandler getMySQL() {

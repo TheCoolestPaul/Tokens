@@ -18,6 +18,12 @@ public class CommandTokens implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+        if(args.length==0){
+            if(commandSender instanceof Player){
+                commandSender.sendMessage("You have "+ChatColor.GOLD+""+plugin.handler.getTokens((Player) commandSender));
+                return true;
+            }else return false;
+        }
         if(args[0].equalsIgnoreCase("add")) {// TODO: Edit for perms after done testing
             if (commandSender instanceof Player) {
                 int num = Integer.parseInt(args[1]);
@@ -35,6 +41,10 @@ public class CommandTokens implements CommandExecutor {
                     if(plugin.handler.getTokens((Player) commandSender) >= num) {
                         Player target = Bukkit.getPlayer(args[1]);
                         if (target != null) {
+                            if(target.equals(commandSender)){
+                                commandSender.sendMessage(ChatColor.RED+"You can't give tokens to yourself.");
+                                return true;
+                            }
                             plugin.handler.removeTokens((Player) commandSender, num);
                             plugin.handler.addTokens(target, num);
                             commandSender.sendMessage("You sent " + ChatColor.GOLD + "" + args[2] + "" + ChatColor.WHITE + " token(s) to " + ChatColor.GREEN + "" + target.getName());
@@ -69,7 +79,7 @@ public class CommandTokens implements CommandExecutor {
                 }
             }
         }else{
-            return false;
+           return false;
         }
     }
 }

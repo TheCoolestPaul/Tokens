@@ -10,27 +10,33 @@ public class TokensHandler {
     public void addTokens(Player player, int tokensIn){
         if(plugin.mysqlEnabled){
             plugin.getMySQL().addTokens(player, tokensIn);
-        }//TODO: add SQLLite
-        player.sendMessage(ChatColor.GOLD+""+tokensIn+""+ChatColor.RESET+" Tokens were added to your balance.");
+        }else{
+            plugin.getSqllite().setTokens(player, (plugin.getSqllite().getTokens(player) + tokensIn) );
+        }
     }
 
     public int getTokens(Player player){
         if(plugin.mysqlEnabled){
             return plugin.getMySQL().getTokens(player);
-        }//TODO: add SQLLite
-        return 10;
+        }else{
+            return plugin.getSqllite().getTokens(player);
+        }
     }
 
     public void setTokens(Player player, int tokensIn){
         if(plugin.mysqlEnabled){
             plugin.getMySQL().setTokens(player, tokensIn);
-        }//TODO: add SQLLite
+        }else{
+            plugin.getSqllite().setTokens(player, tokensIn);
+        }
     }
 
     public void removeTokens(Player player, int tokensIn){
         if(plugin.mysqlEnabled){
             plugin.getMySQL().removeTokens(player, tokensIn);
-        }//TODO: add SQLLite
+        }else{
+            plugin.getSqllite().setTokens( player, (plugin.getSqllite().getTokens(player) - tokensIn) );
+        }
     }
 
 }
