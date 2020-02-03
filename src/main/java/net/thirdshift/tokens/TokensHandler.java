@@ -1,5 +1,6 @@
 package net.thirdshift.tokens;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class TokensHandler {
@@ -10,13 +11,14 @@ public class TokensHandler {
         if(plugin.mysqlEnabled){
             plugin.getMySQL().addTokens(player, tokensIn);
         }//TODO: add SQLLite
+        player.sendMessage(ChatColor.GOLD+""+tokensIn+""+ChatColor.RESET+" Tokens were added to your balance.");
     }
 
     public int getTokens(Player player){
         if(plugin.mysqlEnabled){
             return plugin.getMySQL().getTokens(player);
         }//TODO: add SQLLite
-        return 0;
+        return 10;
     }
 
     public void setTokens(Player player, int tokensIn){

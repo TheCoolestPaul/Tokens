@@ -18,6 +18,9 @@ permissions:
   tokens.use:
     default: true
     description: Required to use /tokens
+  tokens.give:
+    default: true
+    description: Required to use /tokes give (target player) (token amount)
   tokens.reload:
     default: false
     description: Required to use /tokens reload

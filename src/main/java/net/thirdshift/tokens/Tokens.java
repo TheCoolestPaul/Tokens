@@ -1,11 +1,12 @@
 package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
-import net.thirdshift.tokens.commands.CommandTokensReload;
+import net.thirdshift.tokens.commands.CommandTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.item.TokenItemStack;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
+
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -67,7 +68,7 @@ public final class Tokens extends JavaPlugin {
     }
 
     public void addCommands(){
-        this.getCommand("tokens").setExecutor(new CommandTokensReload(this));
+        this.getCommand("tokens").setExecutor(new CommandTokens(this));
     }
 
     @Override
