@@ -40,15 +40,15 @@ public class CommandTokens implements CommandExecutor {
                             commandSender.sendMessage("You sent " + ChatColor.GOLD + "" + args[2] + "" + ChatColor.WHITE + " token(s) to " + ChatColor.GREEN + "" + target.getName());
                             target.sendMessage("You received " + ChatColor.GOLD + "" + args[2] + "" + ChatColor.WHITE + " token(s) from " + ChatColor.GREEN + "" + commandSender.getName());
                         } else {
-                            commandSender.sendMessage("Couldn't find player " + args[1] + ". did you spell their username correct?");
-                            commandSender.sendMessage("Try /tokens give <UserName> <Amount>");
+                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                            commandSender.sendMessage(ChatColor.RED+"Try /tokens give <UserName> <Amount>");
                         }
                     }else{
-                        commandSender.sendMessage("You don't have "+num+" tokens.");
+                        commandSender.sendMessage(ChatColor.GRAY+"You don't have "+ChatColor.GOLD+""+num+""+ChatColor.GRAY+" tokens.");
                     }
                 }else{
-                    commandSender.sendMessage("Invalid command use! Your arguments were "+ Arrays.toString(args));
-                    commandSender.sendMessage("Try /tokens give <UserName> <Amount>");
+                    commandSender.sendMessage(ChatColor.RED+"Invalid command use! Your arguments were "+ Arrays.toString(args));
+                    commandSender.sendMessage(ChatColor.RED+"Try /tokens give <UserName> <Amount>");
                 }
                 return true;
             }else{
@@ -57,10 +57,12 @@ public class CommandTokens implements CommandExecutor {
         }else if(args[0].equalsIgnoreCase("reload")){
             if( !(commandSender instanceof Player)){
                 plugin.reloadConfig();// Console ran the command
+                plugin.getLogger().info("Reloading the config file");
                 return true;
             }else{
                 if(commandSender.hasPermission("tokens.reload")){
                     plugin.reloadConfig();// Player with permission ran the command
+                    commandSender.sendMessage(ChatColor.GRAY+"Reloaded the config file");
                     return true;
                 }else{
                     return false;// Player without permission ran the command
