@@ -3,6 +3,7 @@ package net.thirdshift.tokens;
 import org.bukkit.entity.Player;
 
 public class TokensHandler {
+
     private Tokens plugin;
     public TokensHandler(Tokens instance){this.plugin=instance;}
 
@@ -11,8 +12,9 @@ public class TokensHandler {
             plugin.getMySQL().addTokens(player, tokensIn);
         }else if (plugin.sqlliteEnabled){
             plugin.getSqllite().setTokens(player, (plugin.getSqllite().getTokens(player) + tokensIn) );
+        }else {
+            plugin.getLogger().severe("MySQL isn't configured properly!");
         }
-        plugin.getLogger().severe("MySQL isn't configured properly!");
     }
 
     public int getTokens(Player player){
@@ -30,8 +32,9 @@ public class TokensHandler {
             plugin.getMySQL().setTokens(player, tokensIn);
         }else if (plugin.sqlliteEnabled){
             plugin.getSqllite().setTokens(player, tokensIn);
+        }else {
+            plugin.getLogger().severe("MySQL isn't configured properly!");
         }
-        plugin.getLogger().severe("MySQL isn't configured properly!");
     }
 
     public void removeTokens(Player player, int tokensIn){
@@ -39,8 +42,9 @@ public class TokensHandler {
             plugin.getMySQL().removeTokens(player, tokensIn);
         }else if (plugin.sqlliteEnabled){
             plugin.getSqllite().setTokens( player, (plugin.getSqllite().getTokens(player) - tokensIn) );
+        }else {
+            plugin.getLogger().severe("MySQL isn't configured properly!");
         }
-        plugin.getLogger().severe("MySQL isn't configured properly!");
     }
 
 }

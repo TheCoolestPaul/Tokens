@@ -218,14 +218,16 @@ public final class Tokens extends JavaPlugin {
     public String getAddons(){
         String str = "";
         if(this.mcmmoEnabled){
-            str+=" mcMMO ";
+            str+="_mcMMO_";
         }
         if(this.factionsEnabled){
-            str+=" factions ";
+            str+="_factions_";
         }
         if(this.vaultEnabled){
-            str+=" money ";
+            str+="_money_";
         }
+        str=str.replace("__", " | ");
+        str=str.replace("_", "");
         return str;
     }
 
