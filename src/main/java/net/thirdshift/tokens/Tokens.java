@@ -141,7 +141,7 @@ public final class Tokens extends JavaPlugin {
         }
 
         // Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
-        if (!vaultEnabled && !factionsEnabled && !mcmmoEnabled) {
+        if (!hasVault && !hasFactions && !hasMCMMO) {
             this.getLogger().warning("You don't have any supported plugins enabled.");
         }
         initializeTokensAddons();
