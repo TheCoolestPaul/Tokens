@@ -1,8 +1,5 @@
 package net.thirdshift.tokens.commands;
 
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.FPlayers;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.commands.redeem.factions;
 import net.thirdshift.tokens.commands.redeem.mcmmo;
