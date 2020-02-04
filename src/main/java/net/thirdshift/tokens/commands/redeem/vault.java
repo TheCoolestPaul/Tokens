@@ -10,7 +10,7 @@ public class vault {
         if (toRedeem <= plugin.handler.getTokens(player)){
             EconomyResponse r = Tokens.getEconomy().depositPlayer(player, plugin.vaultSellPrice * (double)toRedeem);
             if (r.transactionSuccess()) {
-                player.sendMessage(String.format("You have successfully redeemed " + ChatColor.GOLD + "" + toRedeem + "" + ChatColor.WHITE + " token(s) for %s", Tokens.getEconomy().format(r.amount)));
+                player.sendMessage(String.format("You have successfully redeemed " + ChatColor.GOLD + "" + toRedeem + "" + ChatColor.WHITE + " token(s) for "+ChatColor.GREEN+"%s", Tokens.getEconomy().format(r.amount)));
                 plugin.handler.setTokens(player, plugin.handler.getTokens(player) - toRedeem);
             } else {
                 player.sendMessage(String.format("An error occurred: %s", r.errorMessage));
