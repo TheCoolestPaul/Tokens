@@ -1,7 +1,5 @@
 package net.thirdshift.tokens;
 
-import com.SirBlobman.combatlogx.api.ICombatLogX;
-import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.CommandRedeem;
 import net.thirdshift.tokens.commands.CommandTokens;
@@ -11,8 +9,6 @@ import net.thirdshift.tokens.item.TokenItemStack;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,9 +31,9 @@ public final class Tokens extends JavaPlugin {
     public int tokenToFactionPower;
     public int tokensToMCMMOLevels;
 
-    public boolean hasCombatLogX = false;
-    public boolean combatLogXEnabled = false;
-    public boolean combatLogXBlockTokens = false;
+    //public boolean hasCombatLogX = false; Fixme: combatlogX
+    //public boolean combatLogXEnabled = false; Fixme: combatlogX
+    //public boolean combatLogXBlockTokens = false; Fixme: combatlogX
 
     public boolean hasVault = false;
     public boolean vaultEnabled = false;
@@ -87,8 +83,8 @@ public final class Tokens extends JavaPlugin {
         this.vaultSellPrice = this.getConfig().getDouble("VaultEco.Sell-Price");
         this.factionsEnabled = this.getConfig().getBoolean("Factions.Enabled");
         this.tokenToFactionPower = this.getConfig().getInt("Factions.Tokens-To-Power");
-        this.combatLogXEnabled = this.getConfig().getBoolean("CombatLogX.Enabled");
-        this.combatLogXBlockTokens = this.getConfig().getBoolean("CombatLogX.Block-Tokens");
+        //this.combatLogXEnabled = this.getConfig().getBoolean("CombatLogX.Enabled"); fixme: CombatLogX
+        //this.combatLogXBlockTokens = this.getConfig().getBoolean("CombatLogX.Block-Tokens"); fixme: CombatLogX
         this.mcmmoEnabled = this.getConfig().getBoolean("mcMMO.Enabled");
         this.tokensToMCMMOLevels = this.getConfig().getInt("mcMMO.Tokens-To-Levels");
         if (this.mysqlEnabled) {
@@ -124,13 +120,13 @@ public final class Tokens extends JavaPlugin {
             this.getLogger().warning("Vault addon is enabled but Vault is not installed on the server!");
         }
 
-        // CombatLogX Check
-        Plugin combPlug = this.getServer().getPluginManager().getPlugin("CombatLogX");
-        if(combPlug!=null && combPlug.isEnabled()){
-            this.hasCombatLogX=true;
-        }else if (combPlug==null && this.combatLogXEnabled){
-            this.getLogger().warning("CombatLogX addon is enabled but CombatLogX is not installed on the server!");
-        }
+        // CombatLogX Check fixme: CombatLogX
+        //Plugin combPlug = this.getServer().getPluginManager().getPlugin("CombatLogX");
+        //if(combPlug!=null && combPlug.isEnabled()){
+        //    this.hasCombatLogX=true;
+        //}else if (combPlug==null && this.combatLogXEnabled){
+        //    this.getLogger().warning("CombatLogX addon is enabled but CombatLogX is not installed on the server!");
+        //}
 
         // mcMMO Check
         Plugin mcmmoPlug = this.getServer().getPluginManager().getPlugin("mcMMO");
@@ -170,9 +166,10 @@ public final class Tokens extends JavaPlugin {
         if(this.factionsEnabled && this.hasFactions){
             factionsIntegration();
         }
-        if(this.combatLogXEnabled && this.hasCombatLogX){
-            combatLogXIntegration();
-        }
+        //fixme: CombatLogX
+        //if(this.combatLogXEnabled && this.hasCombatLogX){
+        //    combatLogXIntegration();
+        //}
         if(this.mcmmoEnabled && this.hasMCMMO){
             mcmmoIntegration();
         }
