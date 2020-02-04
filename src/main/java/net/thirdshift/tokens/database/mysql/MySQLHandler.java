@@ -57,7 +57,7 @@ public class MySQLHandler {
                 plugin.getLogger().warning("MySQL Login information was wrong! Check you config.yml");
                 plugin.mysqlEnabled = false;
             }else if(e.getSQLState().equals("08S01")){
-                plugin.getLogger().warning("MySQL Couldn't establish a connection!");
+                plugin.getLogger().severe("MySQL Couldn't establish a connection!");
                 plugin.mysqlEnabled = false;
             }else {
                 System.err.println("MySQL Error: "+e.getSQLState());
