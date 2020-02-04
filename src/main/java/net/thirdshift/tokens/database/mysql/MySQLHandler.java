@@ -112,8 +112,6 @@ public class MySQLHandler {
             if (changed==0){
                 String state2 = "INSERT INTO tokens (uuid, num) VALUES ('"+player.getUniqueId().toString()+"', "+tokens+");";
                 statement.execute(state2);
-            }else{
-                plugin.getLogger().info("Updated a player in the database.");
             }
         } catch(SQLException e) {
             e.printStackTrace();
