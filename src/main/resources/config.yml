@@ -10,14 +10,6 @@ MySQL:
     SSL: false
     Port: 3306
     Address: localhost
-######### Plugin Settings #########
-
-#
-# use-enderchest: (true/false) Can players pay with tokens being in their enderchest?
-###
-use-enderchest: true
-
-###################################
 
 #
 # Settings for mcMMO compatibility
