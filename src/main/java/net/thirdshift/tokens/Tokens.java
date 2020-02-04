@@ -203,7 +203,8 @@ public final class Tokens extends JavaPlugin {
     }
 
     public void combatLogXIntegration(){
-        this.getLogger().info("Hooked into CombatLogX");
+        //this.getLogger().info("Hooked into CombatLogX");
+        //TODO: Fix for CombatLogX 10.0.0
     }
 
     private boolean setupEconomy() {
@@ -232,12 +233,6 @@ public final class Tokens extends JavaPlugin {
         str=str.replace("__", " | ");
         str=str.replace("_", "");
         return str;
-    }
-
-    public boolean isInCombat(Player player) {
-        ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX"); /* Make sure to check CombatLogX is enabled first */
-        ICombatManager combatManager = plugin.getCombatManager();
-        return combatManager.isInCombat(player);
     }
 
     public SQLLite getSqllite() {
