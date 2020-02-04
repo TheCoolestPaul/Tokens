@@ -78,8 +78,21 @@ public class CommandTokens implements CommandExecutor {
                     return false;// Player without permission ran the command
                 }
             }
+        }else if(args.length==1) {
+            Player target = Bukkit.getPlayer(args[0]);
+            if(commandSender.hasPermission("tokens.others")) {
+                if (target != null) {
+                    commandSender.sendMessage(args[0] + " has " + plugin.handler.getTokens(target) + " tokens.");
+                } else {
+                    commandSender.sendMessage("Couldn't find a player with the name " + args[0]);
+                }
+                return true;
+            }else{
+                return false;// Player without tokens.others perms ran the command
+            }
         }else{
-           return false;
+           return false;// Server used /tokens command
+            //TODO: let server peep others token count
         }
     }
 }
