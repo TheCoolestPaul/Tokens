@@ -12,6 +12,7 @@ public class TokensHandler {
         }else if (plugin.sqlliteEnabled){
             plugin.getSqllite().setTokens(player, (plugin.getSqllite().getTokens(player) + tokensIn) );
         }
+        plugin.getLogger().severe("MySQL isn't configured properly!");
     }
 
     public int getTokens(Player player){
@@ -20,6 +21,7 @@ public class TokensHandler {
         }else if (plugin.sqlliteEnabled){
             return plugin.getSqllite().getTokens(player);
         }
+        plugin.getLogger().severe("MySQL isn't configured properly!");
         return 0;
     }
 
@@ -29,6 +31,7 @@ public class TokensHandler {
         }else if (plugin.sqlliteEnabled){
             plugin.getSqllite().setTokens(player, tokensIn);
         }
+        plugin.getLogger().severe("MySQL isn't configured properly!");
     }
 
     public void removeTokens(Player player, int tokensIn){
@@ -37,6 +40,7 @@ public class TokensHandler {
         }else if (plugin.sqlliteEnabled){
             plugin.getSqllite().setTokens( player, (plugin.getSqllite().getTokens(player) - tokensIn) );
         }
+        plugin.getLogger().severe("MySQL isn't configured properly!");
     }
 
 }
