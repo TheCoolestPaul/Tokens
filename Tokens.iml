@@ -48,7 +48,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: junit:junit:4.10" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
     <orderEntry type="module-library">
-      <library name="Maven: com.gmail.nossr50.mcMMO:mcMMO:unknown">
+      <library name="Maven: com.gmail.nossr50.mcMMO:mcMMO:2.1.115-SNAPSHOT">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/mcMMO.jar!/" />
         </CLASSES>

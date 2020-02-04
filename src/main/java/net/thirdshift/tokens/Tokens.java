@@ -1,6 +1,7 @@
 package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
+import net.thirdshift.tokens.commands.CommandRedeem;
 import net.thirdshift.tokens.commands.CommandTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
@@ -12,16 +13,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Logger;
-
 public final class Tokens extends JavaPlugin {
-
-    private final Logger log = this.getLogger();
 
     public TokensHandler handler = new TokensHandler(this);
 
     public boolean mysqlEnabled = false;
     private MySQLHandler mysql;
+
+    public boolean sqlliteEnabled = true;
     private SQLLite sqllite;
 
     public boolean hasFactions = false;
@@ -45,7 +44,7 @@ public final class Tokens extends JavaPlugin {
     public static Economy vaultEcon = null;
 
     public boolean useEnder = true;
-    public TokenItemStack tokenHandler = new TokenItemStack();
+    public TokenItemStack tokenItemHandler = new TokenItemStack();
     private TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 
     @Override
@@ -70,6 +69,7 @@ public final class Tokens extends JavaPlugin {
 
     public void addCommands(){
         this.getCommand("tokens").setExecutor(new CommandTokens(this));
+        this.getCommand("redeem").setExecutor(new CommandRedeem(this));
     }
 
     @Override
@@ -95,11 +95,13 @@ public final class Tokens extends JavaPlugin {
                 this.sqllite=null;
             }
             mySQLWork();
+            sqlliteEnabled = false;
         } else {
             if(this.mysql!=null){
                 this.mysql.stopSQLConnection();
                 this.mysql=null;
             }
+            sqlliteEnabled=true;
             doSQLLiteWork();
             this.getLogger().info("Storage Type: [ SQLLite ] ( Default )");
         }

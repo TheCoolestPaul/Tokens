@@ -101,6 +101,7 @@
             <artifactId>mcMMO</artifactId>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <scope>system</scope>
+            <version>2.1.115-SNAPSHOT</version>
             <systemPath>${basedir}/lib/mcMMO.jar</systemPath>
         </dependency>
     </dependencies>

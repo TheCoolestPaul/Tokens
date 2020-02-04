@@ -1,6 +1,5 @@
 package net.thirdshift.tokens;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class TokensHandler {
@@ -10,7 +9,7 @@ public class TokensHandler {
     public void addTokens(Player player, int tokensIn){
         if(plugin.mysqlEnabled){
             plugin.getMySQL().addTokens(player, tokensIn);
-        }else{
+        }else if (plugin.sqlliteEnabled){
             plugin.getSqllite().setTokens(player, (plugin.getSqllite().getTokens(player) + tokensIn) );
         }
     }
@@ -18,15 +17,16 @@ public class TokensHandler {
     public int getTokens(Player player){
         if(plugin.mysqlEnabled){
             return plugin.getMySQL().getTokens(player);
-        }else{
+        }else if (plugin.sqlliteEnabled){
             return plugin.getSqllite().getTokens(player);
         }
+        return 0;
     }
 
     public void setTokens(Player player, int tokensIn){
         if(plugin.mysqlEnabled){
             plugin.getMySQL().setTokens(player, tokensIn);
-        }else{
+        }else if (plugin.sqlliteEnabled){
             plugin.getSqllite().setTokens(player, tokensIn);
         }
     }
@@ -34,7 +34,7 @@ public class TokensHandler {
     public void removeTokens(Player player, int tokensIn){
         if(plugin.mysqlEnabled){
             plugin.getMySQL().removeTokens(player, tokensIn);
-        }else{
+        }else if (plugin.sqlliteEnabled){
             plugin.getSqllite().setTokens( player, (plugin.getSqllite().getTokens(player) - tokensIn) );
         }
     }
