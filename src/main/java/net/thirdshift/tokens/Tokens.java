@@ -188,6 +188,7 @@ public final class Tokens extends JavaPlugin {
         this.vaultBuyPrice = this.getConfig().getDouble("VaultEco.Buy-Price");
         this.vaultSell = this.getConfig().getBoolean("VaultEco.Sell-Tokens");
         this.vaultSellPrice = this.getConfig().getDouble("VaultEco.Sell-Price");
+        this.getLogger().info("Hooked into Vault.");
     }
 
     public void factionsIntegration(){
