@@ -22,7 +22,7 @@ public class CommandRedeem implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(commandSender instanceof Player && commandSender.hasPermission("tokens.redeem")){
-            if(plugin.combatLogXEnabled && plugin.combatLogXBlockTokens && plugin.combatManager.isInCombat((Player) commandSender)) {
+            if(plugin.combatLogXEnabled && plugin.combatLogXBlockTokens && plugin.isInCombat((Player) commandSender)) {
                 if (args.length == 0) {
                     commandSender.sendMessage("Command usage: /redeem <" + plugin.getAddons() + ">");
                 } else if (args.length == 1) {
