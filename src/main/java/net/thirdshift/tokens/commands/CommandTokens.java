@@ -24,10 +24,13 @@ public class CommandTokens implements CommandExecutor {
                 return true;
             }else return false;
         }
-        if(args[0].equalsIgnoreCase("add")) {// TODO: Edit for perms after done testing
+        if(args[0].equalsIgnoreCase("add")) {
             if (commandSender instanceof Player) {
-                int num = Integer.parseInt(args[1]);
-                plugin.handler.addTokens((Player) commandSender, num);
+                if(commandSender.hasPermission("tokens.add")) {
+                    Player target = Bukkit.getPlayer(args[1]);
+                    int num = Integer.parseInt(args[2]);
+                    plugin.handler.addTokens(target, num);
+                }
             }else{
                 Player target = Bukkit.getPlayer(args[1]);
                 int num = Integer.parseInt(args[2]);
