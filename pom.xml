@@ -7,11 +7,17 @@
     <groupId>net.thirdshift</groupId>
     <artifactId>Tokens</artifactId>
     <version>3.6.0</version>
-    <packaging>jar</packaging>
+
+    <issueManagement>
+        <url>https://github.com/TheCoolestPaul/Tokens/issues</url>
+        <system>GitHub</system>
+    </issueManagement>
 
     <name>Tokens</name>
 
+    <packaging>jar</packaging>
     <description>Adding another currency into Minecraft</description>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -90,6 +96,12 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <artifactId>mcMMO</artifactId>
+            <groupId>com.gmail.nossr50.mcMMO</groupId>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/mcMMO.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

@@ -33,7 +33,7 @@ public class CommandRedeem implements CommandExecutor {
                 }
             }else if(args[0].equalsIgnoreCase("mcmmo")){
                 if(args.length==3){
-                    mcmmo.redeemMCMMO((Player)commandSender, args[1], Integer.parseInt(args[2]));
+                    mcmmo.redeemMCMMO((Player)commandSender, args[1], Integer.parseInt(args[2]), plugin);
                 }else{
                     commandSender.sendMessage("Invalid command use.");
                     commandSender.sendMessage("Command usage: /redeem mcmmo <skill name> <tokens to spend>");
