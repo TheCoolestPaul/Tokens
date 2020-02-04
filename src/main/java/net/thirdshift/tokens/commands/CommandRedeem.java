@@ -3,6 +3,7 @@ package net.thirdshift.tokens.commands;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.commands.redeem.factions;
 import net.thirdshift.tokens.commands.redeem.mcmmo;
+import net.thirdshift.tokens.commands.redeem.vault;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -46,6 +47,12 @@ public class CommandRedeem implements CommandExecutor {
                         factions.redeemFactions((Player) commandSender, Integer.parseInt(args[1]), plugin);
                     } else {
                         commandSender.sendMessage("/redeem factions <token amount>");
+                    }
+                }else if(args[0].equalsIgnoreCase("money") || args[0].equalsIgnoreCase("cash")){
+                    if(args.length==2){
+                        vault.redeemVault((Player) commandSender, Integer.parseInt(args[1]), plugin);
+                    }else{
+                        commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem money <tokens to spend>");
                     }
                 }
             }else{

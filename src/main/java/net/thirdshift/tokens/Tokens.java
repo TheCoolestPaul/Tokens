@@ -47,7 +47,6 @@ public final class Tokens extends JavaPlugin {
     public double vaultSellPrice = 0.0;
     public static Economy vaultEcon;
 
-    public boolean useEnder = true;
     public TokenItemStack tokenItemHandler = new TokenItemStack();
     private TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 
@@ -79,7 +78,6 @@ public final class Tokens extends JavaPlugin {
     @Override
     public void reloadConfig() {
         super.reloadConfig();
-        this.useEnder = this.getConfig().getBoolean("use-enderchest");
         this.mysqlEnabled = this.getConfig().getBoolean("MySQL.Enabled");
         this.vaultEnabled = this.getConfig().getBoolean("VaultEco.Enabled");
         this.vaultEnabled = this.getConfig().getBoolean("VaultEco.Enabled");
