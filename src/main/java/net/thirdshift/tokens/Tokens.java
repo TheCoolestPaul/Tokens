@@ -1,5 +1,7 @@
 package net.thirdshift.tokens;
 
+import com.SirBlobman.combatlogx.api.ICombatLogX;
+import com.SirBlobman.combatlogx.api.utility.ICombatManager;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.CommandRedeem;
 import net.thirdshift.tokens.commands.CommandTokens;
@@ -9,6 +11,7 @@ import net.thirdshift.tokens.item.TokenItemStack;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +37,7 @@ public final class Tokens extends JavaPlugin {
     public boolean hasCombatLogX = false;
     public boolean combatLogXEnabled = false;
     public boolean combatLogXBlockTokens = false;
+    public ICombatManager combatManager;
 
     public boolean hasVault = false;
     public boolean vaultEnabled = false;
@@ -41,7 +45,7 @@ public final class Tokens extends JavaPlugin {
     public boolean vaultSell = false;
     public double vaultBuyPrice = 0.0;
     public double vaultSellPrice = 0.0;
-    public static Economy vaultEcon = null;
+    public static Economy vaultEcon;
 
     public boolean useEnder = true;
     public TokenItemStack tokenItemHandler = new TokenItemStack();
@@ -201,6 +205,8 @@ public final class Tokens extends JavaPlugin {
 
     public void combatLogXIntegration(){
         this.getLogger().info("Hooked into CombatLogX");
+        ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX");
+        combatManager = plugin.getCombatManager();
     }
 
     private boolean setupEconomy() {

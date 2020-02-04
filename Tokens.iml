@@ -56,5 +56,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.SirBlobman.api:SirBlobmanAPI:1.10-SNAPSHOT" level="project" />
   </component>
 </module>

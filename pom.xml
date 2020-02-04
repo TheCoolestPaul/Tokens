@@ -77,6 +77,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -103,6 +107,12 @@
             <scope>system</scope>
             <version>2.1.115-SNAPSHOT</version>
             <systemPath>${basedir}/lib/mcMMO.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.SirBlobman.combatlogx</groupId>
+            <artifactId>CombatLogX-API</artifactId>
+            <version>10.0.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
