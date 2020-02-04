@@ -12,6 +12,7 @@ import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,7 +38,6 @@ public final class Tokens extends JavaPlugin {
     public boolean hasCombatLogX = false;
     public boolean combatLogXEnabled = false;
     public boolean combatLogXBlockTokens = false;
-    public ICombatManager combatManager;
 
     public boolean hasVault = false;
     public boolean vaultEnabled = false;
@@ -204,8 +204,6 @@ public final class Tokens extends JavaPlugin {
 
     public void combatLogXIntegration(){
         this.getLogger().info("Hooked into CombatLogX");
-        ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX");
-        combatManager = plugin.getCombatManager();
     }
 
     private boolean setupEconomy() {
@@ -234,6 +232,12 @@ public final class Tokens extends JavaPlugin {
         str=str.replace("__", " | ");
         str=str.replace("_", "");
         return str;
+    }
+
+    public boolean isInCombat(Player player) {
+        ICombatLogX plugin = (ICombatLogX) Bukkit.getPluginManager().getPlugin("CombatLogX"); /* Make sure to check CombatLogX is enabled first */
+        ICombatManager combatManager = plugin.getCombatManager();
+        return combatManager.isInCombat(player);
     }
 
     public SQLLite getSqllite() {
