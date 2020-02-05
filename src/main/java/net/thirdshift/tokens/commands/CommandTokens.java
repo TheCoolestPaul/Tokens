@@ -85,6 +85,39 @@ public class CommandTokens implements CommandExecutor {
                 commandSender.sendMessage(ChatColor.GRAY + "Command usage: /tokens set <player name> <tokens amount>");
             }
             return true;
+        }else if (args[0].equalsIgnoreCase("remove")){
+            if(commandSender instanceof Player){
+                if(commandSender.hasPermission("tokens.remove")){
+                    if(args.length==3){
+                        Player target = Bukkit.getPlayer(args[1]);
+                        if(target!=null){
+                            int num = Integer.parseInt(args[2]);
+                            plugin.handler.setTokens(target, num);
+                            commandSender.sendMessage(ChatColor.GRAY+"Set "+ChatColor.GREEN+""+args[1]+""+ChatColor.GRAY+" tokens to "+ChatColor.GOLD+""+args[2]);
+                        }else{
+                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                        }
+                    }else{
+                        commandSender.sendMessage(ChatColor.RED + "Invalid command use.");
+                        commandSender.sendMessage(ChatColor.GRAY + "Command usage: /tokens remove <player name> <tokens amount>");
+                    }
+                }else return false;
+            }else{
+                if(args.length==3){
+                    Player target = Bukkit.getPlayer(args[1]);
+                    if(target!=null){
+                        int num = Integer.parseInt(args[2]);
+                        plugin.handler.setTokens(target, num);
+                        commandSender.sendMessage(ChatColor.GRAY+"Set "+ChatColor.GREEN+""+args[1]+""+ChatColor.GRAY+" tokens to "+ChatColor.GOLD+""+args[2]);
+                    }else{
+                        commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                    }
+                }else{
+                    commandSender.sendMessage(ChatColor.RED + "Invalid command use.");
+                    commandSender.sendMessage(ChatColor.GRAY + "Command usage: /tokens remove <player name> <tokens amount>");
+                }
+            }
+            return true;
         }else if(args[0].equalsIgnoreCase("give")) {
             if(commandSender instanceof Player){
                 if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
