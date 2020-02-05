@@ -1,5 +1,6 @@
 package net.thirdshift.tokens.commands;
 
+import com.SirBlobman.combatlogx.utility.CombatUtil;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.commands.redeem.factions;
 import net.thirdshift.tokens.commands.redeem.mcmmo;
@@ -22,6 +23,10 @@ public class CommandRedeem implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(commandSender instanceof Player && commandSender.hasPermission("tokens.redeem")){
+            if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
+                commandSender.sendMessage("You can't use Tokens while in combat!");
+                return true;
+            }
             if (args.length == 0) {
                 commandSender.sendMessage("Command usage: /redeem <" + plugin.getAddons() + ">");
             } else if (args.length == 1) {

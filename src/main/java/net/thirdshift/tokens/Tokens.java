@@ -31,9 +31,9 @@ public final class Tokens extends JavaPlugin {
     public int tokenToFactionPower;
     public int tokensToMCMMOLevels;
 
-    //public boolean hasCombatLogX = false; Fixme: combatlogX
-    //public boolean combatLogXEnabled = false; Fixme: combatlogX
-    //public boolean combatLogXBlockTokens = false; Fixme: combatlogX
+    public boolean hasCombatLogX = false;
+    public boolean combatLogXEnabled = false;
+    public boolean combatLogXBlockTokens = false;
 
     public boolean hasVault = false;
     public boolean vaultEnabled = false;
@@ -83,8 +83,8 @@ public final class Tokens extends JavaPlugin {
         this.vaultSellPrice = this.getConfig().getDouble("VaultEco.Sell-Price");
         this.factionsEnabled = this.getConfig().getBoolean("Factions.Enabled");
         this.tokenToFactionPower = this.getConfig().getInt("Factions.Tokens-To-Power");
-        //this.combatLogXEnabled = this.getConfig().getBoolean("CombatLogX.Enabled"); fixme: CombatLogX
-        //this.combatLogXBlockTokens = this.getConfig().getBoolean("CombatLogX.Block-Tokens"); fixme: CombatLogX
+        this.combatLogXEnabled = this.getConfig().getBoolean("CombatLogX.Enabled");
+        this.combatLogXBlockTokens = this.getConfig().getBoolean("CombatLogX.Block-Tokens");
         this.mcmmoEnabled = this.getConfig().getBoolean("mcMMO.Enabled");
         this.tokensToMCMMOLevels = this.getConfig().getInt("mcMMO.Tokens-To-Levels");
         if (this.mysqlEnabled) {
@@ -121,12 +121,12 @@ public final class Tokens extends JavaPlugin {
         }
 
         // CombatLogX Check fixme: CombatLogX
-        //Plugin combPlug = this.getServer().getPluginManager().getPlugin("CombatLogX");
-        //if(combPlug!=null && combPlug.isEnabled()){
-        //    this.hasCombatLogX=true;
-        //}else if (combPlug==null && this.combatLogXEnabled){
-        //    this.getLogger().warning("CombatLogX addon is enabled but CombatLogX is not installed on the server!");
-        //}
+        Plugin combPlug = this.getServer().getPluginManager().getPlugin("CombatLogX");
+        if(combPlug!=null && combPlug.isEnabled()){
+            this.hasCombatLogX=true;
+        }else if (combPlug==null && this.combatLogXEnabled){
+            this.getLogger().warning("CombatLogX addon is enabled but CombatLogX is not installed on the server!");
+        }
 
         // mcMMO Check
         Plugin mcmmoPlug = this.getServer().getPluginManager().getPlugin("mcMMO");
@@ -166,10 +166,9 @@ public final class Tokens extends JavaPlugin {
         if(this.factionsEnabled && this.hasFactions){
             factionsIntegration();
         }
-        //fixme: CombatLogX
-        //if(this.combatLogXEnabled && this.hasCombatLogX){
-        //    combatLogXIntegration();
-        //}
+        if(this.combatLogXEnabled && this.hasCombatLogX){
+            combatLogXIntegration();
+        }
         if(this.mcmmoEnabled && this.hasMCMMO){
             mcmmoIntegration();
         }
@@ -200,8 +199,7 @@ public final class Tokens extends JavaPlugin {
     }
 
     public void combatLogXIntegration(){
-        //this.getLogger().info("Hooked into CombatLogX");
-        //TODO: Fix for CombatLogX 10.0.0
+        this.getLogger().info("Hooked into CombatLogX");
     }
 
     private boolean setupEconomy() {

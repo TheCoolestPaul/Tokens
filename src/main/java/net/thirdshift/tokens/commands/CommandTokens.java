@@ -1,5 +1,6 @@
 package net.thirdshift.tokens.commands;
 
+import com.SirBlobman.combatlogx.utility.CombatUtil;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,6 +28,10 @@ public class CommandTokens implements CommandExecutor {
         if(args[0].equalsIgnoreCase("add")) {
             if (commandSender instanceof Player) {
                 if (commandSender.hasPermission("tokens.add")) {
+                    if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
+                        commandSender.sendMessage("You can't use Tokens while in combat!");
+                        return true;
+                    }
                     if (args.length == 3) {
                         Player target = Bukkit.getPlayer(args[1]);
                         if(target!=null) {
@@ -54,6 +59,10 @@ public class CommandTokens implements CommandExecutor {
             if(args.length==3){
                 if(commandSender instanceof Player){
                     if(commandSender.hasPermission("tokens.set")){
+                        if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
+                            commandSender.sendMessage("You can't use Tokens while in combat!");
+                            return true;
+                        }
                         Player target = Bukkit.getPlayer(args[1]);
                         if(target!=null){
                             plugin.handler.setTokens(target, Integer.parseInt(args[2]));
@@ -78,6 +87,10 @@ public class CommandTokens implements CommandExecutor {
             return true;
         }else if(args[0].equalsIgnoreCase("give")) {
             if(commandSender instanceof Player){
+                if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
+                    commandSender.sendMessage("You can't use Tokens while in combat!");
+                    return true;
+                }
                 if(args.length==3){
                     int num = Integer.parseInt(args[2]);
                     if(plugin.handler.getTokens((Player) commandSender) >= num) {
