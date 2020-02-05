@@ -9,7 +9,7 @@ commands:
   tokens:
     permission: tokens.use
     description: Main command for Tokens
-    usage: /tokens
+    usage: /tokens help
   redeem:
     permission: tokens.redeem
     description: Command for redeeming Tokens
