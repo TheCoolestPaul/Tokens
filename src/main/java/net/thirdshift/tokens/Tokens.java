@@ -237,7 +237,7 @@ public final class Tokens extends JavaPlugin {
         return mysql;
     }
 
-    public static Economy getEconomy() {
+    public Economy getEconomy() {
         return vaultEcon;
     }
 

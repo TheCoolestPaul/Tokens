@@ -1,7 +1,9 @@
 package net.thirdshift.tokens.commands;
 
 import com.SirBlobman.combatlogx.utility.CombatUtil;
+import net.milkbowl.vault.economy.EconomyResponse;
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.commands.redeem.vault;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -168,7 +170,17 @@ public class CommandTokens implements CommandExecutor {
                     return false;// Player without permission ran the command
                 }
             }
-        }else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("h")) {
+        } else if (args[0].equalsIgnoreCase("buy") && plugin.vaultBuy) {
+            if(commandSender instanceof Player){
+                if(args.length==2){
+                    vault.purchaseVault((Player) commandSender, Integer.parseInt(args[1]), plugin);
+                }else{
+                    commandSender.sendMessage(ChatColor.RED+"Invalid command use! Your arguments were "+ Arrays.toString(args));
+                    commandSender.sendMessage(ChatColor.GRAY+"Command usage: /tokens buy <tokens amount>");
+                }
+            }else return false;
+            return true;
+        } else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("h")) {
             commandSender.sendMessage(ChatColor.GREEN + "===============[ " + ChatColor.GOLD + "Tokens Help" + ChatColor.GREEN + " ]===============");
             commandSender.sendMessage("/tokens help " + ChatColor.GRAY + " Displays this helpful text");
             commandSender.sendMessage("/tokens" + ChatColor.GRAY + " Displays your number of tokens");
