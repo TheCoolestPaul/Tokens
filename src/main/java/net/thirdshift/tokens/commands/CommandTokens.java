@@ -168,6 +168,13 @@ public class CommandTokens implements CommandExecutor {
                     return false;// Player without permission ran the command
                 }
             }
+        }else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("h")) {
+            commandSender.sendMessage(ChatColor.GREEN + "===============[ " + ChatColor.GOLD + "Tokens Help" + ChatColor.GREEN + " ]===============");
+            commandSender.sendMessage("/tokens help " + ChatColor.GRAY + " Displays this helpful text");
+            commandSender.sendMessage("/tokens" + ChatColor.GRAY + " Displays your number of tokens");
+            commandSender.sendMessage("/tokens give <player name> <tokens amount>" + ChatColor.GRAY + " Gives tokens to another player");
+            commandSender.sendMessage("/redeem" + ChatColor.GRAY + " Displays help using the redeem command");
+            return true;
         }else if(args.length==1) {
             Player target = Bukkit.getPlayer(args[0]);
             if(commandSender instanceof Player) {
