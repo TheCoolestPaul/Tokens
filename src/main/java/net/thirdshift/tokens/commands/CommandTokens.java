@@ -37,6 +37,7 @@ public class CommandTokens implements CommandExecutor {
                         if(target!=null) {
                             int num = Integer.parseInt(args[2]);
                             plugin.handler.addTokens(target, num);
+                            commandSender.sendMessage(ChatColor.GRAY+"Added "+ChatColor.GOLD+""+args[2]+" tokens for "+args[1]);
                         }else{
                             commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
                         }
@@ -50,6 +51,7 @@ public class CommandTokens implements CommandExecutor {
                 if(target!=null) {
                     int num = Integer.parseInt(args[2]);
                     plugin.handler.addTokens(target, num);
+                    commandSender.sendMessage(ChatColor.GRAY+"Added "+ChatColor.GOLD+""+args[2]+" tokens for "+args[1]);
                 }else{
                     commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
                 }
