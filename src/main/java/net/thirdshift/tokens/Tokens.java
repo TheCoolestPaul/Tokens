@@ -5,7 +5,6 @@ import net.thirdshift.tokens.commands.CommandRedeem;
 import net.thirdshift.tokens.commands.CommandTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
-import net.thirdshift.tokens.item.TokenItemStack;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
@@ -43,7 +42,7 @@ public final class Tokens extends JavaPlugin {
     public double vaultSellPrice = 0.0;
     public static Economy vaultEcon;
 
-    public TokenItemStack tokenItemHandler = new TokenItemStack();
+    //public TokenItemStack tokenItemHandler = new TokenItemStack(); // Coming soon to a Tokens plugin near you
     private TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 
     @Override
