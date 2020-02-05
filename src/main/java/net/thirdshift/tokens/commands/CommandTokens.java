@@ -1,7 +1,6 @@
 package net.thirdshift.tokens.commands;
 
 import com.SirBlobman.combatlogx.utility.CombatUtil;
-import net.milkbowl.vault.economy.EconomyResponse;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.commands.redeem.vault;
 import org.bukkit.Bukkit;
