@@ -4,9 +4,9 @@
 #
 #####
 keys:
-  exampleKey
-  TestKey123
-  BestKey1234
+  - exampleKey
+  - TestKey123
+  - BestKey1234
 
 exampleKey:
   enabled: false

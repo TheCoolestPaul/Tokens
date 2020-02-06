@@ -8,6 +8,10 @@ public class Key {
     public int tokens;
     public double cooldown;
 
+    public Key(String keyString){
+        this.keyString=keyString;
+    }
+
     public Key(String keyString, boolean enabled, boolean oneTime, int tokens, double cooldown){
         this.keyString=keyString;
         this.enabled=enabled;
@@ -16,4 +20,30 @@ public class Key {
         this.cooldown=cooldown;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setOneTime(boolean oneTime) {
+        this.oneTime = oneTime;
+    }
+
+    public void setTokens(int tokens) {
+        this.tokens = tokens;
+    }
+
+    public void setCooldown(double cooldown) {
+        this.cooldown = cooldown;
+    }
+
+    @Override
+    public String toString() {
+        return "Key{" +
+                "keyString='" + keyString + '\'' +
+                ", enabled=" + enabled +
+                ", oneTime=" + oneTime +
+                ", tokens=" + tokens +
+                ", cooldown=" + cooldown +
+                '}';
+    }
 }

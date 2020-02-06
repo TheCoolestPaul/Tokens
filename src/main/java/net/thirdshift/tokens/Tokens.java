@@ -5,6 +5,7 @@ import net.thirdshift.tokens.commands.CommandRedeem;
 import net.thirdshift.tokens.commands.CommandTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
+import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
@@ -14,7 +15,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public final class Tokens extends JavaPlugin {
 
@@ -48,7 +51,9 @@ public final class Tokens extends JavaPlugin {
 
     //public TokenItemStack tokenItemHandler = new TokenItemStack(); // Coming soon to a Tokens plugin near you
     private TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
-    private FileConfiguration keyFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "keys.yml"));
+    private FileConfiguration keyConfig = null;
+    private File keyFile = null;
+    public KeyHandler keyHander;
 
     @Override
     public void onEnable() {
@@ -56,6 +61,8 @@ public final class Tokens extends JavaPlugin {
         BStats bStats = new BStats(this, bstatsID);
 
         this.checkUpdates();
+
+        keyHander = new KeyHandler(this);
 
         this.saveDefaultConfig();
         this.reloadConfig();
@@ -73,6 +80,47 @@ public final class Tokens extends JavaPlugin {
     public void addCommands(){
         this.getCommand("tokens").setExecutor(new CommandTokens(this));
         this.getCommand("redeem").setExecutor(new CommandRedeem(this));
+    }
+
+    public void reloadKeys() {
+        if (keyFile == null) {
+            keyFile = new File(getDataFolder(), "keys.yml");
+        }
+        keyConfig = YamlConfiguration.loadConfiguration(keyFile);
+
+        // Look for defaults in the jar
+        Reader defConfigStream = new InputStreamReader(Objects.requireNonNull(this.getResource("keys.yml")), StandardCharsets.UTF_8);
+        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+        keyConfig.setDefaults(defConfig);
+    }
+
+    public FileConfiguration getCustomConfig() {
+        if (keyConfig == null) {
+            reloadKeys();
+        }
+        return keyConfig;
+    }
+
+    public void saveCustomConfig() {
+        if (keyConfig == null || keyFile == null) {
+            return;
+        }
+        try {
+            getCustomConfig().save(keyFile);
+        } catch (IOException ex) {
+            getLogger().severe("Could not save config to "+keyFile+" "+ex);
+        }
+    }
+
+    @Override
+    public void saveDefaultConfig() {
+        super.saveDefaultConfig();
+        if (keyFile == null) {
+            keyFile = new File(getDataFolder(), "keys.yml");
+        }
+        if (!keyFile.exists()) {
+            saveResource("keys.yml", false);
+        }
     }
 
     @Override
