@@ -8,9 +8,13 @@ import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 public final class Tokens extends JavaPlugin {
 
@@ -44,6 +48,7 @@ public final class Tokens extends JavaPlugin {
 
     //public TokenItemStack tokenItemHandler = new TokenItemStack(); // Coming soon to a Tokens plugin near you
     private TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
+    private FileConfiguration keyFile = YamlConfiguration.loadConfiguration(new File(getDataFolder(), "keys.yml"));
 
     @Override
     public void onEnable() {

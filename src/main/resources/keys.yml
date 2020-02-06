@@ -1,0 +1,27 @@
+#
+# List of keys
+# No spaces allowed!
+#
+#####
+keys:
+  exampleKey
+  TestKey123
+  BestKey1234
+
+exampleKey:
+  enabled: false
+  one-time: true
+  tokens: 5
+  cooldown: 0
+
+TestKey123:
+  enabled: true
+  one-time: true
+  tokens: 10
+  cooldown: 0
+
+BestKey1234:
+  enabled: true
+  one-time: false
+  tokens: 2
+  cooldown: 100
