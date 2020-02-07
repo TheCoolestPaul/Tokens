@@ -13,7 +13,7 @@ public class Key {
     public boolean enabled;
     public boolean oneTime;
     public int tokens;
-    public double cooldown;
+    public long cooldown;
     public Map<Player, Long> cooldowns;
 
     public Key(String keyString){
@@ -21,7 +21,7 @@ public class Key {
         this.cooldowns=new HashMap<>();
     }
 
-    public Key(String keyString, boolean enabled, boolean oneTime, int tokens, double cooldown){
+    public Key(String keyString, boolean enabled, boolean oneTime, int tokens, long cooldown){
         this.keyString=keyString;
         this.enabled=enabled;
         this.oneTime=oneTime;
@@ -42,7 +42,7 @@ public class Key {
         this.tokens = tokens;
     }
 
-    public void setCooldown(double cooldown) {
+    public void setCooldown(long cooldown) {
         this.cooldown = cooldown;
     }
 

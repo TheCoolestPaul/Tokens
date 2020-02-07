@@ -3,32 +3,32 @@ package net.thirdshift.tokens.keys;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class KeyHandler {
-    public ArrayList<Key> keys;
+    public Map<String, Key> keys;
     private Tokens plugin;
     private FileConfiguration keyConfig;
 
     public KeyHandler(Tokens instance){
         this.plugin=instance;
         this.keyConfig=plugin.getCustomConfig();
-        this.keys=new ArrayList<>();
+        this.keys=new HashMap<>();
         initKeys();
     }
 
-    public List<Key> getKeys() {
+    public Map<String, Key> getKeys() {
         return keys;
     }
 
     public Key getKey(String keyString){
-        for(Key key : keys){
-            if(key.keyString.equals(keyString)){
-                return key;
-            }
-        }
-        return null;
+        return keys.get(keyString);
+    }
+
+    public boolean isValidKey(String keyString){
+        return keys.get(keyString) != null;
     }
 
     public void initKeys(){
@@ -45,10 +45,10 @@ public class KeyHandler {
             int tokens = ( (keyConfig.contains(s + ".tokens")) ? keyConfig.getInt(s+".tokens") : 1 );
             key.setTokens(tokens);
 
-            double cooldown = ( (keyConfig.contains(s + ".cooldown")) ? keyConfig.getDouble(s+".cooldown") : 100.0 );
+            long cooldown = (keyConfig.contains(s + ".cooldown")) ? keyConfig.getLong(s+".cooldown") : (long) 120;
             key.setCooldown(cooldown);
 
-            keys.add(key);
+            keys.put(s,key);
             plugin.getLogger().info("Added "+key);
         }
         plugin.getLogger().info("Finished initing "+keyStrings.size()+" keys");

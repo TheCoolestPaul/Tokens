@@ -16,8 +16,8 @@ keys:
 # keyName: (CASE SENSITIVE) Name of the key, shown in the table above
 #   enabled: (true/false) Whether or not this key is enabled
 #   one-time: (true/false) Is this key a one-time use key?
-#   tokens: (any integer)
-#   cooldown: (any integer)
+#   tokens: (any integer) How many tokens is the key worth?
+#   cooldown: (any integer) How long until a Player can use it again? (In minutes)
 #
 ###
 

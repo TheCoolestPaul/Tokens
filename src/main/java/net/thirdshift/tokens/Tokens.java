@@ -277,6 +277,9 @@ public final class Tokens extends JavaPlugin {
         if(this.vaultEnabled){
             str+="_money_";
         }
+        if(this.keyHander.keys.size()>0){
+            str+="_key_";
+        }
         str=str.replace("__", " | ");
         str=str.replace("_", "");
         return str;
