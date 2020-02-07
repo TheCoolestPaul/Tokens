@@ -3,10 +3,23 @@
 # No spaces allowed!
 #
 #####
+
 keys:
   - exampleKey
   - TestKey123
   - BestKey1234
+
+#####
+
+#
+# Key format:
+# keyName: (CASE SENSITIVE) Name of the key, shown in the table above
+#   enabled: (true/false) Whether or not this key is enabled
+#   one-time: (true/false) Is this key a one-time use key?
+#   tokens: (any integer)
+#   cooldown: (any integer)
+#
+###
 
 exampleKey:
   enabled: false
@@ -25,3 +38,5 @@ BestKey1234:
   one-time: false
   tokens: 2
   cooldown: 100
+
+######
