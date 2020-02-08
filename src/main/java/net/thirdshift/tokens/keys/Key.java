@@ -36,6 +36,10 @@ public class Key {
         this.oneTime = oneTime;
     }
 
+    public void setTokens(int tokens) {
+        this.tokens = tokens;
+    }
+
     public int getTokens() {
         return tokens;
     }
