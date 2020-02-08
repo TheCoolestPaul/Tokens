@@ -16,7 +16,7 @@ public class key {
                 player.sendMessage(ChatColor.GREEN + "Featured used!");
                 key.setPlayerCooldown(player, System.currentTimeMillis());
             }else{
-                player.sendMessage(ChatColor.RED.toString() + (TimeUnit.MILLISECONDS.toSeconds(timeLeft) - TimeUnit.MINUTES.toSeconds(key.getCooldown())) + " seconds before you can use this feature again.");
+                player.sendMessage(ChatColor.RED.toString() + (TimeUnit.MINUTES.toSeconds(key.getCooldown())-TimeUnit.MILLISECONDS.toSeconds(timeLeft)) + " seconds before you can use this feature again.");
             }
         }else{
             player.sendMessage(ChatColor.RED+"Key "+keyName+" is NOT a valid key!");
