@@ -37,6 +37,6 @@ BestKey1234:
   enabled: true
   one-time: false
   tokens: 2
-  cooldown: 100
+  cooldown: 60
 
 ######
