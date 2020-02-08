@@ -50,6 +50,7 @@ public class KeyHandler {
             plugin.getLogger().info("Made /Tokens/Storage/KeyData/");
         }
 
+        plugin.getLogger().info("Loading keys");
         List<String> keyStrings = keyConfig.getStringList("keys");
         for(String s : keyStrings){
             Key key = new Key(s);
@@ -63,15 +64,14 @@ public class KeyHandler {
             int tokens = ( (keyConfig.contains(s + ".tokens")) ? keyConfig.getInt(s+".tokens") : 1 );
             key.setTokens(tokens);
 
-            long cooldown = (keyConfig.contains(s + ".cooldown")) ? keyConfig.getLong(s+".cooldown") : (long) 120;
+            long cooldown = (keyConfig.contains(s + ".cooldown")) ? keyConfig.getLong(s+".cooldown") : 120L;
             key.setCooldown(cooldown);
 
             keys.put(s,key);
             plugin.getLogger().info("Added "+key);
         }
-        plugin.getLogger().info("Finished initing "+keyStrings.size()+" keys");
+        plugin.getLogger().info("Finished adding "+keyStrings.size()+" keys");
 
-        plugin.getLogger().info("Starting to pull key cooldown from KeyData.");
         keysFromYAML(keyData);
 
     }
@@ -98,6 +98,7 @@ public class KeyHandler {
     }
 
     public void keysFromYAML(File storage){// Needs to run AFTER initKeys()
+        plugin.getLogger().info("Starting to load KeyData");
         for(String s : keys.keySet()){
             File[] files = storage.listFiles();
             if(files!=null) {
@@ -119,7 +120,7 @@ public class KeyHandler {
                     }
                 }
             }else{
-                plugin.getLogger().info("No KeyData to load.");
+                plugin.getLogger().info("No KeyData to load");
             }
         }
     }
