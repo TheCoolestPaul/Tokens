@@ -72,6 +72,7 @@ public final class Tokens extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        keyHander.saveKeyCooldown();
         if(this.mysqlEnabled){
             mysql.stopSQLConnection();//Cut off any loose bois
         }
@@ -99,17 +100,6 @@ public final class Tokens extends JavaPlugin {
             reloadKeys();
         }
         return keyConfig;
-    }
-
-    public void saveCustomConfig() {
-        if (keyConfig == null || keyFile == null) {
-            return;
-        }
-        try {
-            getCustomConfig().save(keyFile);
-        } catch (IOException ex) {
-            getLogger().severe("Could not save config to "+keyFile+" "+ex);
-        }
     }
 
     @Override

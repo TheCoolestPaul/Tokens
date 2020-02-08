@@ -1,5 +1,7 @@
 package net.thirdshift.tokens.keys;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -54,4 +56,21 @@ public class KeyHandler {
         plugin.getLogger().info("Finished initing "+keyStrings.size()+" keys");
     }
 
+    public void saveKeyCooldown(){
+        keys.forEach((k,v) -> keysToJson(v));
+    }
+
+    public void keysToJson(Key key){
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+
+            String json = mapper.writeValueAsString(key.cooldowns);
+
+            plugin.getLogger().warning(json); // compact
+
+
+        }catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
 }
