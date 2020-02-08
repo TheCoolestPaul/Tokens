@@ -23,7 +23,13 @@ public class SQLLite extends Database{
     // This code isn't mine, it was handed out to learn from
 
     public Connection getSQLConnection() {
-        File dataFolder = new File(plugin.getDataFolder(), dbname+".db");
+        File storageFolder = new File(plugin.getDataFolder(), "Storage");
+        if (!storageFolder.exists()){
+            storageFolder.mkdirs();
+            plugin.getLogger().info("Made /Tokens/Storage/");
+        }
+
+        File dataFolder = new File(storageFolder, dbname+".db");
         if (!dataFolder.exists()){
             try {
                 dataFolder.createNewFile();
