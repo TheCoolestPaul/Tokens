@@ -33,11 +33,11 @@ public class CommandRedeem implements CommandExecutor {
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("mcmmo")) {
                     commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem mcmmo <skill name> <tokens to spend>");
-                } else if (args[0].equalsIgnoreCase("factions")) {
+                } else if (args[0].equalsIgnoreCase("factions") || args[0].equalsIgnoreCase("faction") || args[0].equalsIgnoreCase("f")) {
                     commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem faction <tokens to spend>");
                 } else if (args[0].equalsIgnoreCase("money")) {
                     commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem money <tokens to spend>");
-                }else if(args[0].equalsIgnoreCase("key") || args[0].equalsIgnoreCase("keys")){
+                }else if(args[0].equalsIgnoreCase("key") || args[0].equalsIgnoreCase("keys") || args[0].equalsIgnoreCase("k")){
                     commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem key <key>");
                 }else {
                     commandSender.sendMessage(ChatColor.RED+"Invalid redeemable: " + Arrays.toString(args));

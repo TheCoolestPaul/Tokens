@@ -2,10 +2,8 @@ package net.thirdshift.tokens.keys;
 
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class Key {
 
@@ -13,7 +11,7 @@ public class Key {
     public boolean enabled;
     public boolean oneTime;
     public int tokens;
-    public long cooldown;
+    public long cooldown; // in minutes
     public Map<Player, Long> cooldowns;
 
     public Key(String keyString){
@@ -46,6 +44,10 @@ public class Key {
         this.cooldown = cooldown;
     }
 
+    public long getCooldown() {
+        return cooldown;
+    }
+
     public void setPlayerCooldown(Player player, long time){
         if(time < 1){
             cooldowns.remove(player);
@@ -54,7 +56,7 @@ public class Key {
         }
     }
 
-    public long getCooldown(Player player){
+    public long getPlayerCooldown(Player player){
         return cooldowns.getOrDefault(player, (long) 0);
     }
 
