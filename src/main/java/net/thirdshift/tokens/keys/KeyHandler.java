@@ -100,8 +100,8 @@ public class KeyHandler {
 
     public void keysFromYAML(File storage){// Needs to run AFTER initKeys()
         plugin.getLogger().info("Starting to load KeyData");
+        File[] files = storage.listFiles();
         for(String s : keys.keySet()){
-            File[] files = storage.listFiles();
             if(files!=null) {
                 for (File file : files) {
                     String keyName = file.getName().substring(0,file.getName().indexOf('.'));
