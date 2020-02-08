@@ -1,10 +1,11 @@
 package net.thirdshift.tokens.keys;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ public class KeyHandler {
     public Map<String, Key> keys;
     private Tokens plugin;
     private FileConfiguration keyConfig;
+    private File keyData;
 
     public KeyHandler(Tokens instance){
         this.plugin=instance;
@@ -34,6 +36,20 @@ public class KeyHandler {
     }
 
     public void initKeys(){
+
+        File storageFolder = new File(plugin.getDataFolder(), "Storage");
+        keyData = new File(storageFolder, "KeyData");
+
+        if (!storageFolder.exists()){
+            storageFolder.mkdirs();
+            plugin.getLogger().info("Made /Tokens/Storage/");
+        }
+
+        if (!keyData.exists()){
+            keyData.mkdirs();
+            plugin.getLogger().info("Made /Tokens/Storage/KeyData/");
+        }
+
         List<String> keyStrings = keyConfig.getStringList("keys");
         for(String s : keyStrings){
             Key key = new Key(s);
@@ -54,23 +70,57 @@ public class KeyHandler {
             plugin.getLogger().info("Added "+key);
         }
         plugin.getLogger().info("Finished initing "+keyStrings.size()+" keys");
+
+        plugin.getLogger().info("Starting to pull key cooldown from KeyData.");
+        keysFromYAML(keyData);
+
     }
 
     public void saveKeyCooldown(){
-        keys.forEach((k,v) -> keysToJson(v));
+        keys.forEach((k,v) -> keysToYAML(keyData, v));
     }
 
-    public void keysToJson(Key key){
-        try {
-            ObjectMapper mapper = new ObjectMapper();
+    public void keysToYAML(File storage, Key key){
+        for (Map.Entry<String, Key> entry : keys.entrySet()) {
+            String k = entry.getKey();
+            Key v = entry.getValue();
 
-            String json = mapper.writeValueAsString(key.cooldowns);
+            File file = new File(storage, k + ".yml");
+            YamlConfiguration fileconfig = YamlConfiguration.loadConfiguration(file);
+            fileconfig.createSection("cooldowns", v.cooldowns);
+            try {
+                fileconfig.save(file);
+            }catch(IOException ex){
+                plugin.getLogger().severe("Problem saving KeyData for key "+v.toString());
+                plugin.getLogger().severe(ex.toString());
+            }
+        }
+    }
 
-            plugin.getLogger().warning(json); // compact
-
-
-        }catch (JsonProcessingException e) {
-            e.printStackTrace();
+    public void keysFromYAML(File storage){// Needs to run AFTER initKeys()
+        for(String s : keys.keySet()){
+            File[] files = storage.listFiles();
+            if(files!=null) {
+                for (File file : files) {
+                    String keyName = file.getName().substring(0,file.getName().indexOf('.'));
+                    if(isValidKey(keyName)) {
+                        YamlConfiguration fileconfig = YamlConfiguration.loadConfiguration(file);
+                        Map<String, Object> cooldowns = fileconfig.getConfigurationSection("cooldowns").getValues(false);
+                        keys.get(keyName).cooldowns=cooldowns;
+                    }else{
+                        if(file.exists()){
+                            boolean hapened = file.delete();
+                            if(hapened){
+                                plugin.getLogger().info("We removed an old key data file");
+                            }else{
+                                plugin.getLogger().info("We didn't remove an old key data file?");
+                            }
+                        }
+                    }
+                }
+            }else{
+                plugin.getLogger().info("No KeyData to load.");
+            }
         }
     }
 }

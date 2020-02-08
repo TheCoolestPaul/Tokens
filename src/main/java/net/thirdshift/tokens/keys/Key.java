@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class Key {
 
@@ -13,19 +12,10 @@ public class Key {
     public boolean oneTime;
     public int tokens;
     public long cooldown; // in minutes
-    public Map<UUID, Long> cooldowns;
+    public Map<String, Object> cooldowns;
 
     public Key(String keyString){
         this.keyString=keyString;
-        this.cooldowns=new HashMap<>();
-    }
-
-    public Key(String keyString, boolean enabled, boolean oneTime, int tokens, long cooldown){
-        this.keyString=keyString;
-        this.enabled=enabled;
-        this.oneTime=oneTime;
-        this.tokens=tokens;
-        this.cooldown=cooldown;
         this.cooldowns=new HashMap<>();
     }
 
@@ -56,17 +46,20 @@ public class Key {
     public void setPlayerCooldown(Player player, long time){
         if(!this.oneTime) {
             if (time < 1) {
-                cooldowns.remove(player.getUniqueId());
+                cooldowns.remove(player.getUniqueId().toString());
             } else {
-                cooldowns.put(player.getUniqueId(), time);
+                cooldowns.put(player.getUniqueId().toString(), Long.toString(time));
             }
         }else{
-            cooldowns.put(player.getUniqueId(), time);
+            cooldowns.put(player.getUniqueId().toString(), Long.toString(time));
         }
     }
 
     public long getPlayerCooldown(Player player){
-        return cooldowns.getOrDefault(player.getUniqueId(), (long) 0);
+        if(cooldowns.containsKey(player.getUniqueId().toString())){
+            return Long.parseLong((String) cooldowns.get(player.getUniqueId().toString()));
+        }
+        return 0L;
     }
 
     @Override
