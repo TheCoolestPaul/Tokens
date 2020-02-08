@@ -124,5 +124,6 @@ public class KeyHandler {
                 plugin.getLogger().info("No KeyData to load");
             }
         }
+        plugin.getLogger().info("Finished loading KeyData");
     }
 }
