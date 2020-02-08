@@ -49,7 +49,7 @@ public class CommandRedeem implements CommandExecutor {
                     commandSender.sendMessage(ChatColor.RED+"Invalid command use.");
                     commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem mcmmo <skill name> <tokens to spend>");
                 }
-            }else if(args[0].equalsIgnoreCase("factions") || args[0].equalsIgnoreCase("faction")){
+            }else if(args[0].equalsIgnoreCase("factions") || args[0].equalsIgnoreCase("faction") || args[0].equalsIgnoreCase("f")){
                 if (args.length == 2) {
                     factions.redeemFactions((Player) commandSender, Integer.parseInt(args[1]), plugin);
                 } else {
@@ -63,7 +63,7 @@ public class CommandRedeem implements CommandExecutor {
                 }
             }else if(args[0].equalsIgnoreCase("key") || args[0].equalsIgnoreCase("keys") || args[0].equalsIgnoreCase("k")){
                 if(args.length==2){
-                    key.redeemKey((Player) commandSender, args[1]);
+                    key.redeemKey((Player) commandSender, args[1], plugin);
                 }else{
                     commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem key <key>");
                 }
