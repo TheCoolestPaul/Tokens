@@ -29,7 +29,7 @@ public class CommandRedeem implements CommandExecutor {
                 return true;
             }
             if (args.length == 0) {
-                commandSender.sendMessage("Command usage: /redeem <" + plugin.getAddons() + ">");
+                commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem <" + plugin.getAddons() + ">");
             } else if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("mcmmo")) {
                     commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem mcmmo <skill name> <tokens to spend>");
