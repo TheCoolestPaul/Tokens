@@ -11,7 +11,7 @@ public class key {
     public static void redeemKey(Player player, String keyName, Tokens plugin){
         if(plugin.keyHander.isValidKey(keyName)){
             Key key = plugin.keyHander.getKey(keyName);
-            long timeLeft = System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(key.getCooldown(player));
+            long timeLeft = System.currentTimeMillis() - key.getCooldown(player);
             if(TimeUnit.MILLISECONDS.toSeconds(timeLeft) >= TimeUnit.MINUTES.toSeconds(key.cooldown)){
                 player.sendMessage(ChatColor.GREEN + "Featured used!");
                 key.setPlayerCooldown(player, System.currentTimeMillis());
