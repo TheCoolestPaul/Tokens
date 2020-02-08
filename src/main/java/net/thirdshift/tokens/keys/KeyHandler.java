@@ -81,6 +81,7 @@ public class KeyHandler {
     }
 
     public void keysToYAML(File storage, Key key){
+        plugin.getLogger().info("Saving KeyData");
         for (Map.Entry<String, Key> entry : keys.entrySet()) {
             String k = entry.getKey();
             Key v = entry.getValue();
