@@ -6,7 +6,7 @@
 
     <groupId>net.thirdshift</groupId>
     <artifactId>Tokens</artifactId>
-    <version>3.7.0</version>
+    <version>3.7.3</version>
 
     <issueManagement>
         <url>https://github.com/TheCoolestPaul/Tokens/issues</url>
@@ -71,7 +71,7 @@
         </repository>
         <repository>
             <id>factions-repo</id>
-            <url>http://ci.ender.zone/plugin/repository/everything/</url>
+            <url>https://ci.ender.zone/plugin/repository/everything/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>

@@ -30,7 +30,8 @@ public abstract class Database {
         ResultSet rs = null;
         try {
             conn = getSQLConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE player = '"+player.getUniqueId()+"';");
+            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE player = ?;");
+            ps.setString(1, player.getUniqueId().toString());
             rs = ps.executeQuery();
             while(rs.next()){
                 if(rs.getString("player").equalsIgnoreCase(player.getUniqueId().toString())){
@@ -72,18 +73,6 @@ public abstract class Database {
             } catch (SQLException ex) {
                 plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionClose(), ex);
             }
-        }
-    }
-
-
-    public void close(PreparedStatement ps,ResultSet rs){
-        try {
-            if (ps != null)
-                ps.close();
-            if (rs != null)
-                rs.close();
-        } catch (SQLException ex) {
-            Error.close(plugin, ex);
         }
     }
 }

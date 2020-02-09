@@ -1,9 +1,11 @@
 package net.thirdshift.tokens.database.mysql;
 
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.database.sqllite.Errors;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.util.logging.Level;
 
 public class MySQLHandler {
 
@@ -44,11 +46,11 @@ public class MySQLHandler {
             url = "jdbc:mysql://"+dbAddress+":"+dbPORT+"/"+dbName+"?useSSL="+dbSSL;
             connection = DriverManager.getConnection(url,username,password);
             plugin.getLogger().info("Connection to MySQL was successful");
-
             String table ="CREATE TABLE IF NOT EXISTS tokens ( uuid VARCHAR(40) NOT NULL , num INT(9) NOT NULL , UNIQUE (uuid));";
             try {
                 PreparedStatement stmt = connection.prepareStatement(table);
                 stmt.executeUpdate();
+                stmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -87,9 +89,12 @@ public class MySQLHandler {
 
     public int getTokens(Player player){
         int tokens = 0;
+        PreparedStatement ps = null;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT num FROM tokens WHERE uuid = '"+player.getUniqueId().toString()+"';");
+            String query = "SELECT num FROM tokens WHERE uuid = ?";
+            ps = connection.prepareStatement(query);
+            ps.setString(1, player.getUniqueId().toString());
+            ResultSet result = ps.executeQuery();
             if (result == null){
                 setTokens(player, 0);
             }else {
@@ -100,21 +105,44 @@ public class MySQLHandler {
         } catch(SQLException e) {
             plugin.getLogger().info("MYSQL ERROR");
             e.printStackTrace();
+        } finally{
+            try {
+                if (ps != null)
+                    ps.close();
+            } catch (SQLException ex) {
+                plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionClose(), ex);
+            }
         }
         return tokens;
     }
 
     public void setTokens(Player player, int tokens){
+        PreparedStatement ps1 = null;
+        PreparedStatement ps2 = null;
         try {
-            Statement statement = connection.createStatement();
-            String state = "UPDATE tokens SET num = "+tokens+" WHERE uuid = '"+player.getUniqueId().toString()+"';";
-            int changed = statement.executeUpdate(state);
+            String query = "UPDATE tokens SET num = ? WHERE uuid = ?;";
+            ps1 = connection.prepareStatement(query);
+            ps1.setInt(1, tokens);
+            ps1.setString(2, player.getUniqueId().toString());
+            int changed = ps1.executeUpdate();
             if (changed==0){
-                String state2 = "INSERT INTO tokens (uuid, num) VALUES ('"+player.getUniqueId().toString()+"', "+tokens+");";
-                statement.execute(state2);
+                String query2 = "INSERT INTO tokens (uuid, num) VALUES (?, ?);";
+                ps2 = connection.prepareStatement(query2);
+                ps2.setString(1, player.getUniqueId().toString());
+                ps2.setInt(2, tokens);
+                ps2.executeUpdate();
             }
         } catch(SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (ps1 != null)
+                    ps1.close();
+                if (ps2 != null)
+                    ps2.close();
+            } catch (SQLException ex) {
+                plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionClose(), ex);
+            }
         }
     }
 }
