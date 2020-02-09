@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
 import java.util.logging.Level;
 
 
@@ -35,7 +34,6 @@ public abstract class Database {
             rs = ps.executeQuery();
             while(rs.next()){
                 if(rs.getString("player").equalsIgnoreCase(player.getUniqueId().toString())){
-                    plugin.getLogger().log(Level.INFO, "Got it from database!");
                     return rs.getInt("tokens");
                 }
             }
@@ -51,7 +49,6 @@ public abstract class Database {
                 plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionClose(), ex);
             }
         }
-        plugin.getLogger().info("Didn't get it from database.");
         return 0;
     }
 
