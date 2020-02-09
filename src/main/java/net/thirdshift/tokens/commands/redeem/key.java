@@ -25,13 +25,13 @@ public class key {
                     } else {
                         long actTimeLeft = (TimeUnit.MINUTES.toMillis(key.getCooldown()) - timeLeft);
                         if(actTimeLeft >= 1000 && TimeUnit.MILLISECONDS.toSeconds(actTimeLeft) < 60){
-                            player.sendMessage(ChatColor.GRAY.toString()+TimeUnit.MILLISECONDS.toSeconds(actTimeLeft)+" seconds before you can redeem key "+ChatColor.RED+key.keyString+ChatColor.GRAY+" again.");
+                            player.sendMessage(ChatColor.GRAY.toString()+"You have "+TimeUnit.MILLISECONDS.toSeconds(actTimeLeft)+" seconds before you can redeem key "+ChatColor.RED+key.keyString+ChatColor.GRAY+" again.");
                         } else if (TimeUnit.MILLISECONDS.toSeconds(actTimeLeft) >= 60 && TimeUnit.MILLISECONDS.toMinutes(actTimeLeft) < 60){
-                            player.sendMessage(ChatColor.GRAY.toString()+TimeUnit.MILLISECONDS.toMinutes(actTimeLeft)+" minutes before you can redeem key "+ChatColor.RED+key.keyString+ChatColor.GRAY+" again.");
+                            player.sendMessage(ChatColor.GRAY.toString()+"You have "+TimeUnit.MILLISECONDS.toMinutes(actTimeLeft)+" minutes and "+( TimeUnit.MILLISECONDS.toSeconds(actTimeLeft) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(actTimeLeft)))+" seconds before you can redeem key "+ChatColor.RED+key.keyString+ChatColor.GRAY+" again.");
                         }else if (TimeUnit.MILLISECONDS.toMinutes(actTimeLeft) >= 60 && TimeUnit.MILLISECONDS.toHours(actTimeLeft) < 24){
-                            player.sendMessage(ChatColor.GRAY.toString()+TimeUnit.MILLISECONDS.toHours(actTimeLeft)+" hours before you can redeem key "+ChatColor.RED+key.keyString+ChatColor.GRAY+" again");
+                            player.sendMessage(ChatColor.GRAY.toString()+"You have "+TimeUnit.MILLISECONDS.toHours(actTimeLeft)+" hours and "+( TimeUnit.MILLISECONDS.toMinutes(actTimeLeft) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(actTimeLeft)))+" minutes before you can redeem key "+ChatColor.RED+key.keyString+ChatColor.GRAY+" again");
                         }else if(TimeUnit.MILLISECONDS.toHours(actTimeLeft) >= 24 && TimeUnit.MILLISECONDS.toDays(actTimeLeft) < 365){
-                            player.sendMessage(ChatColor.GRAY.toString()+TimeUnit.MILLISECONDS.toDays(actTimeLeft)+" days before you can redeem key "+ChatColor.RED+key.keyString+ChatColor.GRAY+" again");
+                            player.sendMessage(ChatColor.GRAY.toString()+"You have "+TimeUnit.MILLISECONDS.toDays(actTimeLeft)+" days and "+( TimeUnit.MILLISECONDS.toHours(actTimeLeft) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(actTimeLeft)))+" hours before you can redeem key "+ChatColor.RED+key.keyString+ChatColor.GRAY+" again");
                         }
                     }
                 }else{

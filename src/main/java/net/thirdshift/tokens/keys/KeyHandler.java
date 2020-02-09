@@ -77,11 +77,11 @@ public class KeyHandler {
     }
 
     public void saveKeyCooldown(){
+        plugin.getLogger().info("Saving KeyData");
         keys.forEach((k,v) -> keysToYAML(keyData, v));
     }
 
     public void keysToYAML(File storage, Key key){
-        plugin.getLogger().info("Saving KeyData");
         for (Map.Entry<String, Key> entry : keys.entrySet()) {
             String k = entry.getKey();
             Key v = entry.getValue();

@@ -58,7 +58,7 @@ public final class Tokens extends JavaPlugin {
     @Override
     public void onEnable() {
         int bstatsID=5849;
-        BStats bStats = new BStats(this, bstatsID);
+        new BStats(this, bstatsID);
 
         this.checkUpdates();
 
@@ -180,7 +180,7 @@ public final class Tokens extends JavaPlugin {
 
         // Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
         if (!hasVault && !hasFactions && !hasMCMMO) {
-            this.getLogger().warning("You don't have any supported plugins enabled.");
+            this.getLogger().warning("You don't have any supported plugins installed.");
         }
         initializeTokensAddons();
     }
