@@ -52,7 +52,7 @@ public class MySQLHandler {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        } catch (SQLException e) { //catching errors)
+        } catch (SQLException e) {
             if(e.getSQLState().equals("28000")) {
                 plugin.getLogger().warning("MySQL Login information was wrong! Check you config.yml");
                 plugin.mysqlEnabled = false;
