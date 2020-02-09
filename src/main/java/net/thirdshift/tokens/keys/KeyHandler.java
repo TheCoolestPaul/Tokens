@@ -107,8 +107,7 @@ public class KeyHandler {
                     String keyName = file.getName().substring(0,file.getName().indexOf('.'));
                     if(isValidKey(keyName)) {
                         YamlConfiguration fileconfig = YamlConfiguration.loadConfiguration(file);
-                        Map<String, Object> cooldowns = fileconfig.getConfigurationSection("cooldowns").getValues(false);
-                        keys.get(keyName).cooldowns=cooldowns;
+                        keys.get(keyName).cooldowns= fileconfig.getConfigurationSection("cooldowns").getValues(false);
                     }else{
                         if(file.exists()){
                             boolean hapened = file.delete();
