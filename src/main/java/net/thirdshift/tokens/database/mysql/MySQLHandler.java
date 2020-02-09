@@ -112,14 +112,13 @@ public class MySQLHandler {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, tokens);
             statement.setString(2, player.getUniqueId().toString());
-            ResultSet result = statement.executeQuery();
-            if (result==null){
+            int changed = statement.executeUpdate();
+            if (changed==0){
                 String query2 = "INSERT INTO tokens (uuid, num) VALUES (?, ?);";
                 PreparedStatement statement2 = connection.prepareStatement(query2);
                 statement2.setString(1, player.getUniqueId().toString());
                 statement2.setInt(2, tokens);
-                statement2.executeQuery();
-                plugin.getLogger().info("Added player "+player.getName()+" to MySQL");
+                statement2.executeUpdate();
             }
         } catch(SQLException e) {
             e.printStackTrace();
