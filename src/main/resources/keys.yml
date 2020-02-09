@@ -1,0 +1,42 @@
+#
+# List of keys
+# No spaces allowed!
+#
+#####
+
+keys:
+  - exampleKey
+  - TestKey123
+  - BestKey1234
+
+#####
+
+#
+# Key format:
+# keyName: (CASE SENSITIVE) Name of the key, shown in the table above
+#   enabled: (true/false) Whether or not this key is enabled
+#   one-time: (true/false) Is this key a one-time use key?
+#   tokens: (any integer) How many tokens is the key worth?
+#   cooldown: (any integer) How long until a Player can use it again? (In minutes)
+#
+###
+
+exampleKey:
+  enabled: false
+  one-time: true
+  tokens: 5
+  cooldown: 0
+
+TestKey123:
+  enabled: true
+  one-time: true
+  tokens: 10
+  cooldown: 0
+
+BestKey1234:
+  enabled: true
+  one-time: false
+  tokens: 2
+  cooldown: 60
+
+######

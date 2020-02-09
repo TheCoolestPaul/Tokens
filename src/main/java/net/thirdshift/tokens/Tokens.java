@@ -5,12 +5,19 @@ import net.thirdshift.tokens.commands.CommandRedeem;
 import net.thirdshift.tokens.commands.CommandTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
+import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 public final class Tokens extends JavaPlugin {
 
@@ -44,6 +51,9 @@ public final class Tokens extends JavaPlugin {
 
     //public TokenItemStack tokenItemHandler = new TokenItemStack(); // Coming soon to a Tokens plugin near you
     private TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
+    private FileConfiguration keyConfig = null;
+    private File keyFile = null;
+    public KeyHandler keyHander;
 
     @Override
     public void onEnable() {
@@ -51,6 +61,8 @@ public final class Tokens extends JavaPlugin {
         BStats bStats = new BStats(this, bstatsID);
 
         this.checkUpdates();
+
+        keyHander = new KeyHandler(this);
 
         this.saveDefaultConfig();
         this.reloadConfig();
@@ -60,6 +72,7 @@ public final class Tokens extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        keyHander.saveKeyCooldown();
         if(this.mysqlEnabled){
             mysql.stopSQLConnection();//Cut off any loose bois
         }
@@ -68,6 +81,36 @@ public final class Tokens extends JavaPlugin {
     public void addCommands(){
         this.getCommand("tokens").setExecutor(new CommandTokens(this));
         this.getCommand("redeem").setExecutor(new CommandRedeem(this));
+    }
+
+    public void reloadKeys() {
+        if (keyFile == null) {
+            keyFile = new File(getDataFolder(), "keys.yml");
+        }
+        keyConfig = YamlConfiguration.loadConfiguration(keyFile);
+
+        // Look for defaults in the jar
+        Reader defConfigStream = new InputStreamReader(Objects.requireNonNull(this.getResource("keys.yml")), StandardCharsets.UTF_8);
+        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+        keyConfig.setDefaults(defConfig);
+    }
+
+    public FileConfiguration getCustomConfig() {
+        if (keyConfig == null) {
+            reloadKeys();
+        }
+        return keyConfig;
+    }
+
+    @Override
+    public void saveDefaultConfig() {
+        super.saveDefaultConfig();
+        if (keyFile == null) {
+            keyFile = new File(getDataFolder(), "keys.yml");
+        }
+        if (!keyFile.exists()) {
+            saveResource("keys.yml", false);
+        }
     }
 
     @Override
@@ -223,6 +266,9 @@ public final class Tokens extends JavaPlugin {
         }
         if(this.vaultEnabled){
             str+="_money_";
+        }
+        if(this.keyHander.keys.size()>0){
+            str+="_key_";
         }
         str=str.replace("__", " | ");
         str=str.replace("_", "");

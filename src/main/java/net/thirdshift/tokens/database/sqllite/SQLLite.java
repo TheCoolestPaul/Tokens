@@ -23,7 +23,13 @@ public class SQLLite extends Database{
     // This code isn't mine, it was handed out to learn from
 
     public Connection getSQLConnection() {
-        File dataFolder = new File(plugin.getDataFolder(), dbname+".db");
+        File storageFolder = new File(plugin.getDataFolder(), "Storage");
+        if (!storageFolder.exists()){
+            storageFolder.mkdirs();
+            plugin.getLogger().info("Made /Tokens/Storage/");
+        }
+
+        File dataFolder = new File(storageFolder, dbname+".db");
         if (!dataFolder.exists()){
             try {
                 dataFolder.createNewFile();
@@ -51,9 +57,12 @@ public class SQLLite extends Database{
         try {
             Statement s = connection.createStatement();
             String SQLiteCreateTokensTable = "CREATE TABLE IF NOT EXISTS tokens_table (`player` varchar(32) NOT NULL,`tokens` int(11) NOT NULL,PRIMARY KEY (`player`));";
+            String SQLiteCreateKeysTable = "CREATE TABLE IF NOT EXISTS tokens_keys (`keyName` text(32) NOT NULL,`tokens` int(11) NOT NULL,PRIMARY KEY (`keyName`));";
             s.executeUpdate(SQLiteCreateTokensTable);
+            s.executeUpdate(SQLiteCreateKeysTable);
             s.close();
         } catch (SQLException e) {
+            plugin.getLogger().severe("SQLite error: ");
             e.printStackTrace();
         }
     }
