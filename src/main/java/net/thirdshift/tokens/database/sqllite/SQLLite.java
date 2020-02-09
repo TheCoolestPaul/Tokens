@@ -57,9 +57,7 @@ public class SQLLite extends Database{
         try {
             Statement s = connection.createStatement();
             String SQLiteCreateTokensTable = "CREATE TABLE IF NOT EXISTS tokens_table (`player` varchar(32) NOT NULL,`tokens` int(11) NOT NULL,PRIMARY KEY (`player`));";
-            String SQLiteCreateKeysTable = "CREATE TABLE IF NOT EXISTS tokens_keys (`keyName` text(32) NOT NULL,`tokens` int(11) NOT NULL,PRIMARY KEY (`keyName`));";
             s.executeUpdate(SQLiteCreateTokensTable);
-            s.executeUpdate(SQLiteCreateKeysTable);
             s.close();
         } catch (SQLException e) {
             plugin.getLogger().severe("SQLite error: ");
