@@ -44,6 +44,9 @@ Factions:
 ###
 VaultEco:
   Enabled: false
+  limit-transactions: false
+  transactions-before-cooldown: 5 # Transactions before cooldown
+  transaction-cooldown-time: 5 # In minutes
   Buy-Tokens: false
   Buy-Price: 1500
   Sell-Tokens: true
