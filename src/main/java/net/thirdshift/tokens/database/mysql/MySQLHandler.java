@@ -88,8 +88,10 @@ public class MySQLHandler {
     public int getTokens(Player player){
         int tokens = 0;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT num FROM tokens WHERE uuid = '"+player.getUniqueId().toString()+"';");
+            String query = "SELECT num FROM tokens WHERE uuid = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, player.getUniqueId().toString());
+            ResultSet result = statement.executeQuery();
             if (result == null){
                 setTokens(player, 0);
             }else {
@@ -106,12 +108,18 @@ public class MySQLHandler {
 
     public void setTokens(Player player, int tokens){
         try {
-            Statement statement = connection.createStatement();
-            String state = "UPDATE tokens SET num = "+tokens+" WHERE uuid = '"+player.getUniqueId().toString()+"';";
-            int changed = statement.executeUpdate(state);
-            if (changed==0){
-                String state2 = "INSERT INTO tokens (uuid, num) VALUES ('"+player.getUniqueId().toString()+"', "+tokens+");";
-                statement.execute(state2);
+            String query = "UPDATE tokens SET num = ? WHERE uuid = ?;";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, tokens);
+            statement.setString(2, player.getUniqueId().toString());
+            ResultSet result = statement.executeQuery();
+            if (result==null){
+                String query2 = "INSERT INTO tokens (uuid, num) VALUES (?, ?);";
+                PreparedStatement statement2 = connection.prepareStatement(query2);
+                statement2.setString(1, player.getUniqueId().toString());
+                statement2.setInt(2, tokens);
+                statement2.executeQuery();
+                plugin.getLogger().info("Added player "+player.getName()+" to MySQL");
             }
         } catch(SQLException e) {
             e.printStackTrace();
