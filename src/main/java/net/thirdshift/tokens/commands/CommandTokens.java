@@ -22,7 +22,7 @@ public class CommandTokens implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(args.length==0){
             if(commandSender instanceof Player){
-                commandSender.sendMessage("You have "+ChatColor.GOLD+""+plugin.handler.getTokens((Player) commandSender));
+                commandSender.sendMessage(ChatColor.GRAY+"You have "+ChatColor.GOLD+""+plugin.handler.getTokens((Player) commandSender)+ChatColor.GRAY+" tokens");
                 return true;
             }else return false;
         }
