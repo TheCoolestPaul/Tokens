@@ -91,16 +91,18 @@ public final class Tokens extends JavaPlugin {
 
         // Look for defaults in the jar
         InputStreamReader stream = null;
-        Reader defConfigStream;
+        Reader defConfigStream = null;
         try{
             stream = new InputStreamReader(Objects.requireNonNull(this.getResource("keys.yml")), StandardCharsets.UTF_8);
-            defConfigStream = new InputStreamReader(Objects.requireNonNull(this.getResource("keys.yml")), StandardCharsets.UTF_8);
+            defConfigStream = stream;
             YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
             keyConfig.setDefaults(defConfig);
         }finally{
             try{
                 if(stream!=null)
                     stream.close();
+                if(defConfigStream!=null)
+                    defConfigStream.close();
             }catch(IOException ex){
                 this.getLogger().severe("Error reading keys.yml");
             }
