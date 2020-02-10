@@ -3,6 +3,7 @@ package net.thirdshift.tokens;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.CommandRedeem;
 import net.thirdshift.tokens.commands.CommandTokens;
+import net.thirdshift.tokens.commands.TabTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.keys.KeyHandler;
@@ -81,6 +82,8 @@ public final class Tokens extends JavaPlugin {
     public void addCommands(){
         this.getCommand("tokens").setExecutor(new CommandTokens(this));
         this.getCommand("redeem").setExecutor(new CommandRedeem(this));
+
+        this.getCommand("tokens").setTabCompleter(new TabTokens(this));
     }
 
     public void reloadKeys() {
