@@ -129,18 +129,27 @@ public final class Tokens extends JavaPlugin {
     public void reloadConfig() {
         super.reloadConfig();
         this.mysqlEnabled = this.getConfig().getBoolean("MySQL.Enabled");
+
+        // vault
         this.vaultEnabled = this.getConfig().getBoolean("VaultEco.Enabled");
         this.vaultEnabled = this.getConfig().getBoolean("VaultEco.Enabled");
         this.vaultBuy = this.getConfig().getBoolean("VaultEco.Buy-Tokens");
         this.vaultBuyPrice = this.getConfig().getDouble("VaultEco.Buy-Price");
         this.vaultSell = this.getConfig().getBoolean("VaultEco.Sell-Tokens");
         this.vaultSellPrice = this.getConfig().getDouble("VaultEco.Sell-Price");
+
+        // factions
         this.factionsEnabled = this.getConfig().getBoolean("Factions.Enabled");
         this.tokenToFactionPower = this.getConfig().getInt("Factions.Tokens-To-Power");
+
+        // combatlogx
         this.combatLogXEnabled = this.getConfig().getBoolean("CombatLogX.Enabled");
         this.combatLogXBlockTokens = this.getConfig().getBoolean("CombatLogX.Block-Tokens");
+
+        // mcmmo
         this.mcmmoEnabled = this.getConfig().getBoolean("mcMMO.Enabled");
         this.tokensToMCMMOLevels = this.getConfig().getInt("mcMMO.Tokens-To-Levels");
+
         if (this.mysqlEnabled) {
             this.getLogger().info("Storage Type: [ MySQL ]");
             if(this.sqllite!=null){
@@ -174,7 +183,7 @@ public final class Tokens extends JavaPlugin {
             this.getLogger().warning("Vault addon is enabled but Vault is not installed on the server!");
         }
 
-        // CombatLogX Check fixme: CombatLogX
+        // CombatLogX Check
         Plugin combPlug = this.getServer().getPluginManager().getPlugin("CombatLogX");
         if(combPlug!=null && combPlug.isEnabled()){
             this.hasCombatLogX=true;
@@ -234,18 +243,12 @@ public final class Tokens extends JavaPlugin {
                 this.getLogger().warning("No Vault economy is present but the addon is enabled!");
             }
         }
-        this.vaultBuy = this.getConfig().getBoolean("VaultEco.Buy-Tokens");
-        this.vaultBuyPrice = this.getConfig().getDouble("VaultEco.Buy-Price");
-        this.vaultSell = this.getConfig().getBoolean("VaultEco.Sell-Tokens");
-        this.vaultSellPrice = this.getConfig().getDouble("VaultEco.Sell-Price");
         this.getLogger().info("Hooked into Vault.");
     }
 
     public void factionsIntegration(){
         this.getLogger().info("Hooked into Factions");
         this.hasFactions = true;
-        this.factionsEnabled = this.getConfig().getBoolean("Factions.Enabled");
-        this.tokenToFactionPower = this.getConfig().getInt("Factions.Tokens-To-Power");
     }
 
     public void mcmmoIntegration(){
