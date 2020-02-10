@@ -47,9 +47,6 @@ public final class Tokens extends JavaPlugin {
     public boolean vaultSell = false;
     public double vaultBuyPrice = 0.0;
     public double vaultSellPrice = 0.0;
-    public boolean limitTransactions = false;
-    public int numBeforeLimit = 5;
-    public int minTransactionCooldown = 5;
     public static Economy vaultEcon;
 
     //public TokenItemStack tokenItemHandler = new TokenItemStack(); // Coming soon to a Tokens plugin near you
@@ -140,9 +137,6 @@ public final class Tokens extends JavaPlugin {
         this.vaultBuyPrice = this.getConfig().getDouble("VaultEco.Buy-Price");
         this.vaultSell = this.getConfig().getBoolean("VaultEco.Sell-Tokens");
         this.vaultSellPrice = this.getConfig().getDouble("VaultEco.Sell-Price");
-        this.limitTransactions = this.getConfig().getBoolean("VaultEco.limit-transactions");
-        this.numBeforeLimit = this.getConfig().getInt("VaultEco.transactions-before-cooldown");
-        this.minTransactionCooldown = this.getConfig().getInt("VaultEco.transaction-cooldown-time");
 
         // factions
         this.factionsEnabled = this.getConfig().getBoolean("Factions.Enabled");
