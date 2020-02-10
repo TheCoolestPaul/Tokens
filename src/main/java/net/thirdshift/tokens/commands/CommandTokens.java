@@ -95,8 +95,8 @@ public class CommandTokens implements CommandExecutor {
                         Player target = Bukkit.getPlayer(args[1]);
                         if(target!=null){
                             int num = Integer.parseInt(args[2]);
-                            plugin.handler.setTokens(target, num);
-                            commandSender.sendMessage(ChatColor.GRAY+"Set "+ChatColor.GREEN+""+args[1]+""+ChatColor.GRAY+" tokens to "+ChatColor.GOLD+""+args[2]);
+                            plugin.handler.removeTokens(target, num);
+                            commandSender.sendMessage(ChatColor.GRAY+"You removed "+ChatColor.GOLD+args[2]+ChatColor.GRAY+" tokens from "+args[1]);
                         }else{
                             commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
                         }
