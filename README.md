@@ -27,7 +27,13 @@ Want a plugin on this list? Let me know  [here](https://github.com/TheCoolestPau
 5.  /tokens reload
 6.  Profit??
 
-**How do I use it?**  
+**How do I add keys?**
+
+Checkout the `keys.yml` file, there are three different example keys that you can look at.
+
+Once you edit `keys.yml` you can use /tokens reload to apply your changes in game,
+
+**What are the commands?**  
 
 -   /tokens (Used to show the player how many tokens they have)
 -   /tokens give [player name] [token amount] (Used for players to give tokens to one another)
@@ -36,6 +42,7 @@ Want a plugin on this list? Let me know  [here](https://github.com/TheCoolestPau
 -   /tokens set [player name] [token amount] (Used to set a player's tokens to a number)
 -   /tokens reload (Used to reload the config into the plugin)
 -   /redeem (Command used to show help for redeeming tokens)
+-   /redeem <key> (Command used to redeem a key)
 
 **What are the permissions?**  
 
@@ -47,7 +54,6 @@ Want a plugin on this list? Let me know  [here](https://github.com/TheCoolestPau
 -   tokens.reload (Recommended for admins /tokens reload)
 
 **What if I need support?**  
-
   
-The fastest way to get a response is through my discord support  [here](https://discord.gg/aE2CPPV).  
 If it's a bug report or a plugin support request I use Github  [here](https://github.com/TheCoolestPaul/Tokens/issues)
+If there's anything else I use the "Discussion" page on SpigotMC [here](https://www.spigotmc.org/threads/tokens-multi-plugin-support-mysql-support.399524/)
