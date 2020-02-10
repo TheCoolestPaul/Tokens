@@ -1,3 +1,7 @@
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/TheCoolestPaul/Tokens.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TheCoolestPaul/Tokens/alerts/)
+[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/TheCoolestPaul/Tokens.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TheCoolestPaul/Tokens/context:java)
+[![Build Status](https://travis-ci.com/TheCoolestPaul/Tokens.svg?branch=release)](https://travis-ci.com/TheCoolestPaul/Tokens)
+
 **What is the Tokens plugin?**  
 
 Tokens was initially developed for use in my private server, the idea was to give players a special currency "Tokens" that they can use to allocate to mcMMO Levels, faction power, or convert straight into money. I plan on adding support for many more plugins as the request come in, I will be keeping this plugin up-to-date.​
