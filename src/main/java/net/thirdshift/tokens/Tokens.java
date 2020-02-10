@@ -3,6 +3,7 @@ package net.thirdshift.tokens;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.CommandRedeem;
 import net.thirdshift.tokens.commands.CommandTokens;
+import net.thirdshift.tokens.commands.TabRedeem;
 import net.thirdshift.tokens.commands.TabTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
@@ -10,6 +11,7 @@ import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -56,10 +58,15 @@ public final class Tokens extends JavaPlugin {
     private File keyFile = null;
     public KeyHandler keyHander;
 
+    private PluginCommand tokensCommand;
+    private PluginCommand redeemCommand;
+
     @Override
     public void onEnable() {
-        int bstatsID=5849;
-        new BStats(this, bstatsID);
+        tokensCommand = this.getCommand("tokens");
+        redeemCommand = this.getCommand("redeem");
+
+        new BStats(this, 5849);
 
         this.checkUpdates();
 
@@ -68,7 +75,7 @@ public final class Tokens extends JavaPlugin {
         this.saveDefaultConfig();
         this.reloadConfig();
 
-        this.addCommands();
+        this.workCommands();
     }
 
     @Override
@@ -79,11 +86,12 @@ public final class Tokens extends JavaPlugin {
         }
     }
 
-    public void addCommands(){
-        this.getCommand("tokens").setExecutor(new CommandTokens(this));
-        this.getCommand("redeem").setExecutor(new CommandRedeem(this));
+    public void workCommands(){
+        tokensCommand.setExecutor(new CommandTokens(this));
+        redeemCommand.setExecutor(new CommandRedeem(this));
 
-        this.getCommand("tokens").setTabCompleter(new TabTokens(this));
+        tokensCommand.setTabCompleter(new TabTokens(this));
+        redeemCommand.setTabCompleter(new TabRedeem(this));
     }
 
     public void reloadKeys() {

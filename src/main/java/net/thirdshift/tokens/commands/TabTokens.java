@@ -46,9 +46,7 @@ public class TabTokens implements TabCompleter {
                 players.forEach((ply)-> playerNames.add(ply.getName()));
                 completions.addAll(playerNames);
             }
-
-            return StringUtil.copyPartialMatches(args[0], completions, ret);
-
+            StringUtil.copyPartialMatches(args[0], completions, ret);
         }else if(args.length==2){
             if(args[0].equalsIgnoreCase("give"))
                 return StringUtil.copyPartialMatches(args[1], PlayerListUtil.playerListUtil((Player) sender, false), ret);
@@ -59,6 +57,6 @@ public class TabTokens implements TabCompleter {
             if(args[0].equalsIgnoreCase("remove") && sender.hasPermission("tokens.remove"))
                 return StringUtil.copyPartialMatches(args[1], PlayerListUtil.playerListUtil((Player) sender, true), ret);
         }
-        return completions;
+        return ret;
     }
 }
