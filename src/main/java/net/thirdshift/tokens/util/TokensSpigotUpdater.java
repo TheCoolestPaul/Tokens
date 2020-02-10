@@ -45,7 +45,14 @@ public class TokensSpigotUpdater {
 
     public boolean checkForUpdates() throws Exception {
         URLConnection con = checkURL.openConnection();
-        this.newVersion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
+        InputStreamReader streamReader = null;
+        try {
+            streamReader = new InputStreamReader(con.getInputStream());
+            this.newVersion = new BufferedReader(streamReader).readLine();
+        }finally{
+            if(streamReader!=null)
+                streamReader.close();
+        }
         String insVer = plugin.getDescription().getVersion();
         int compare = VersionCompare(insVer, newVersion);
         if(compare==0) {
