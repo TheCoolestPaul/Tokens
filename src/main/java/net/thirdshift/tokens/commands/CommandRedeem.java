@@ -25,7 +25,7 @@ public class CommandRedeem implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(commandSender instanceof Player && commandSender.hasPermission("tokens.redeem")){
             if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
-                commandSender.sendMessage("You can't use Tokens while in combat!");
+                commandSender.sendMessage(ChatColor.RED+"You can't use Tokens while in combat!");
                 return true;
             }
             if (args.length == 0) {

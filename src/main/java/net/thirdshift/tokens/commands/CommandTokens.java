@@ -22,7 +22,7 @@ public class CommandTokens implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(args.length==0){
             if(commandSender instanceof Player){
-                commandSender.sendMessage(ChatColor.GRAY+"You have "+ChatColor.GOLD+""+plugin.handler.getTokens((Player) commandSender)+ChatColor.GRAY+" tokens");
+                commandSender.sendMessage(ChatColor.GRAY+"You have "+ChatColor.GOLD + plugin.handler.getTokens((Player) commandSender)+ChatColor.GRAY+" tokens");
                 return true;
             }else return false;
         }
@@ -30,7 +30,7 @@ public class CommandTokens implements CommandExecutor {
             if (commandSender instanceof Player) {
                 if (commandSender.hasPermission("tokens.add")) {
                     if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
-                        commandSender.sendMessage("You can't use Tokens while in combat!");
+                        commandSender.sendMessage(ChatColor.RED+"You can't use Tokens while in combat!");
                         return true;
                     }
                     if (args.length == 3) {
@@ -38,9 +38,9 @@ public class CommandTokens implements CommandExecutor {
                         if(target!=null) {
                             int num = Integer.parseInt(args[2]);
                             plugin.handler.addTokens(target, num);
-                            commandSender.sendMessage(ChatColor.GRAY+"Added "+ChatColor.GOLD+""+args[2]+" tokens for "+args[1]);
+                            commandSender.sendMessage(ChatColor.GRAY+"Added "+ChatColor.GOLD+""+args[2]+ChatColor.GRAY+" tokens for "+args[1]);
                         }else{
-                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
                         }
                     } else {
                         commandSender.sendMessage(ChatColor.RED + "Invalid command use.");
@@ -52,9 +52,9 @@ public class CommandTokens implements CommandExecutor {
                 if(target!=null) {
                     int num = Integer.parseInt(args[2]);
                     plugin.handler.addTokens(target, num);
-                    commandSender.sendMessage(ChatColor.GRAY+"Added "+ChatColor.GOLD+""+args[2]+" tokens for "+args[1]);
+                    commandSender.sendMessage(ChatColor.GRAY+"Added "+ChatColor.GOLD+args[2]+ChatColor.GRAY+" tokens for "+args[1]);
                 }else{
-                    commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                    commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
                 }
             }
             return true;
@@ -71,7 +71,7 @@ public class CommandTokens implements CommandExecutor {
                             plugin.handler.setTokens(target, Integer.parseInt(args[2]));
                             commandSender.sendMessage("Set "+target.getName()+"'s tokens to "+args[2]);
                         }else{
-                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
                         }
                     }
                 }else{
@@ -80,7 +80,7 @@ public class CommandTokens implements CommandExecutor {
                         plugin.handler.setTokens(target, Integer.parseInt(args[2]));
                         commandSender.sendMessage("Set "+target.getName()+"'s tokens to "+args[2]);
                     }else{
-                        commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                        commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
                     }
                 }
             }else{
@@ -98,7 +98,7 @@ public class CommandTokens implements CommandExecutor {
                             plugin.handler.setTokens(target, num);
                             commandSender.sendMessage(ChatColor.GRAY+"Set "+ChatColor.GREEN+""+args[1]+""+ChatColor.GRAY+" tokens to "+ChatColor.GOLD+""+args[2]);
                         }else{
-                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
                         }
                     }else{
                         commandSender.sendMessage(ChatColor.RED + "Invalid command use.");
@@ -113,7 +113,7 @@ public class CommandTokens implements CommandExecutor {
                         plugin.handler.setTokens(target, num);
                         commandSender.sendMessage(ChatColor.GRAY+"Set "+ChatColor.GREEN+""+args[1]+""+ChatColor.GRAY+" tokens to "+ChatColor.GOLD+""+args[2]);
                     }else{
-                        commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                        commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
                     }
                 }else{
                     commandSender.sendMessage(ChatColor.RED + "Invalid command use.");
@@ -138,10 +138,10 @@ public class CommandTokens implements CommandExecutor {
                             }
                             plugin.handler.removeTokens((Player) commandSender, num);
                             plugin.handler.addTokens(target, num);
-                            commandSender.sendMessage("You sent " + ChatColor.GOLD + "" + args[2] + "" + ChatColor.WHITE + " token(s) to " + ChatColor.GREEN + "" + target.getName());
-                            target.sendMessage("You received " + ChatColor.GOLD + "" + args[2] + "" + ChatColor.WHITE + " token(s) from " + ChatColor.GREEN + "" + commandSender.getName());
+                            commandSender.sendMessage("You sent " + ChatColor.GOLD + args[2] + ChatColor.WHITE + " token(s) to " + ChatColor.GREEN + target.getName());
+                            target.sendMessage("You received " + ChatColor.GOLD + args[2] + ChatColor.WHITE + " token(s) from " + ChatColor.GREEN + commandSender.getName());
                         } else {
-                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player " + args[1] + ". did you spell their username correct?");
+                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
                             commandSender.sendMessage(ChatColor.GRAY+"Command usage: /tokens give <player name> <tokens amount>");
                         }
                     }else{
@@ -179,7 +179,7 @@ public class CommandTokens implements CommandExecutor {
                 }
             }else return false;
             return true;
-        } else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("h")) {
+        } else if(args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("h") || args[0].equalsIgnoreCase("?")) {
             commandSender.sendMessage(ChatColor.GREEN + "===============[ " + ChatColor.GOLD + "Tokens Help" + ChatColor.GREEN + " ]===============");
             commandSender.sendMessage("/tokens help " + ChatColor.GRAY + " Displays this helpful text");
             commandSender.sendMessage("/tokens" + ChatColor.GRAY + " Displays your number of tokens");
@@ -191,9 +191,9 @@ public class CommandTokens implements CommandExecutor {
             if(commandSender instanceof Player) {
                 if (commandSender.hasPermission("tokens.others")) {
                     if (target != null) {
-                        commandSender.sendMessage(args[0] + " has " + plugin.handler.getTokens(target) + " tokens.");
+                        commandSender.sendMessage(args[0] + ChatColor.GRAY + " has " + ChatColor.GOLD + plugin.handler.getTokens(target) + ChatColor.GRAY + " tokens.");
                     } else {
-                        commandSender.sendMessage("Couldn't find a player with the name " + args[0]);
+                        commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[0] + ChatColor.RED +". did you spell their username correct?");
                     }
                     return true;
                 } else {
