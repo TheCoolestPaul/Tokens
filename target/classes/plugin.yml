@@ -1,15 +1,15 @@
 name: Tokens
-version: 3.6.0
+version: 3.7.5
 main: net.thirdshift.tokens.Tokens
 softdepend: [Factions, mcMMO, Vault, CombatLogX]
-api-version: 1.14
+api-version: 1.15
 authors: [TheCoolestPaul]
 description: Adding another currency into Minecraft
 commands:
   tokens:
     permission: tokens.use
     description: Main command for Tokens
-    usage: /tokens
+    usage: /tokens help
   redeem:
     permission: tokens.redeem
     description: Command for redeeming Tokens
@@ -18,6 +18,12 @@ permissions:
   tokens.use:
     default: true
     description: Required to use /tokens
+  tokens.others:
+    default: false
+    description: Required to use /tokens (player name)
+  tokens.give:
+    default: true
+    description: Required to use /tokes give (target player) (token amount)
   tokens.reload:
     default: false
     description: Required to use /tokens reload
