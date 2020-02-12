@@ -79,7 +79,12 @@ public final class Tokens extends JavaPlugin {
 
         this.workCommands();
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
-            new TokensPAPIExpansion(this).register();
+            boolean tokensExpansion = new TokensPAPIExpansion(this).register();
+            if(tokensExpansion) {
+                this.getLogger().info("Successfully registered into PlaceholderAPI");
+            }else{
+                this.getLogger().warning("Couldn't register into PlaceholderAPI");
+            }
         }
     }
 
