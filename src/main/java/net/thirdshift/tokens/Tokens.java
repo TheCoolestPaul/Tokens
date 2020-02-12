@@ -9,8 +9,10 @@ import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.util.BStats;
+import net.thirdshift.tokens.util.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -76,6 +78,9 @@ public final class Tokens extends JavaPlugin {
         this.reloadConfig();
 
         this.workCommands();
+        if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
+            new TokensPAPIExpansion(this).register();
+        }
     }
 
     @Override
@@ -236,18 +241,14 @@ public final class Tokens extends JavaPlugin {
     }
 
     public void initializeTokensAddons(){
-        if(this.vaultEnabled && this.hasVault){
+        if(this.vaultEnabled && this.hasVault)
             vaultIntegration();
-        }
-        if(this.factionsEnabled && this.hasFactions){
+        if(this.factionsEnabled && this.hasFactions)
             factionsIntegration();
-        }
-        if(this.combatLogXEnabled && this.hasCombatLogX){
+        if(this.combatLogXEnabled && this.hasCombatLogX)
             combatLogXIntegration();
-        }
-        if(this.mcmmoEnabled && this.hasMCMMO){
+        if(this.mcmmoEnabled && this.hasMCMMO)
             mcmmoIntegration();
-        }
     }
 
     public void vaultIntegration(){
