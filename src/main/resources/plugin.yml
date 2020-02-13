@@ -18,21 +18,24 @@ permissions:
   tokens.use:
     default: true
     description: Required to use /tokens
-  tokens.others:
-    default: false
-    description: Required to use /tokens (player name)
-  tokens.give:
-    default: true
-    description: Required to use /tokes give (target player) (token amount)
-  tokens.reload:
-    default: false
-    description: Required to use /tokens reload
   tokens.redeem:
     default: true
     description: Required to use /redeem
+  tokens.give:
+    default: true
+    description: Required to use /tokens give (target player) (token amount)
+  tokens.others:
+    default: false
+    description: Required to use /tokens (player name)
+  tokens.reload:
+    default: false
+    description: Required to use /tokens reload
   tokens.set:
+    default: false
     description: Required to use /tokens set
   tokens.add:
+    default: false
     description: Required to use /tokens add
   tokens.remove:
+    default: false
     description: Required to use /tokens remove

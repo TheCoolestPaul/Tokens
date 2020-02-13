@@ -18,7 +18,7 @@ public class KeyHandler {
 
     public KeyHandler(Tokens instance){
         this.plugin=instance;
-        this.keyConfig=plugin.getCustomConfig();
+        this.keyConfig=plugin.getKeyConfig();
         this.keys=new HashMap<>();
         initKeys();
     }

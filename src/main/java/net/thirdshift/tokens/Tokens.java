@@ -8,11 +8,13 @@ import net.thirdshift.tokens.commands.TabTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.keys.KeyHandler;
+import net.thirdshift.tokens.messages.MessageHandler;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -60,11 +62,19 @@ public final class Tokens extends JavaPlugin {
     private File keyFile = null;
     public KeyHandler keyHander;
 
+    public MessageHandler messageHandler;
+    private File messageFile = null;
+    private FileConfiguration messageConfig = null;
+
     private PluginCommand tokensCommand;
     private PluginCommand redeemCommand;
 
     @Override
     public void onEnable() {
+
+        this.messageHandler = new MessageHandler(this);
+        this.messageHandler.loadMessages();
+
         tokensCommand = this.getCommand("tokens");
         redeemCommand = this.getCommand("redeem");
 
@@ -125,7 +135,40 @@ public final class Tokens extends JavaPlugin {
         }
     }
 
-    public FileConfiguration getCustomConfig() {
+    public void reloadMessages() {
+        if (messageFile == null) {
+            messageFile = new File(getDataFolder(), "messages.yml");
+        }
+        messageConfig = YamlConfiguration.loadConfiguration(messageFile);
+
+        // Look for defaults in the jar
+        InputStreamReader stream = null;
+        Reader defConfigStream = null;
+        try{
+            stream = new InputStreamReader(Objects.requireNonNull(this.getResource("messages.yml")), StandardCharsets.UTF_8);
+            defConfigStream = stream;
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            messageConfig.setDefaults(defConfig);
+        }finally{
+            try{
+                if(stream!=null)
+                    stream.close();
+                if(defConfigStream!=null)
+                    defConfigStream.close();
+            }catch(IOException ex){
+                this.getLogger().severe("Error reading keys.yml");
+            }
+        }
+    }
+
+    public FileConfiguration getMessageConfig(){
+        if (messageConfig == null){
+            reloadMessages();
+        }
+        return messageConfig;
+    }
+
+    public FileConfiguration getKeyConfig() {
         if (keyConfig == null) {
             reloadKeys();
         }
@@ -140,6 +183,12 @@ public final class Tokens extends JavaPlugin {
         }
         if (!keyFile.exists()) {
             saveResource("keys.yml", false);
+        }
+        if (messageFile == null){
+            messageFile = new File(getDataFolder(), "messages.yml");
+        }
+        if (!messageFile.exists()){
+            saveResource("messages.yml", false);
         }
     }
 

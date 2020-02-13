@@ -1,5 +1,24 @@
 #
+# This file will handle all messages player's will see in-game.
+# Edit this to match your language, or, to your own custom liking.
 #
+#
+# All flags (%tokens%, %player%, &colors) can be found |
+#                                                      V
+# https://github.com/TheCoolestPaul/Tokens/wiki/All-messages.yml-flags
 #
 #
 #######
+
+tokens:
+  main: "&7You have &6%tokens% &7tokens"
+  give:
+    sender: "&7You sent &6%tokens% &7tokens to &e%target%"
+    receiver: "&e%sender%&7 sent &6%tokens% &7tokens to you"
+redeem:
+  mcmmo: "&7You redeemed &6%tokens% &7tokens for the skill &8%skillname%"
+  factions: "&7You redeemed &6%tokens% &7tokens for faction power"
+  vault:
+    sell: "&7You redeemed &6%tokens% &7tokens for &a$%money%"
+combatlogx:
+  deny: "&4You can't use tokens while in combat!"
