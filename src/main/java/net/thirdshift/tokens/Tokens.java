@@ -159,6 +159,7 @@ public final class Tokens extends JavaPlugin {
                 this.getLogger().severe("Error reading keys.yml");
             }
         }
+        messageHandler.loadMessages();
     }
 
     public FileConfiguration getMessageConfig(){

@@ -4,7 +4,6 @@ import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import net.thirdshift.tokens.messages.playerTypes.PlayerSender;
 import net.thirdshift.tokens.messages.playerTypes.PlayerTarget;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -26,16 +25,26 @@ public class Message {
         String ret = formatted;
         for(Object obj : objects) {
             if (obj instanceof PlayerSender) {
-                ret = formatted.replace("%sender%", ((Player) obj).getDisplayName());
-            }else if(obj instanceof PlayerTarget) {
-                ret = formatted.replace("%target%", ((PlayerTarget) obj).getDisplayName());
-            }else if(obj instanceof Integer){
-                ret = formatted.replace("%tokens%", String.valueOf(obj));
-            }else if (obj instanceof PrimarySkillType){
-                ret = formatted.replace("%skillName%", ((PrimarySkillType) obj).getName());
+                ret = ret.replace("%sender%", ((PlayerSender) obj).player);
+            }
+            if(obj instanceof PlayerTarget) {
+                ret = ret.replace("%target%", ((PlayerTarget) obj).player);
+            }
+            if(obj instanceof Integer){
+                ret = ret.replace("%tokens%", String.valueOf(obj));
+            }
+            if (obj instanceof PrimarySkillType){
+                ret = ret.replace("%skillName%", ((PrimarySkillType) obj).getName());
+            }
+            if(obj instanceof String){
+                ret = ret.replace("%command_usage%", obj.toString());
             }
         }
         return ret;
+    }
+
+    public boolean isEmpty(){
+        return this.formatted.isEmpty();
     }
 
     public String getRaw() {

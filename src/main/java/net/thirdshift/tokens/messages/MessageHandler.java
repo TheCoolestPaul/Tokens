@@ -3,7 +3,6 @@ package net.thirdshift.tokens.messages;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,9 @@ public class MessageHandler {
         this.plugin=instance;
     }
 
-    public String getMessage(String path, List<Object> objectList){
+    public Message getMessage(String path){ return messageList.get(path); }
+
+    public String useMessage(String path, List<Object> objectList){
         return messageList.get(path).use(objectList);
     }
 
@@ -35,11 +36,5 @@ public class MessageHandler {
         messageList.put("redeem.factions", new Message(messageConfig.getString("redeem.factions")));
         messageList.put("redeem.vault.sell", new Message(messageConfig.getString("redeem.vault.sell")));
         messageList.put("combatlogx.deny", new Message(messageConfig.getString("combatlogx.deny")));
-
-        // This works!
-        List<Object> stuff = new ArrayList<>();
-        stuff.add(420);
-        plugin.getLogger().severe(messageList.get("tokens.main").use(stuff));
-
     }
 }
