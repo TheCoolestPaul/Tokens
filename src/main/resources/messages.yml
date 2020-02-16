@@ -33,7 +33,7 @@ tokens:
 redeem:
   mcmmo:
     redeemed: "&7You redeemed &6%tokens% &7tokens for the skill &8%skill_name%"
-    invalid-skill: "&4Invalid skill name. &7Avaliable skills are: %skill_list%"
+    invalid-skill: "&4Invalid skill name. &7Available skills are: %skill_list%"
   factions: "&7You redeemed &6%tokens% &7tokens for faction power. Max power is now &e%power%"
   vault:
     sell: "&7You redeemed &6%tokens% &7tokens for &a$%money%"
