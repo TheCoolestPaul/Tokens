@@ -10,14 +10,6 @@ MySQL:
     SSL: false
     Port: 3306
     Address: localhost
-######### Plugin Settings #########
-
-#
-# use-enderchest: (true/false) Can players pay with tokens being in their enderchest?
-###
-use-enderchest: true
-
-###################################
 
 #
 # Settings for mcMMO compatibility
@@ -39,18 +31,6 @@ mcMMO:
 Factions:
   Enabled: false
   Tokens-To-Power: 2
-
-#
-#  Settings for CombatLogX compatibility
-#
-#  Enabled: (true/false) Is the support enabled?
-#  Block-Tokens: (true/false) Are the token commands blocked in combat?
-#  ^ This option kinda disables the use of hooking into combat log but ¯\_(ツ)_/¯ more options is better?
-#
-###
-CombatLogX:
-  Enabled: false
-  Block-Tokens: true
 
 #
 # Settings for Vault Economy compatibility
