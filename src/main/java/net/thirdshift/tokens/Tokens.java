@@ -14,7 +14,6 @@ import net.thirdshift.tokens.util.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -72,6 +71,9 @@ public final class Tokens extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        this.saveDefaultConfig();
+        this.reloadConfig();
+
         this.messageHandler = new MessageHandler(this);
         this.messageHandler.loadMessages();
 
@@ -83,9 +85,6 @@ public final class Tokens extends JavaPlugin {
         this.checkUpdates();
 
         keyHander = new KeyHandler(this);
-
-        this.saveDefaultConfig();
-        this.reloadConfig();
 
         this.workCommands();
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){

@@ -3,8 +3,8 @@ package net.thirdshift.tokens.commands;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.commands.redeem.vault;
-import net.thirdshift.tokens.messages.playerTypes.PlayerSender;
-import net.thirdshift.tokens.messages.playerTypes.PlayerTarget;
+import net.thirdshift.tokens.messages.messageData.PlayerSender;
+import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -118,31 +118,63 @@ public class CommandTokens implements CommandExecutor {
                         if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
                             if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                                 List<Object> objects = new ArrayList<>();
-                                objects.add(new PlayerSender((Player) commandSender));
+                                objects.add(new PlayerSender(commandSender));
                                 commandSender.sendMessage(plugin.messageHandler.useMessage("combatlogx.deny", objects));
                             }
                             return true;
                         }
                         Player target = Bukkit.getPlayer(args[1]);
                         if(target!=null){
-                            plugin.handler.setTokens(target, Integer.parseInt(args[2]));
-                            commandSender.sendMessage("Set "+target.getName()+"'s tokens to "+args[2]);
+                            int num = Integer.parseInt(args[2]);
+                            plugin.handler.setTokens(target, num);
+                            List<Object> objects = new ArrayList<>();
+                            objects.add(num);
+                            objects.add(new PlayerSender(commandSender));
+                            objects.add(new PlayerTarget(target));
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
+                            target.sendMessage(plugin.messageHandler.useMessage("tokens.set.receiver", objects));
                         }else{
-                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
+                            if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
+                                List<Object> objects = new ArrayList<>();
+                                objects.add(new PlayerSender(commandSender));
+                                objects.add(new PlayerTarget(args[1]));
+                                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+                            }
                         }
                     }
                 }else{
                     Player target = Bukkit.getPlayer(args[1]);
                     if(target!=null){
-                        plugin.handler.setTokens(target, Integer.parseInt(args[2]));
-                        commandSender.sendMessage("Set "+target.getName()+"'s tokens to "+args[2]);
+                        int num = Integer.parseInt(args[2]);
+                        plugin.handler.setTokens(target, num);
+                        List<Object> objects = new ArrayList<>();
+                        objects.add(num);
+                        objects.add(new PlayerSender(commandSender));
+                        objects.add(new PlayerTarget(target));
+                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
+                        target.sendMessage(plugin.messageHandler.useMessage("tokens.receiver", objects));
                     }else{
-                        commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
+                        if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
+                            List<Object> objects = new ArrayList<>();
+                            objects.add(new PlayerSender(commandSender.getName()));
+                            objects.add(new PlayerTarget(args[1]));
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+                        }
                     }
                 }
             }else{
-                commandSender.sendMessage(ChatColor.RED + "Invalid command use.");
-                commandSender.sendMessage(ChatColor.GRAY + "Command usage: /tokens set <player name> <tokens amount>");
+                if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.message").isEmpty()){
+                    List<Object> objects = new ArrayList<>();
+                    objects.add(new PlayerSender((Player)commandSender));
+                    objects.add("/tokens set <player name> <tokens amount>");
+                    commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.message", objects));
+                }
+                if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command-correction").isEmpty()){
+                    List<Object> objects = new ArrayList<>();
+                    objects.add(new PlayerSender((Player)commandSender));
+                    objects.add("/tokens set <player name> <tokens amount>");
+                    commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+                }
             }
             return true;
         }else if (args[0].equalsIgnoreCase("remove")){
@@ -153,13 +185,37 @@ public class CommandTokens implements CommandExecutor {
                         if(target!=null){
                             int num = Integer.parseInt(args[2]);
                             plugin.handler.removeTokens(target, num);
-                            commandSender.sendMessage(ChatColor.GRAY+"You removed "+ChatColor.GOLD+args[2]+ChatColor.GRAY+" tokens from "+args[1]);
+                            List<Object> objects = new ArrayList<>();
+                            objects.add(new PlayerSender(commandSender));
+                            objects.add(new PlayerTarget(target));
+                            objects.add(num);
+                            if(!plugin.messageHandler.getMessage("tokens.remove.sender").isEmpty()){
+                                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.remove.sender", objects));
+                            }
+                            if(!plugin.messageHandler.getMessage("tokens.remove.receiver").isEmpty()){
+                                target.sendMessage(plugin.messageHandler.useMessage("tokens.remove.receiver", objects));
+                            }
                         }else{
-                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
+                            if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
+                                List<Object> objects = new ArrayList<>();
+                                objects.add(new PlayerSender(commandSender));
+                                objects.add(new PlayerTarget(args[1]));
+                                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+                            }
                         }
                     }else{
-                        commandSender.sendMessage(ChatColor.RED + "Invalid command use.");
-                        commandSender.sendMessage(ChatColor.GRAY + "Command usage: /tokens remove <player name> <tokens amount>");
+                        if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.message").isEmpty()){
+                            List<Object> objects = new ArrayList<>();
+                            objects.add(new PlayerSender(commandSender));
+                            objects.add("/tokens remove <player name> <tokens amount>");
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.message", objects));
+                        }
+                        if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command-correction").isEmpty()){
+                            List<Object> objects = new ArrayList<>();
+                            objects.add(new PlayerSender(commandSender));
+                            objects.add("/tokens remove <player name> <tokens amount>");
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+                        }
                     }
                 }else return false;
             }else{
@@ -168,13 +224,37 @@ public class CommandTokens implements CommandExecutor {
                     if(target!=null){
                         int num = Integer.parseInt(args[2]);
                         plugin.handler.setTokens(target, num);
-                        commandSender.sendMessage(ChatColor.GRAY+"Set "+ChatColor.GREEN+""+args[1]+""+ChatColor.GRAY+" tokens to "+ChatColor.GOLD+""+args[2]);
+                        List<Object> objects = new ArrayList<>();
+                        objects.add(num);
+                        objects.add(new PlayerSender(commandSender));
+                        objects.add(new PlayerTarget(target));
+                        if(!plugin.messageHandler.getMessage("tokens.set.sender").isEmpty()) {
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
+                        }
+                        if(plugin.messageHandler.getMessage("tokens.set.receiver").isEmpty()){
+                            target.sendMessage(plugin.messageHandler.useMessage("tokens.set.receiver", objects));
+                        }
                     }else{
-                        commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
+                        if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
+                            List<Object> objects = new ArrayList<>();
+                            objects.add(new PlayerSender(commandSender.getName()));
+                            objects.add(new PlayerTarget(args[1]));
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+                        }
                     }
                 }else{
-                    commandSender.sendMessage(ChatColor.RED + "Invalid command use.");
-                    commandSender.sendMessage(ChatColor.GRAY + "Command usage: /tokens remove <player name> <tokens amount>");
+                    if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.message").isEmpty()){
+                        List<Object> objects = new ArrayList<>();
+                        objects.add(new PlayerSender(commandSender));
+                        objects.add("/tokens remove <player name> <tokens amount>");
+                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.message", objects));
+                    }
+                    if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command-correction").isEmpty()){
+                        List<Object> objects = new ArrayList<>();
+                        objects.add(new PlayerSender(commandSender));
+                        objects.add("/tokens remove <player name> <tokens amount>");
+                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+                    }
                 }
             }
             return true;
@@ -208,8 +288,12 @@ public class CommandTokens implements CommandExecutor {
                             commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.give.sender", stuff));
                             target.sendMessage(plugin.messageHandler.useMessage("tokens.give.receiver", stuff));
                         } else {
-                            commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[1] + ChatColor.RED +". did you spell their username correct?");
-                            commandSender.sendMessage(ChatColor.GRAY+"Command usage: /tokens give <player name> <tokens amount>");
+                            if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
+                                List<Object> objects = new ArrayList<>();
+                                objects.add(new PlayerSender(commandSender.getName()));
+                                objects.add(new PlayerTarget(args[1]));
+                                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+                            }
                         }
                     }else{
                         commandSender.sendMessage(ChatColor.GRAY+"You don't have "+ChatColor.GOLD+""+num+""+ChatColor.GRAY+" tokens.");
@@ -259,9 +343,20 @@ public class CommandTokens implements CommandExecutor {
             if(commandSender instanceof Player) {
                 if (commandSender.hasPermission("tokens.others")) {
                     if (target != null) {
-                        commandSender.sendMessage(args[0] + ChatColor.GRAY + " has " + ChatColor.GOLD + plugin.handler.getTokens(target) + ChatColor.GRAY + " tokens.");
+                        if(!plugin.messageHandler.getMessage("tokens.others").isEmpty()){
+                            List<Object> objects = new ArrayList<>();
+                            objects.add(new PlayerTarget(target));
+                            objects.add(new PlayerSender(commandSender));
+                            objects.add(plugin.handler.getTokens(target));
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.others", objects));
+                        }
                     } else {
-                        commandSender.sendMessage(ChatColor.RED+"Couldn't find player "+ ChatColor.GRAY + args[0] + ChatColor.RED +". did you spell their username correct?");
+                        if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
+                            List<Object> objects = new ArrayList<>();
+                            objects.add(new PlayerSender(commandSender.getName()));
+                            objects.add(new PlayerTarget(args[0]));
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+                        }
                     }
                     return true;
                 } else {
@@ -269,14 +364,25 @@ public class CommandTokens implements CommandExecutor {
                 }
             }else{
                 if (target!=null){
-                    commandSender.sendMessage(args[0] + " has " + plugin.handler.getTokens(target) + " tokens.");
+                    if(!plugin.messageHandler.getMessage("tokens.others").isEmpty()){
+                        List<Object> objects = new ArrayList<>();
+                        objects.add(new PlayerTarget(target));
+                        objects.add(new PlayerSender(commandSender));
+                        objects.add(plugin.handler.getTokens(target));
+                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.others", objects));
+                    }
                 }else{
-                    commandSender.sendMessage("Couldn't find a player with the name " + args[0]);
+                    if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
+                        List<Object> objects = new ArrayList<>();
+                        objects.add(new PlayerSender(commandSender.getName()));
+                        objects.add(new PlayerTarget(args[0]));
+                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+                    }
                 }
                 return true;
             }
         }else{
-           return false;// Server used /tokens command
+           return false;
         }
     }
 }

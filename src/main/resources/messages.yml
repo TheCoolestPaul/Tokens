@@ -12,27 +12,34 @@
 
 tokens:
   main: "&7You have &6%tokens% &7tokens"
+  others: "&e%target% &7has &6%tokens% &7tokens"
   add:
-    sender: "&7You added &6%tokens% &7tokens to %target%'s tokens."
+    sender: "&7You added &6%tokens% &7tokens to %target%&7's tokens."
     receiver: "" # I left this blank so the player doesn't know who added the Tokens.
   give:
     sender: "&7You sent &6%tokens% &7tokens to &e%target%"
     receiver: "&e%sender%&7 sent &6%tokens% &7tokens to you"
   remove:
-    sender: ""
+    sender: "&7You removed &5%tokens% &7tokens from &e%target%"
     receiver: "" # I left this blank so the player doesn't know who removed the Tokens.
   set:
-    sender: ""
+    sender: "&7You set &5%tokens% &7tokens to &e%target%"
     receiver: "" # I left this blank so the player doesn't know who set the Tokens.
   errors:
-    no-player: "&4Couldn't find player &7%target% %4. Did you spell their username correctly?"
+    no-player: "&4Couldn't find player &7%target%&4. Did you spell their username correctly?"
     invalid-command:
       message: "&4Invalid command use."
       correction: "&7Command usage: %command_usage%"
 redeem:
-  mcmmo: "&7You redeemed &6%tokens% &7tokens for the skill &8%skillname%"
-  factions: "&7You redeemed &6%tokens% &7tokens for faction power"
+  mcmmo:
+    redeemed: "&7You redeemed &6%tokens% &7tokens for the skill &8%skill_name%"
+    invalid-skill: "&4Invalid skill name. &7Avaliable skills are: %skill_list%"
+  factions: "&7You redeemed &6%tokens% &7tokens for faction power. Max power is now &e%power%"
   vault:
     sell: "&7You redeemed &6%tokens% &7tokens for &a$%money%"
+    buy: "&7You bought &6%tokens%&7 tokens for &a$%money%"
+  errors:
+    not-enough: "&4You don't have enough tokens for that!"
+    no-money: "&4You don't have &a$%money%&7 for &6%tokens%&7 tokens!"
 combatlogx:
   deny: "&4You can't use tokens while in combat!"
