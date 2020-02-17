@@ -6,7 +6,7 @@
 
     <groupId>net.thirdshift</groupId>
     <artifactId>Tokens</artifactId>
-    <version>3.8.0</version>
+    <version>3.8.1</version>
 
     <issueManagement>
         <url>https://github.com/TheCoolestPaul/Tokens/issues</url>

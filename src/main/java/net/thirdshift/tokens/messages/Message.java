@@ -49,9 +49,9 @@ public class Message {
             if(obj instanceof Double){
                 ret = ret.replace("%money%", obj.toString());
             }
-            if(obj instanceof FPlayer){
+            /*if(obj instanceof FPlayer){
                 ret = ret.replace("%power%", String.valueOf(((FPlayer) obj).getPowerMax()));
-            }
+            }*/
         }
         return ret;
     }
