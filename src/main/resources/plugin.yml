@@ -2,7 +2,7 @@ name: Tokens
 version: ${project.version}
 main: net.thirdshift.tokens.Tokens
 softdepend: [Factions, mcMMO, Vault, CombatLogX, PlaceholderAPI]
-api-version: 1.15
+api-version: 1.14
 authors: [TheCoolestPaul]
 description: Adding another currency into Minecraft
 commands:
