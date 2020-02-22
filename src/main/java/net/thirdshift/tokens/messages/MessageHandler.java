@@ -67,7 +67,7 @@ public class MessageHandler {
 
         for (String pathName : paths){
             String pathVal=tryPath(pathName);
-            messageList.put(pathName, new Message(pathVal));
+            messageList.put(pathName, new Message(pathVal, plugin));
         }
     }
 
