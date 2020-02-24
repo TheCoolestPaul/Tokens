@@ -70,7 +70,7 @@ public final class Tokens extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        keyHander = new KeyHandler(this);
         this.saveDefaultConfig();
         this.reloadConfig();
 
@@ -83,8 +83,6 @@ public final class Tokens extends JavaPlugin {
         new BStats(this, 5849);
 
         this.checkUpdates();
-
-        keyHander = new KeyHandler(this);
 
         this.workCommands();
         if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){

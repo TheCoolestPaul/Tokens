@@ -29,6 +29,8 @@ public class TabRedeem implements TabCompleter {
                 completions.add("factions");
             if(plugin.vaultEnabled && plugin.vaultSell)
                 completions.add("money");
+            if(plugin.keyHander.getKeysSize()>0)
+                completions.add("key");
             StringUtil.copyPartialMatches(args[0], completions, ret);
         }else if(args.length==2){
             if(args[0].equalsIgnoreCase("mcmmo") && plugin.mcmmoEnabled){

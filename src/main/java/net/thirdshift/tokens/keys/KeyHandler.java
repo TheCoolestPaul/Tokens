@@ -23,8 +23,10 @@ public class KeyHandler {
         initKeys();
     }
 
-    public Map<String, Key> getKeys() {
-        return keys;
+    public Map<String, Key> getKeys() { return keys; }
+
+    public int getKeysSize(){
+        return keys.size();
     }
 
     public Key getKey(String keyString){
