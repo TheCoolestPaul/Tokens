@@ -15,6 +15,18 @@ commands:
     description: Command for redeeming Tokens
     usage: /redeem
 permissions:
+  tokens.*:
+    default: op
+    description: Grants access to every token command/feature.
+    children:
+      tokens.use: true
+      tokens.redeem: true
+      tokens.give: true
+      tokens.others: true
+      tokens.reload: true
+      tokens.set: true
+      tokens.add: true
+      tokens.remove: true
   tokens.use:
     default: true
     description: Required to use /tokens
