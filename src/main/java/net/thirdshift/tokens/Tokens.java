@@ -55,7 +55,6 @@ public final class Tokens extends JavaPlugin {
     public double vaultSellPrice = 0.0;
     public static Economy vaultEcon;
 
-    //public TokenItemStack tokenItemHandler = new TokenItemStack(); // Coming soon to a Tokens plugin near you
     private TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
     private FileConfiguration keyConfig = null;
     private File keyFile = null;
