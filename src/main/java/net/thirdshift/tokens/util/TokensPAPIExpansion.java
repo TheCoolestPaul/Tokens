@@ -4,6 +4,8 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.entity.Player;
 
+import java.text.DecimalFormat;
+
 public class TokensPAPIExpansion extends PlaceholderExpansion {
 
     private Tokens plugin;
@@ -39,14 +41,15 @@ public class TokensPAPIExpansion extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, String identifier){
 
         if(player == null){
-            return "";
+            return null;
         }
 
-        // %tokens_getTokens%
-        if(identifier.equals("getTokens")){
+        if(identifier.equals("getTokens")){ // %tokens_getTokens%
             return String.valueOf(plugin.handler.getTokens(player));
+        }else if(identifier.equals("getTokens_Formatted")){ // %tokens_getTokens_Formatted%
+            DecimalFormat formatter = new DecimalFormat("#,###");
+            return formatter.format(plugin.handler.getTokens(player));
         }
-
 
         return null;
     }
