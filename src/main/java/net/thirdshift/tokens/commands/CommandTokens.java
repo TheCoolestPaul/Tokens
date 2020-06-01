@@ -223,7 +223,7 @@ public class CommandTokens implements CommandExecutor {
                     Player target = Bukkit.getPlayer(args[1]);
                     if(target!=null){
                         int num = Integer.parseInt(args[2]);
-                        plugin.handler.setTokens(target, num);
+                        plugin.handler.removeTokens(target, num);
                         List<Object> objects = new ArrayList<>();
                         objects.add(num);
                         objects.add(new PlayerSender(commandSender));
