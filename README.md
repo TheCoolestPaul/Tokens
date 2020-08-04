@@ -1,8 +1,9 @@
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/TheCoolestPaul/Tokens.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TheCoolestPaul/Tokens/alerts/)
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/TheCoolestPaul/Tokens.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/TheCoolestPaul/Tokens/context:java)
 
-*Travis:* [![Build Status](https://travis-ci.com/TheCoolestPaul/Tokens.svg?branch=release)](https://travis-ci.com/TheCoolestPaul/Tokens)
+<!--*Travis:* [![Build Status](https://travis-ci.com/TheCoolestPaul/Tokens.svg?branch=release)](https://travis-ci.com/TheCoolestPaul/Tokens)>
 *Jit-CI:* [![](https://jitci.com/gh/TheCoolestPaul/Tokens/svg)](https://jitci.com/gh/TheCoolestPaul/Tokens)
+-->
 
 **What is the Tokens plugin?**  
 
