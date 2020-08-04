@@ -18,7 +18,7 @@ import java.util.List;
 
 public class CommandTokens implements CommandExecutor {
 
-    private Tokens plugin;
+    private final Tokens plugin;
 
     public CommandTokens(Tokens instance){this.plugin=instance;}
 
@@ -275,6 +275,10 @@ public class CommandTokens implements CommandExecutor {
                         if (target != null) {
                             if(target.equals(commandSender)){
                                 commandSender.sendMessage(ChatColor.RED+"You can't give tokens to yourself.");
+                                return true;
+                            }
+                            if(num <= 0 ){
+                                commandSender.sendMessage(ChatColor.RED+"You can't do that.");
                                 return true;
                             }
                             plugin.handler.removeTokens((Player) commandSender, num);

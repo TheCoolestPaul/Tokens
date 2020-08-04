@@ -1,6 +1,7 @@
 name: Tokens
-version: ${project.version}
+version: 3.8.7
 main: net.thirdshift.tokens.Tokens
+website: https://www.spigotmc.org/resources/tokens-multi-plugin-support-mysql-support.71941/
 softdepend: [Factions, mcMMO, Vault, CombatLogX, PlaceholderAPI]
 api-version: 1.14
 authors: [TheCoolestPaul]

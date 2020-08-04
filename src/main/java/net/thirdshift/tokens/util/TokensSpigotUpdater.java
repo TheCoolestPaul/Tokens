@@ -11,10 +11,10 @@ import java.net.URLConnection;
 
 public class TokensSpigotUpdater {
 
-    private int project = 0;
+    private final int project;
     private URL checkURL;
-    private String newVersion = "";
-    private JavaPlugin plugin;
+    private String newVersion;
+    private final JavaPlugin plugin;
 
     public TokensSpigotUpdater(JavaPlugin tokens, int projectID) {
         this.plugin = tokens;
@@ -25,10 +25,6 @@ public class TokensSpigotUpdater {
         } catch (MalformedURLException e) {
             plugin.getLogger().warning("Something went wrong checking for update");
         }
-    }
-
-    public int getProjectID() {
-        return project;
     }
 
     public JavaPlugin getPlugin() {
@@ -92,12 +88,17 @@ public class TokensSpigotUpdater {
         if(v1Len!=v2Len)
         {
             int count=Math.abs(v1Len-v2Len);
-            if(v1Len>v2Len)
-                for(int i=1;i<=count;i++)
-                    v2+=".0";
-            else
-                for(int i=1;i<=count;i++)
-                    v1+=".0";
+            if(v1Len>v2Len) {
+                StringBuilder v2Builder = new StringBuilder(v2);
+                for(int i = 1; i<=count; i++)
+                    v2Builder.append(".0");
+                v2 = v2Builder.toString();
+            } else {
+                StringBuilder v1Builder = new StringBuilder(v1);
+                for(int i = 1; i<=count; i++)
+                    v1Builder.append(".0");
+                v1 = v1Builder.toString();
+            }
         }
 
         if(v1.equals(v2))
@@ -107,30 +108,31 @@ public class TokensSpigotUpdater {
         String[] v2Str=StringUtils.split(v2, ".");
         for(int i=0;i<v1Str.length;i++)
         {
-            String str1="",str2="";
+            StringBuilder str1= new StringBuilder();
+            StringBuilder str2= new StringBuilder();
             for (char c : v1Str[i].toCharArray()) {
                 if(Character.isLetter(c))
                 {
                     int u=c-'a'+1;
                     if(u<10)
-                        str1+=String.valueOf("0"+u);
+                        str1.append("0").append(u);
                     else
-                        str1+=String.valueOf(u);
+                        str1.append(u);
                 }
                 else
-                    str1+=String.valueOf(c);
+                    str1.append(c);
             }
             for (char c : v2Str[i].toCharArray()) {
                 if(Character.isLetter(c))
                 {
                     int u=c-'a'+1;
                     if(u<10)
-                        str2+=String.valueOf("0"+u);
+                        str2.append("0").append(u);
                     else
-                        str2+=String.valueOf(u);
+                        str2.append(u);
                 }
                 else
-                    str2+=String.valueOf(c);
+                    str2.append(c);
             }
             v1Str[i]="1"+str1;
             v2Str[i]="1"+str2;

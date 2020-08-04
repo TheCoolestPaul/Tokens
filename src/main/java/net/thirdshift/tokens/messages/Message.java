@@ -11,9 +11,9 @@ import java.util.List;
 
 public class Message {
 
-    private String raw;
-    private String formatted;
-    private Tokens plugin;
+    private final String raw;
+    private final String formatted;
+    private final Tokens plugin;
 
     public Message(String stringIn, Tokens instance){
         this.raw=stringIn;
