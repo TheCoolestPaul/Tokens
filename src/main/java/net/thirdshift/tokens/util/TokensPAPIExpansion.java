@@ -3,7 +3,6 @@ package net.thirdshift.tokens.util;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 

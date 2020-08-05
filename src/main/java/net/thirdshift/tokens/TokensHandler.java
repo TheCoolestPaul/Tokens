@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 public class TokensHandler {
 
-    private Tokens plugin;
+    private final Tokens plugin;
     public TokensHandler(Tokens instance){this.plugin=instance;}
 
     public void addTokens(Player player, int tokensIn){

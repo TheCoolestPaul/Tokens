@@ -9,7 +9,7 @@ import java.util.logging.Level;
 
 public class MySQLHandler {
 
-    private Tokens plugin;
+    private final Tokens plugin;
     public String username=""; //Enter in your db username
     public String password=""; //Enter your password for the db
     public String dbName = "";//Database name

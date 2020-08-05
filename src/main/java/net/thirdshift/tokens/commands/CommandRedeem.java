@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CommandRedeem implements CommandExecutor {
-    private Tokens plugin;
+    private final Tokens plugin;
 
     public CommandRedeem(Tokens instance){
         this.plugin=instance;

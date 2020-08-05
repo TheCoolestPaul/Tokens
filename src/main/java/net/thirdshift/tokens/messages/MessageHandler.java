@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class MessageHandler {
 
-    private Tokens plugin;
+    private final Tokens plugin;
     private FileConfiguration messageConfig;
 
     public Map<String, Message> messageList = null;
