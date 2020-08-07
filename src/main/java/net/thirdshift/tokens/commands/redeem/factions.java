@@ -14,12 +14,12 @@ public class factions {
         List<Object> objects = new ArrayList<>();
         objects.add(toRedeem);
         objects.add(new PlayerSender(player));
-        if (toRedeem <= plugin.handler.getTokens(player)) {
+        if (plugin.getHandler().hasTokens(player, toRedeem)) {
             FPlayer facPly = FPlayers.getInstance().getByPlayer(player);
             if (facPly != null) {
                 facPly.setPowerBoost(facPly.getPowerBoost() + (double)(toRedeem * plugin.tokenToFactionPower));
                 objects.add(facPly);
-                plugin.handler.setTokens(player, plugin.handler.getTokens(player) - toRedeem);
+                plugin.getHandler().setTokens(player, plugin.getHandler().getTokens(player) - toRedeem);
                 player.sendMessage(plugin.messageHandler.useMessage("redeem.factions", objects));
             }else{
                 plugin.getLogger().severe("Couldn't get FPlayer for "+player.getName());

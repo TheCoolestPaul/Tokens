@@ -14,15 +14,15 @@ public class mcmmo {
         List<Object> objects = new ArrayList<>();
         objects.add(toRedeem);
         objects.add(player);
-        if (plugin.handler.getTokens(player)>= toRedeem) {
+        if (plugin.getHandler().hasTokens(player, toRedeem)) {
             if (PrimarySkillType.getSkill(skillname) != null) {
-                if (plugin.handler.getTokens(player) >= toRedeem) {
+                if (plugin.getHandler().getTokens(player) >= toRedeem) {
                     PrimarySkillType skill = PrimarySkillType.getSkill(skillname);
                     McMMOPlayer senderMcMMO = EventUtils.getMcMMOPlayer(player);
                     objects.add(skill);
                     senderMcMMO.addLevels(skill, toRedeem * plugin.tokensToMCMMOLevels);
                     player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.redeemed", objects));
-                    plugin.handler.setTokens(player, plugin.handler.getTokens(player) - toRedeem);
+                    plugin.getHandler().setTokens(player, plugin.getHandler().getTokens(player) - toRedeem);
                 } else {
                     player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.not-enough", objects));
                 }

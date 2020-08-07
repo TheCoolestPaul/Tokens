@@ -27,8 +27,6 @@ import java.util.Objects;
 
 public final class Tokens extends JavaPlugin {
 
-	public TokensHandler handler = new TokensHandler(this);
-
 	public boolean mysqlEnabled = false;
 	private MySQLHandler mysql;
 
@@ -66,9 +64,11 @@ public final class Tokens extends JavaPlugin {
 
 	private PluginCommand tokensCommand;
 	private PluginCommand redeemCommand;
+	private TokensHandler tokensHandler;
 
 	@Override
 	public void onEnable() {
+		tokensHandler = new TokensHandler(this);
 		keyHander = new KeyHandler(this);
 		this.saveDefaultConfig();
 		this.reloadConfig();
@@ -92,6 +92,10 @@ public final class Tokens extends JavaPlugin {
 				this.getLogger().warning("Couldn't register into PlaceholderAPI");
 			}
 		}
+	}
+
+	public TokensHandler getHandler() {
+		return tokensHandler;
 	}
 
 	@Override

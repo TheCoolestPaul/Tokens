@@ -2,6 +2,7 @@ package net.thirdshift.tokens.commands;
 
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.TokensHandler;
 import net.thirdshift.tokens.commands.redeem.vault;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
@@ -19,8 +20,12 @@ import java.util.List;
 public class CommandTokens implements CommandExecutor {
 
     private final Tokens plugin;
+    private final TokensHandler tokensHandler;
 
-    public CommandTokens(Tokens instance){this.plugin=instance;}
+    public CommandTokens(Tokens instance){
+        this.plugin=instance;
+        tokensHandler=instance.getHandler();
+    }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
@@ -31,7 +36,7 @@ public class CommandTokens implements CommandExecutor {
                 }
                 List<Object> objects = new ArrayList<>();
                 objects.add(new PlayerSender((Player) commandSender));
-                objects.add(plugin.handler.getTokens((Player) commandSender));
+                objects.add(plugin.getHandler().getTokens((Player) commandSender));
                 commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.main", objects));
                 return true;
             }else return false;
@@ -51,7 +56,7 @@ public class CommandTokens implements CommandExecutor {
                         Player target = Bukkit.getPlayer(args[1]);
                         if(target!=null) {
                             int num = Integer.parseInt(args[2]);
-                            plugin.handler.addTokens(target, num);
+                            tokensHandler.addTokens(target, num);
                             if(!plugin.messageHandler.getMessage("tokens.add.sender").isEmpty()){
                                 List<Object> objects = new ArrayList<>();
                                 objects.add(new PlayerSender((Player) commandSender));
@@ -93,7 +98,7 @@ public class CommandTokens implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[1]);
                 if(target!=null) {
                     int num = Integer.parseInt(args[2]);
-                    plugin.handler.addTokens(target, num);
+                    tokensHandler.addTokens(target, num);
                     if(!plugin.messageHandler.getMessage("tokens.add.sender").isEmpty()){
                         List<Object> objects = new ArrayList<>();
                         objects.add(new PlayerSender(commandSender.getName()));
@@ -126,7 +131,7 @@ public class CommandTokens implements CommandExecutor {
                         Player target = Bukkit.getPlayer(args[1]);
                         if(target!=null){
                             int num = Integer.parseInt(args[2]);
-                            plugin.handler.setTokens(target, num);
+                            tokensHandler.setTokens(target, num);
                             List<Object> objects = new ArrayList<>();
                             objects.add(num);
                             objects.add(new PlayerSender(commandSender));
@@ -146,7 +151,7 @@ public class CommandTokens implements CommandExecutor {
                     Player target = Bukkit.getPlayer(args[1]);
                     if(target!=null){
                         int num = Integer.parseInt(args[2]);
-                        plugin.handler.setTokens(target, num);
+                        tokensHandler.setTokens(target, num);
                         List<Object> objects = new ArrayList<>();
                         objects.add(num);
                         objects.add(new PlayerSender(commandSender));
@@ -184,7 +189,7 @@ public class CommandTokens implements CommandExecutor {
                         Player target = Bukkit.getPlayer(args[1]);
                         if(target!=null){
                             int num = Integer.parseInt(args[2]);
-                            plugin.handler.removeTokens(target, num);
+                            plugin.getHandler().removeTokens(target, num);
                             List<Object> objects = new ArrayList<>();
                             objects.add(new PlayerSender(commandSender));
                             objects.add(new PlayerTarget(target));
@@ -223,7 +228,7 @@ public class CommandTokens implements CommandExecutor {
                     Player target = Bukkit.getPlayer(args[1]);
                     if(target!=null){
                         int num = Integer.parseInt(args[2]);
-                        plugin.handler.removeTokens(target, num);
+                        plugin.getHandler().removeTokens(target, num);
                         List<Object> objects = new ArrayList<>();
                         objects.add(num);
                         objects.add(new PlayerSender(commandSender));
@@ -270,7 +275,7 @@ public class CommandTokens implements CommandExecutor {
                 }
                 if(args.length==3){
                     int num = Integer.parseInt(args[2]);
-                    if(plugin.handler.getTokens((Player) commandSender) >= num) {
+                    if(tokensHandler.getTokens((Player) commandSender) >= num) {
                         Player target = Bukkit.getPlayer(args[1]);
                         if (target != null) {
                             if(target.equals(commandSender)){
@@ -281,8 +286,8 @@ public class CommandTokens implements CommandExecutor {
                                 commandSender.sendMessage(ChatColor.RED+"You can't do that.");
                                 return true;
                             }
-                            plugin.handler.removeTokens((Player) commandSender, num);
-                            plugin.handler.addTokens(target, num);
+                            plugin.getHandler().removeTokens((Player) commandSender, num);
+                            plugin.getHandler().addTokens(target, num);
                             PlayerSender sender = new PlayerSender((Player) commandSender);
                             PlayerTarget playerTarget = new PlayerTarget(target);
                             List<Object> stuff = new ArrayList<>();
@@ -351,7 +356,7 @@ public class CommandTokens implements CommandExecutor {
                             List<Object> objects = new ArrayList<>();
                             objects.add(new PlayerTarget(target));
                             objects.add(new PlayerSender(commandSender));
-                            objects.add(plugin.handler.getTokens(target));
+                            objects.add(tokensHandler.getTokens(target));
                             commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.others", objects));
                         }
                     } else {
@@ -372,7 +377,7 @@ public class CommandTokens implements CommandExecutor {
                         List<Object> objects = new ArrayList<>();
                         objects.add(new PlayerTarget(target));
                         objects.add(new PlayerSender(commandSender));
-                        objects.add(plugin.handler.getTokens(target));
+                        objects.add(tokensHandler.getTokens(target));
                         commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.others", objects));
                     }
                 }else{

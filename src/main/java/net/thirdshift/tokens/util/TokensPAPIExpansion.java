@@ -43,10 +43,10 @@ public class TokensPAPIExpansion extends PlaceholderExpansion {
             return null;
         }
         if(getIdentifier().equals("getTokens")){ // %tokens_getTokens%
-            return String.valueOf(plugin.handler.getTokens(player.getPlayer()));
+            return String.valueOf(plugin.getHandler().getTokens(player.getPlayer()));
         }else if(getIdentifier().equals("getTokens_Formatted")){ // %tokens_getTokens_Formatted%
             DecimalFormat formatter = new DecimalFormat("#,###");
-            return formatter.format(plugin.handler.getTokens(player.getPlayer()));
+            return formatter.format(plugin.getHandler().getTokens(player.getPlayer()));
         }
         return null;
     }

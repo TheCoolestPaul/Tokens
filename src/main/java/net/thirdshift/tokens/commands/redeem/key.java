@@ -16,7 +16,7 @@ public class key {
                     long timeLeft = System.currentTimeMillis() - key.getPlayerCooldown(player);
                     if (TimeUnit.MILLISECONDS.toSeconds(timeLeft) >= TimeUnit.MINUTES.toSeconds(key.getCooldown())) {
                         player.sendMessage(ChatColor.GRAY + "You redeemed " + (ChatColor.GOLD) + key.getTokens() + (ChatColor.GRAY) + " Tokens");
-                        plugin.handler.addTokens(player, key.getTokens());
+                        plugin.getHandler().addTokens(player, key.getTokens());
                         if (key.oneTime) {
                             key.setPlayerCooldown(player, -1);
                         } else {

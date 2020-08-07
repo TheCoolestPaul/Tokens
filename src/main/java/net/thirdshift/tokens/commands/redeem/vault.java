@@ -11,7 +11,7 @@ import java.util.List;
 
 public class vault {
     public static void redeemVault(Player player, int toRedeem, Tokens plugin){
-        if (toRedeem <= plugin.handler.getTokens(player)){
+        if (plugin.getHandler().hasTokens(player, toRedeem)){
             double money = plugin.vaultSellPrice*toRedeem;
             List<Object> objects = new ArrayList<>();
             objects.add(money);
@@ -19,7 +19,7 @@ public class vault {
             objects.add(toRedeem);
             EconomyResponse r = plugin.getEconomy().depositPlayer(player, money);
             if (r.transactionSuccess()) {
-                plugin.handler.setTokens(player, plugin.handler.getTokens(player) - toRedeem);
+                plugin.getHandler().setTokens(player, plugin.getHandler().getTokens(player) - toRedeem);
                 player.sendMessage(plugin.messageHandler.useMessage("redeem.vault.sell", objects));
             } else {
                 player.sendMessage(String.format("An error occurred: %s", r.errorMessage));
@@ -44,7 +44,7 @@ public class vault {
             EconomyResponse r = plugin.getEconomy().withdrawPlayer(player, total);
             if (r.transactionSuccess()) {
                 player.sendMessage(plugin.messageHandler.useMessage("redeem.vault.buy", objects));
-                plugin.handler.addTokens(player, toRedeem);
+                plugin.getHandler().addTokens(player, toRedeem);
             } else {
                 player.sendMessage(ChatColor.RED+"There was an error withdrawing money from your account");
             }
