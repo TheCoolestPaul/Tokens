@@ -42,12 +42,14 @@ public class TokensPAPIExpansion extends PlaceholderExpansion {
         if(player==null){
             return null;
         }
-        if(getIdentifier().equals("getTokens")){ // %tokens_getTokens%
-            return String.valueOf(plugin.getHandler().getTokens(player.getPlayer()));
-        }else if(getIdentifier().equals("getTokens_Formatted")){ // %tokens_getTokens_Formatted%
+
+        if(params.equals("getTokens")){
+            return Integer.toString(plugin.getHandler().getTokens(player.getPlayer()));
+        }else if(params.equals("getTokensFormatted")){
             DecimalFormat formatter = new DecimalFormat("#,###");
             return formatter.format(plugin.getHandler().getTokens(player.getPlayer()));
         }
+
         return null;
     }
 
