@@ -2,18 +2,20 @@ package net.thirdshift.tokens;
 
 import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.milkbowl.vault.economy.Economy;
-import net.thirdshift.tokens.commands.CommandRedeem;
-import net.thirdshift.tokens.commands.CommandTokens;
-import net.thirdshift.tokens.commands.TabRedeem;
-import net.thirdshift.tokens.commands.TabTokens;
+import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
+import net.thirdshift.tokens.commands.tokens.CommandTokens;
+import net.thirdshift.tokens.commands.redeem.TabRedeem;
+import net.thirdshift.tokens.commands.tokens.TabTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.messages.MessageHandler;
 import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import net.thirdshift.tokens.util.BStats;
+import net.thirdshift.tokens.util.TokensEventListener;
 import net.thirdshift.tokens.util.TokensPAPIExpansion;
-import net.thirdshift.tokens.util.TokensSpigotUpdater;
+import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -28,6 +30,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public final class Tokens extends JavaPlugin {
+
+	private static Tokens instance;
 
 	public boolean mysqlEnabled = false;
 	private MySQLHandler mysql;
@@ -55,6 +59,7 @@ public final class Tokens extends JavaPlugin {
 	public double vaultSellPrice = 0.0;
 	public static Economy vaultEcon;
 
+	private final TokensEventListener tokensEventListener = new TokensEventListener(this);
 	private final TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 	private FileConfiguration keyConfig = null;
 	private File keyFile = null;
@@ -68,21 +73,29 @@ public final class Tokens extends JavaPlugin {
 	private PluginCommand redeemCommand;
 	private TokensHandler tokensHandler;
 	private TokenShopGUIPlus tokenShopGUIPlus;
+	private RedeemCommandExecutor redeemCommandExecutor;
+
+	@Override
+	public void onLoad() {
+		instance = this;
+	}
 
 	@Override
 	public void onEnable() {
+		this.saveDefaultConfig();
+
+		getServer().getPluginManager().registerEvents(tokensEventListener, this);
 		tokensHandler = new TokensHandler(this);
 		keyHander = new KeyHandler(this);
 		tokenShopGUIPlus = new TokenShopGUIPlus(this);
+		messageHandler = new MessageHandler(this);
 
-		this.saveDefaultConfig();
-		this.reloadConfig();
-
-		this.messageHandler = new MessageHandler(this);
-		this.messageHandler.loadMessages();
+		messageHandler.loadMessages();
 
 		tokensCommand = this.getCommand("tokens");
 		redeemCommand = this.getCommand("redeem");
+
+		redeemCommandExecutor = new RedeemCommandExecutor(this);
 
 		new BStats(this, 5849);
 
@@ -99,8 +112,17 @@ public final class Tokens extends JavaPlugin {
 		}
 		if(Bukkit.getPluginManager().getPlugin("ShopGUIPlus")!=null){
 			ShopGuiPlusApi.registerEconomyProvider(tokenShopGUIPlus);
-			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy!");
+			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
 		}
+		this.reloadConfig();
+	}
+
+	public TokensEventListener getTokensEventListener() {
+		return tokensEventListener;
+	}
+
+	public static Tokens getInstance(){
+		return instance;
 	}
 
 	public TokenShopGUIPlus getTokenShopGUIPlus() {
@@ -114,6 +136,7 @@ public final class Tokens extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		keyHander.saveKeyCooldown();
+		instance = null;
 		if(this.mysqlEnabled){
 			mysql.stopSQLConnection();//Cut off any loose bois
 		}
@@ -121,7 +144,7 @@ public final class Tokens extends JavaPlugin {
 
 	public void workCommands(){
 		tokensCommand.setExecutor(new CommandTokens(this));
-		redeemCommand.setExecutor(new CommandRedeem(this));
+		redeemCommand.setExecutor(redeemCommandExecutor);
 
 		tokensCommand.setTabCompleter(new TabTokens(this));
 		redeemCommand.setTabCompleter(new TabRedeem(this));
@@ -237,7 +260,7 @@ public final class Tokens extends JavaPlugin {
 		this.tokensToMCMMOLevels = this.getConfig().getInt("mcMMO.Tokens-To-Levels");
 
 		if (this.mysqlEnabled) {
-			this.getLogger().info("Storage Type: [ MySQL ]");
+			this.getLogger().info("Storage Type: SQLLite | [ MySQL ]");
 			if(this.sqllite!=null){
 				this.sqllite=null;
 			}
@@ -250,13 +273,14 @@ public final class Tokens extends JavaPlugin {
 			}
 			sqlliteEnabled=true;
 			doSQLLiteWork();
-			this.getLogger().info("Storage Type: [ SQLLite ] ( Default )");
+			getLogger().info("Storage Type: [ SQLLite ] | MySQL ( Default )");
 		}
 
 		// Factions Check
 		Plugin factionsPlug = this.getServer().getPluginManager().getPlugin("Factions");
 		if(factionsPlug!=null && factionsPlug.isEnabled()){
 			this.hasFactions=true;
+			redeemCommandExecutor.registerRedeemModule(new FactionsRedeemModule());
 		}else if (factionsPlug==null && this.factionsEnabled){
 			this.getLogger().warning("Factions addon is enabled but Factions is not installed on the server!");
 		}
@@ -397,4 +421,7 @@ public final class Tokens extends JavaPlugin {
 		}
 	}
 
+	public RedeemCommandExecutor getRedeemCommandExecutor() {
+		return redeemCommandExecutor;
+	}
 }
