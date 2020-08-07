@@ -99,8 +99,6 @@ public final class Tokens extends JavaPlugin {
 
 		new BStats(this, 5849);
 
-		this.checkUpdates();
-
 		this.workCommands();
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
 			boolean tokensExpansion = new TokensPAPIExpansion(this).register();
@@ -115,6 +113,19 @@ public final class Tokens extends JavaPlugin {
 			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
 		}
 		this.reloadConfig();
+
+		// Auto-check updates related code
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				checkUpdates();
+			}
+		};
+		checkUpdates(); // Inital check for updates, then schedule one once every 10 mintues
+		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 12000, 0);
+		if (task==-1){
+			getLogger().warning("Couldn't schedule an auto-update check!");
+		}
 	}
 
 	public TokensEventListener getTokensEventListener() {
