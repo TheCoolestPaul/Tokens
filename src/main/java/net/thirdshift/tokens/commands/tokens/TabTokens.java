@@ -1,4 +1,4 @@
-package net.thirdshift.tokens.commands;
+package net.thirdshift.tokens.commands.tokens;
 
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.util.PlayerListUtil;

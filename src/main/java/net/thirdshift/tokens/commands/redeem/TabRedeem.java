@@ -1,4 +1,4 @@
-package net.thirdshift.tokens.commands;
+package net.thirdshift.tokens.commands.redeem;
 
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import net.thirdshift.tokens.Tokens;

@@ -1,9 +1,9 @@
-package net.thirdshift.tokens.commands;
+package net.thirdshift.tokens.commands.tokens;
 
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
-import net.thirdshift.tokens.commands.redeem.vault;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.vault;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -348,7 +348,7 @@ public class CommandTokens implements CommandExecutor {
             commandSender.sendMessage("/redeem" + ChatColor.GRAY + " Displays help using the redeem command");
             return true;
         }else if(args.length==1) {
-            Player target = Bukkit.getPlayer(args[0]);
+            Player target = Bukkit.getPlayerExact(args[0]);
             if(commandSender instanceof Player) {
                 if (commandSender.hasPermission("tokens.others")) {
                     if (target != null) {

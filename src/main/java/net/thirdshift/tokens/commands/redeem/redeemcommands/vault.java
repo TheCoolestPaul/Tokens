@@ -1,4 +1,4 @@
-package net.thirdshift.tokens.commands.redeem;
+package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.thirdshift.tokens.Tokens;

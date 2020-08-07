@@ -1,4 +1,4 @@
-package net.thirdshift.tokens.commands.redeem;
+package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
