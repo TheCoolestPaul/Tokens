@@ -1,5 +1,6 @@
 package net.thirdshift.tokens;
 
+import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.CommandRedeem;
 import net.thirdshift.tokens.commands.CommandTokens;
@@ -9,6 +10,7 @@ import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.messages.MessageHandler;
+import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.TokensSpigotUpdater;
@@ -65,11 +67,14 @@ public final class Tokens extends JavaPlugin {
 	private PluginCommand tokensCommand;
 	private PluginCommand redeemCommand;
 	private TokensHandler tokensHandler;
+	private TokenShopGUIPlus tokenShopGUIPlus;
 
 	@Override
 	public void onEnable() {
 		tokensHandler = new TokensHandler(this);
 		keyHander = new KeyHandler(this);
+		tokenShopGUIPlus = new TokenShopGUIPlus(this);
+
 		this.saveDefaultConfig();
 		this.reloadConfig();
 
@@ -92,6 +97,14 @@ public final class Tokens extends JavaPlugin {
 				this.getLogger().warning("Couldn't register into PlaceholderAPI");
 			}
 		}
+		if(Bukkit.getPluginManager().getPlugin("ShopGUIPlus")!=null){
+			ShopGuiPlusApi.registerEconomyProvider(tokenShopGUIPlus);
+			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy!");
+		}
+	}
+
+	public TokenShopGUIPlus getTokenShopGUIPlus() {
+		return tokenShopGUIPlus;
 	}
 
 	public TokensHandler getHandler() {
