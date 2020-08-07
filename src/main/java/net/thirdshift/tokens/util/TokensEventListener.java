@@ -15,6 +15,7 @@ public class TokensEventListener implements Listener {
 
 	public TokensEventListener(final Tokens plugin) {
 		this.plugin=plugin;
+		this.outdated = false;
 	}
 
 	public void setOutdated(boolean outdated) {
