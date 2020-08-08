@@ -22,6 +22,14 @@ mcMMO:
   Tokens-To-Levels: 1
 
 #
+# Settings for CombatLogX
+#
+# Enabled: (true/false) Does combat tags prevent usage of Tokens commands?
+###
+CombatLogX:
+  Enabled: false
+
+#
 #  Settings for Factions compatibility
 #
 #  Enabled: (true/false) Is the support enabled?

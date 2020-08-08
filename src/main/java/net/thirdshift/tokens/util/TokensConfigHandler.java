@@ -45,19 +45,18 @@ public class TokensConfigHandler {
 		this.mySQLEnabled = plugin.getConfig().getBoolean("MySQL.Enabled");
 
 		// vault related config options
-		this.vaultEnabled = plugin.getConfig().getBoolean("VaultEco.Enabled");
-		this.vaultBuy = plugin.getConfig().getBoolean("VaultEco.Buy-Tokens");
-		this.vaultBuyPrice = plugin.getConfig().getDouble("VaultEco.Buy-Price");
-		this.vaultSell = plugin.getConfig().getBoolean("VaultEco.Sell-Tokens");
-		this.vaultSellPrice = plugin.getConfig().getDouble("VaultEco.Sell-Price");
+		vaultEnabled = plugin.getConfig().getBoolean("VaultEco.Enabled");
+		vaultBuy = plugin.getConfig().getBoolean("VaultEco.Buy-Tokens");
+		vaultBuyPrice = plugin.getConfig().getDouble("VaultEco.Buy-Price");
+		vaultSell = plugin.getConfig().getBoolean("VaultEco.Sell-Tokens");
+		vaultSellPrice = plugin.getConfig().getDouble("VaultEco.Sell-Price");
 
 		// factions related config options
-		this.factionsEnabled = plugin.getConfig().getBoolean("Factions.Enabled");
-		this.tokenToFactionPower = plugin.getConfig().getInt("Factions.Tokens-To-Power");
+		factionsEnabled = plugin.getConfig().getBoolean("Factions.Enabled");
+		tokenToFactionPower = plugin.getConfig().getInt("Factions.Tokens-To-Power");
 
 		// combatlogx related config options
-		this.combatLogXEnabled = plugin.getConfig().getBoolean("CombatLogX.Enabled");
-		this.combatLogXBlockTokens = plugin.getConfig().getBoolean("CombatLogX.Block-Tokens");
+		combatLogXEnabled = plugin.getConfig().getBoolean("CombatLogX.Enabled");
 
 		// mcmmo related config options
 		this.mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled");
