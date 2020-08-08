@@ -24,8 +24,23 @@ public class FactionsRedeemModule extends RedeemModule {
     }
 
     @Override
-    public void redeem(Player player, int toRedeem) {
+    public String getCommandUsage() {
+        return "/redeem factions <tokens to spend>";
+    }
+
+    @Override
+    public void redeem(final Player player, final ArrayList<String> args) {
+        if(args.size()!=1){
+            List<Object> objects = new ArrayList<>();
+            objects.add(new PlayerSender(player));
+            objects.add(getCommandUsage());
+            player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+            return;
+        }
+
+        int toRedeem = Integer.parseInt(args.get(0));
         List<Object> objects = new ArrayList<>();
+
         objects.add(toRedeem);
         objects.add(new PlayerSender(player));
 

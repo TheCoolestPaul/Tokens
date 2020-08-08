@@ -3,7 +3,7 @@ package net.thirdshift.tokens.commands.tokens;
 import com.SirBlobman.combatlogx.utility.CombatUtil;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.vault;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -333,7 +333,7 @@ public class CommandTokens implements CommandExecutor {
         } else if (args[0].equalsIgnoreCase("buy") && plugin.vaultBuy) {
             if(commandSender instanceof Player){
                 if(args.length==2){
-                    vault.purchaseVault((Player) commandSender, Integer.parseInt(args[1]), plugin);
+                    VaultRedeemModule.purchaseVault((Player) commandSender, Integer.parseInt(args[1]), plugin);
                 }else{
                     commandSender.sendMessage(ChatColor.RED+"Invalid command use! Your arguments were "+ Arrays.toString(args));
                     commandSender.sendMessage(ChatColor.GRAY+"Command usage: /tokens buy <tokens amount>");
