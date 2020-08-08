@@ -32,6 +32,10 @@ public class RedeemCommandExecutor implements CommandExecutor {
         }
     }
 
+    public HashMap<String, RedeemModule> getRedeemModules() {
+        return commandRedeemMap;
+    }
+
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(commandSender instanceof Player && commandSender.hasPermission("tokens.redeem")){
