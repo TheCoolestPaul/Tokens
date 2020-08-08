@@ -28,17 +28,16 @@ public class McMMORedeemModule extends RedeemModule {
 
 	@Override
 	public void redeem(Player player, final ArrayList<String> args) {
-		if(args.size()!=2){
-			List<Object> objects = new ArrayList<>();
+		List<Object> objects = new ArrayList<>();
+		if (args.size()!=2){
 			objects.add(new PlayerSender(player));
 			objects.add(getCommandUsage());
-			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
 			return;
 		}
 
 		String skillName = args.get(0);
 		int toRedeem = Integer.parseInt(args.get(1));
-		List<Object> objects = new ArrayList<>();
 
 		objects.add(toRedeem);
 		objects.add(player);

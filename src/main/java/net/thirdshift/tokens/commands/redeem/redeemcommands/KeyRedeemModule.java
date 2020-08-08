@@ -27,11 +27,11 @@ public class KeyRedeemModule extends RedeemModule {
 
 	@Override
 	public void redeem(Player player, ArrayList<String> args) {
+		List<Object> objects = new ArrayList<>();
 		if (args.size()!=1){
-			List<Object> objects = new ArrayList<>();
 			objects.add(new PlayerSender(player));
 			objects.add(getCommandUsage());
-			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
 			return;
 		}
 

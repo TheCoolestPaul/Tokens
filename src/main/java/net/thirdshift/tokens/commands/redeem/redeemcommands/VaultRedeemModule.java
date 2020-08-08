@@ -28,17 +28,16 @@ public class VaultRedeemModule extends RedeemModule {
 
 	@Override
 	public void redeem(Player player, ArrayList<String> args) {
+		List<Object> objects = new ArrayList<>();
 		if (args.size()!=1){
-			List<Object> objects = new ArrayList<>();
 			objects.add(new PlayerSender(player));
 			objects.add(getCommandUsage());
-			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
 			return;
 		}
 
 		int toRedeem = Integer.parseInt(args.get(0));
 		double money = plugin.getTokensConfigHandler().getVaultSellPrice()*toRedeem;
-		List<Object> objects = new ArrayList<>();
 
 		objects.add(toRedeem);
 		objects.add(new PlayerSender(player));
