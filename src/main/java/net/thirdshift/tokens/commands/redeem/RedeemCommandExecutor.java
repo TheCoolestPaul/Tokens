@@ -35,7 +35,7 @@ public class RedeemCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(commandSender instanceof Player && commandSender.hasPermission("tokens.redeem")){
-            if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
+            if( plugin.getTokensConfigHandler().isRunningCombatLogX() && CombatUtil.isInCombat((Player) commandSender) ){
                 if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                     List<Object> objects = new ArrayList<>();
                     objects.add(new PlayerSender((Player) commandSender));

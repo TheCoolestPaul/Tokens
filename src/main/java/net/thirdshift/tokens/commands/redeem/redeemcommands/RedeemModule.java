@@ -10,7 +10,6 @@ public abstract class RedeemModule {
 	protected Tokens plugin;
 	protected TokensHandler tokensHandler;
 	protected String command;
-	protected String commandUsage;
 
 	public RedeemModule() {
 		plugin = Tokens.getInstance();

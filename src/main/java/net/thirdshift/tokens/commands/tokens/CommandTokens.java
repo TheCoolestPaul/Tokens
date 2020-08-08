@@ -45,7 +45,7 @@ public class CommandTokens implements CommandExecutor {
         if(args[0].equalsIgnoreCase("add")) {
             if (commandSender instanceof Player) {
                 if (commandSender.hasPermission("tokens.add")) {
-                    if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
+                    if( plugin.getTokensConfigHandler().isRunningCombatLogX() && CombatUtil.isInCombat((Player) commandSender) ){
                         if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                             List<Object> objects = new ArrayList<>();
                             objects.add(new PlayerSender((Player) commandSender));
@@ -121,7 +121,7 @@ public class CommandTokens implements CommandExecutor {
             if(args.length==3){
                 if(commandSender instanceof Player){
                     if(commandSender.hasPermission("tokens.set")){
-                        if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
+                        if( plugin.getTokensConfigHandler().isRunningCombatLogX() && CombatUtil.isInCombat((Player) commandSender) ){
                             if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                                 List<Object> objects = new ArrayList<>();
                                 objects.add(new PlayerSender(commandSender));
@@ -266,7 +266,7 @@ public class CommandTokens implements CommandExecutor {
             return true;
         }else if(args[0].equalsIgnoreCase("give")) {
             if(commandSender instanceof Player){
-                if( plugin.hasCombatLogX && plugin.combatLogXEnabled && CombatUtil.isInCombat((Player) commandSender) ){
+                if( plugin.getTokensConfigHandler().isRunningCombatLogX() && CombatUtil.isInCombat((Player) commandSender) ){
                     if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                         List<Object> objects = new ArrayList<>();
                         objects.add(new PlayerSender((Player) commandSender));
@@ -331,7 +331,7 @@ public class CommandTokens implements CommandExecutor {
                 return true;
             }
             return false;
-        } else if (args[0].equalsIgnoreCase("buy") && plugin.vaultBuy) {
+        } else if (args[0].equalsIgnoreCase("buy") && plugin.getTokensConfigHandler().isVaultBuy()) {
             if(commandSender instanceof Player){
                 if(args.length==2){
                     VaultRedeemModule.purchaseVault((Player) commandSender, Integer.parseInt(args[1]), plugin);

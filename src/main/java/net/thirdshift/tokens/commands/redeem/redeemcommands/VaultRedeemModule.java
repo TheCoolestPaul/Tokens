@@ -37,7 +37,7 @@ public class VaultRedeemModule extends RedeemModule {
 		}
 
 		int toRedeem = Integer.parseInt(args.get(0));
-		double money = plugin.vaultSellPrice*toRedeem;
+		double money = plugin.getTokensConfigHandler().getVaultSellPrice()*toRedeem;
 		List<Object> objects = new ArrayList<>();
 
 		objects.add(toRedeem);
@@ -60,7 +60,7 @@ public class VaultRedeemModule extends RedeemModule {
 
 	// TODO: Deal with this method properly.
 	public static void purchaseVault(Player player, int toRedeem, Tokens plugin){
-		double price = plugin.vaultBuyPrice;
+		double price = plugin.getTokensConfigHandler().getVaultBuyPrice();
 		double plyMoney = plugin.getEconomy().getBalance(player);
 		double total = (double)toRedeem * price;
 		List<Object> objects = new ArrayList<>();

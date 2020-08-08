@@ -47,7 +47,7 @@ public class FactionsRedeemModule extends RedeemModule {
         if(tokensHandler.hasTokens(player, toRedeem)){
             FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
             if(fPlayer != null ){
-                fPlayer.setPowerBoost(fPlayer.getPowerBoost() + (double)(toRedeem * plugin.tokenToFactionPower));
+                fPlayer.setPowerBoost(fPlayer.getPowerBoost() + (double)(toRedeem * plugin.getTokensConfigHandler().getTokenToFactionPower()));
                 objects.add(fPlayer);
                 tokensHandler.setTokens(player, tokensHandler.getTokens(player) - toRedeem);
                 player.sendMessage(plugin.messageHandler.useMessage("redeem.factions", objects));

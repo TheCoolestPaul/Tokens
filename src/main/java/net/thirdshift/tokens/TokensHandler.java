@@ -1,5 +1,6 @@
 package net.thirdshift.tokens;
 
+import net.thirdshift.tokens.util.TokensConfigHandler;
 import org.bukkit.entity.Player;
 
 //import java.util.HashMap;
@@ -15,10 +16,12 @@ MySQL or SQLLite.
 public class TokensHandler {
 
     private final Tokens plugin;
+    private final TokensConfigHandler configHandler;
     //private Map<UUID, Integer> playerBalances;
 
     public TokensHandler(final Tokens instance){
         this.plugin=instance;
+        configHandler = instance.getTokensConfigHandler();
         //playerBalances = new HashMap<>();
     }
 
@@ -28,12 +31,10 @@ public class TokensHandler {
      * @param tokensIn Amount of tokens
      */
     public void addTokens(Player player, int tokensIn){
-        if(plugin.mysqlEnabled){
+        if(configHandler.isRunningMySQL()){
             plugin.getMySQL().addTokens(player, tokensIn);
-        }else if (plugin.sqlliteEnabled){
+        } else {
             plugin.getSqllite().setTokens(player, (plugin.getSqllite().getTokens(player) + tokensIn) );
-        }else {
-            plugin.getLogger().severe("MySQL isn't configured properly!");
         }
     }
 
@@ -43,13 +44,11 @@ public class TokensHandler {
      * @return Current balance of Player's tokens
      */
     public int getTokens(Player player){
-        if(plugin.mysqlEnabled){
+        if(configHandler.isRunningMySQL()){
             return plugin.getMySQL().getTokens(player);
-        }else if (plugin.sqlliteEnabled){
+        }else {
             return plugin.getSqllite().getTokens(player);
         }
-        plugin.getLogger().severe("MySQL isn't configured properly!");
-        return 0;
     }
 
     /**
@@ -58,12 +57,10 @@ public class TokensHandler {
      * @param tokensIn Tokens to set
      */
     public void setTokens(Player player, int tokensIn){
-        if(plugin.mysqlEnabled){
+        if(configHandler.isRunningMySQL()){
             plugin.getMySQL().setTokens(player, tokensIn);
-        }else if (plugin.sqlliteEnabled){
-            plugin.getSqllite().setTokens(player, tokensIn);
         }else {
-            plugin.getLogger().severe("MySQL isn't configured properly!");
+            plugin.getSqllite().setTokens(player, tokensIn);
         }
     }
 
@@ -73,12 +70,10 @@ public class TokensHandler {
      * @param tokensIn Tokens to remove
      */
     public void removeTokens(Player player, int tokensIn){
-        if(plugin.mysqlEnabled){
+        if(configHandler.isRunningMySQL()){
             plugin.getMySQL().removeTokens(player, tokensIn);
-        }else if (plugin.sqlliteEnabled){
-            plugin.getSqllite().setTokens( player, (plugin.getSqllite().getTokens(player) - tokensIn) );
         }else {
-            plugin.getLogger().severe("MySQL isn't configured properly!");
+            plugin.getSqllite().setTokens( player, (plugin.getSqllite().getTokens(player) - tokensIn) );
         }
     }
 

@@ -28,7 +28,7 @@ public class TabTokens implements TabCompleter {
             completions.add("give");
             completions.add("help");
 
-            if(plugin.hasVault&&plugin.vaultEnabled&&plugin.vaultBuy)
+            if(plugin.getTokensConfigHandler().isVaultSell() && plugin.getTokensConfigHandler().isRunningVault())
                 completions.add("buy");
 
             if(sender.hasPermission("tokens.add"))

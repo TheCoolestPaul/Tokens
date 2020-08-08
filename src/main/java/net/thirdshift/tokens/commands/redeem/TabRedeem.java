@@ -23,17 +23,17 @@ public class TabRedeem implements TabCompleter {
         List<String> ret = new ArrayList<>();// Ret the closest of all of them
 
         if(args.length==1){
-            if(plugin.mcmmoEnabled)
+            if(plugin.getTokensConfigHandler().isRunningMCMMO())
                 completions.add("mcmmo");
-            if(plugin.factionsEnabled)
+            if(plugin.getTokensConfigHandler().isRunningFactions())
                 completions.add("factions");
-            if(plugin.vaultEnabled && plugin.vaultSell)
+            if(plugin.getTokensConfigHandler().isRunningVault() && plugin.getTokensConfigHandler().isVaultSell())
                 completions.add("money");
             if(plugin.keyHander.getKeysSize()>0)
                 completions.add("key");
             StringUtil.copyPartialMatches(args[0], completions, ret);
         }else if(args.length==2){
-            if(args[0].equalsIgnoreCase("mcmmo") && plugin.mcmmoEnabled){
+            if(args[0].equalsIgnoreCase("mcmmo") && plugin.getTokensConfigHandler().isRunningMCMMO()){
                 List<String> skillList = PrimarySkillType.SKILL_NAMES;
                 completions.addAll(skillList);
             }

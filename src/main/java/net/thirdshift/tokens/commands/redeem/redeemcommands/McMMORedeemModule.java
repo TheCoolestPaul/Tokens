@@ -49,7 +49,7 @@ public class McMMORedeemModule extends RedeemModule {
 					PrimarySkillType skill = PrimarySkillType.getSkill(skillName);
 					McMMOPlayer senderMcMMO = EventUtils.getMcMMOPlayer(player);
 					objects.add(skill);
-					senderMcMMO.addLevels(skill, toRedeem * plugin.tokensToMCMMOLevels);
+					senderMcMMO.addLevels(skill, toRedeem * plugin.getTokensConfigHandler().getTokensToMCMMOLevels());
 					player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.redeemed", objects));
 					plugin.getHandler().setTokens(player, plugin.getHandler().getTokens(player) - toRedeem);
 				} else {
