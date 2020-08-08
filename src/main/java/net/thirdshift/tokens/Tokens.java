@@ -4,6 +4,8 @@ import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
 import net.thirdshift.tokens.commands.tokens.CommandTokens;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
 import net.thirdshift.tokens.commands.tokens.TabTokens;
@@ -121,8 +123,8 @@ public final class Tokens extends JavaPlugin {
 				checkUpdates();
 			}
 		};
-		checkUpdates(); // Inital check for updates, then schedule one once every 10 minutes
-		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 12000, 0);
+		// Initial check for updates, then schedule one once every 10 minutes
+		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 12000);
 		if (task==-1){
 			getLogger().warning("Couldn't schedule an auto-update check!");
 		}
@@ -300,6 +302,7 @@ public final class Tokens extends JavaPlugin {
 		Plugin vaultPlug = this.getServer().getPluginManager().getPlugin("Vault");
 		if (vaultPlug != null && vaultPlug.isEnabled()) {
 			this.hasVault=true;
+			redeemCommandExecutor.registerRedeemModule(new VaultRedeemModule());
 		}else if (vaultPlug==null && this.vaultEnabled){
 			this.getLogger().warning("Vault addon is enabled but Vault is not installed on the server!");
 		}
@@ -316,6 +319,7 @@ public final class Tokens extends JavaPlugin {
 		Plugin mcmmoPlug = this.getServer().getPluginManager().getPlugin("mcMMO");
 		if(mcmmoPlug!=null&&mcmmoPlug.isEnabled()){
 			this.hasMCMMO=true;
+			redeemCommandExecutor.registerRedeemModule(new McMMORedeemModule());
 		}else if (mcmmoPlug==null&&this.mcmmoEnabled){
 			this.getLogger().warning("mcMMO addon is enabled but mcMMO is not installed on the server!");
 		}
