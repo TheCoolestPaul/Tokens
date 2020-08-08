@@ -3,7 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 apply plugin: 'java'
 
 group = 'net.thirdshift'
-version = '3.9.1'
+version = '3.9.5'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
