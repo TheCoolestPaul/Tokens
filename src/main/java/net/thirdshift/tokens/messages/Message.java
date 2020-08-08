@@ -51,10 +51,8 @@ public class Message {
                     ret = ret.replace("%skill_list%", obj.toString());
                 }
             }
-            if(plugin.getTokensConfigHandler().isRunningVault()){
-                if(obj instanceof Double){
-                    ret = ret.replace("%money%", obj.toString());
-                }
+            if(obj instanceof Double){
+                ret = ret.replace("%money%", obj.toString());
             }
             if(plugin.getTokensConfigHandler().isRunningFactions()) {
                 if (obj instanceof FPlayer) {
