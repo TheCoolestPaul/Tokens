@@ -4,6 +4,7 @@ import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
 import net.thirdshift.tokens.commands.tokens.CommandTokens;
@@ -329,6 +330,7 @@ public final class Tokens extends JavaPlugin {
 			this.getLogger().warning("You don't have any supported plugins installed.");
 		}
 		initializeTokensAddons();
+		redeemCommandExecutor.registerRedeemModule(new KeyRedeemModule());
 	}
 
 	public void doSQLLiteWork(){
