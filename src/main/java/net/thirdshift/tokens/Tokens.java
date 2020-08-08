@@ -107,8 +107,8 @@ public final class Tokens extends JavaPlugin {
 				checkUpdates();
 			}
 		};
-		// Initial check for updates, then schedule one once every 10 minutes
-		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 12000);
+		// Initial check for updates, then schedule one once every 20 minutes
+		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 24000);
 		if (task==-1){
 			getLogger().warning("Couldn't schedule an auto-update check!");
 		}
@@ -265,7 +265,6 @@ public final class Tokens extends JavaPlugin {
 				this.getLogger().warning("No Vault economy is present but the addon is enabled!");
 			}
 		}
-		this.getLogger().info("Hooked into Vault.");
 	}
 
 	private boolean setupEconomy() {
