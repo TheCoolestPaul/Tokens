@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class RedeemCommandExecutor implements CommandExecutor {
 
     public void registerRedeemModule(final RedeemModule redeemModule){
         if (commandRedeemMap.get(redeemModule.getCommand())!=null){
-            plugin.getLogger().warning("A module tried to load with command "+redeemModule.getCommand());
+            plugin.getLogger().info("A module already exists with command " + redeemModule.getCommand());
         } else {
             commandRedeemMap.put(redeemModule.getCommand(), redeemModule);
             plugin.getLogger().info("Added module "+ redeemModule.getCommand());
@@ -71,18 +70,7 @@ public class RedeemCommandExecutor implements CommandExecutor {
                         }
                     }
                 }
-            }/*
-            else if(args[0].equalsIgnoreCase("key") || args[0].equalsIgnoreCase("keys") || args[0].equalsIgnoreCase("k")){
-                if(args.length==2){
-                    key.redeemKey((Player) commandSender, args[1], plugin);
-                }else{
-                    List<Object> objects = new ArrayList<>();
-                    objects.add(new PlayerSender((Player)commandSender));
-                    objects.add("/redeem key <key>");
-                    commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
-                }
             }
-            */
         }
         return false;
     }
