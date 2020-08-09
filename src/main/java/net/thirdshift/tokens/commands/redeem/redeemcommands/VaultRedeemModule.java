@@ -36,7 +36,14 @@ public class VaultRedeemModule extends RedeemModule {
 			return;
 		}
 
-		int toRedeem = Integer.parseInt(args.get(0));
+		int toRedeem;
+		try {
+			toRedeem = Integer.parseInt(args.get(0));
+		} catch(NumberFormatException e){
+			player.sendMessage(ChatColor.RED +"Invalid command, " + args.get(0) + " is not a number!");
+			return;
+		}
+
 		double money = plugin.getTokensConfigHandler().getVaultSellPrice()*toRedeem;
 
 		objects.add(toRedeem);

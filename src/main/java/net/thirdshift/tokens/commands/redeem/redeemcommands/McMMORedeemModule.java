@@ -4,6 +4,7 @@ import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.util.EventUtils;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -37,7 +38,13 @@ public class McMMORedeemModule extends RedeemModule {
 		}
 
 		String skillName = args.get(0);
-		int toRedeem = Integer.parseInt(args.get(1));
+		int toRedeem;
+		try {
+			toRedeem = Integer.parseInt(args.get(1));
+		}catch(NumberFormatException e){
+			player.sendMessage(ChatColor.RED +"Invalid command, "+args.get(1)+" is not a number!");
+			return;
+		}
 
 		objects.add(toRedeem);
 		objects.add(player);

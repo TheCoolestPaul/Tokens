@@ -3,6 +3,7 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -38,7 +39,13 @@ public class FactionsRedeemModule extends RedeemModule {
             return;
         }
 
-        int toRedeem = Integer.parseInt(args.get(0));
+        int toRedeem;
+        try {
+            toRedeem = Integer.parseInt(args.get(0));
+        }catch(NumberFormatException e){
+            player.sendMessage(ChatColor.RED +"Invalid command, "+args.get(0)+" is not a number!");
+            return;
+        }
 
         objects.add(toRedeem);
         objects.add(new PlayerSender(player));
