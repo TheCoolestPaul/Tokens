@@ -142,8 +142,8 @@ public class TokensConfigHandler {
 		}
 
 		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
-		if (!hasVault && !hasFactions && !hasMCMMO) {
-			plugin.getLogger().warning("You don't have any supported plugins installed.");
+		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled) {
+			plugin.getLogger().warning("You don't have any supported plugins enabled.");
 		}
 	}
 
