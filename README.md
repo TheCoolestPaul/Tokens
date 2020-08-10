@@ -3,7 +3,7 @@
 
 *Jit-CI:* [![](https://jitci.com/gh/TheCoolestPaul/Tokens/svg)](https://jitci.com/gh/TheCoolestPaul/Tokens)
 
-*Jenkins Builds:*[![Build Status](https://ci.codemc.io/job/TheCoolestPaul/job/Tokens/badge/icon)](https://ci.codemc.io/job/TheCoolestPaul/job/Tokens/)
+*Jenkins Builds:* [![Build Status](https://ci.codemc.io/job/TheCoolestPaul/job/Tokens/badge/icon)](https://ci.codemc.io/job/TheCoolestPaul/job/Tokens/)
 
 **What is the Tokens plugin?**  
 
