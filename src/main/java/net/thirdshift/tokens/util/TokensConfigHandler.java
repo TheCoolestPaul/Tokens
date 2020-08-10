@@ -84,7 +84,7 @@ public class TokensConfigHandler {
 
 		// Factions Check
 		if (factionsEnabled) {
-			Plugin factionsPlug = Bukkit.getServer().getPluginManager().getPlugin("Factions");
+			Plugin factionsPlug = Bukkit.getPluginManager().getPlugin("Factions");
 			if (factionsPlug != null && factionsPlug.isEnabled()) {
 				hasFactions = true;
 				isRunningFactions = true;
@@ -99,7 +99,7 @@ public class TokensConfigHandler {
 
 		// Vault Check
 		if (vaultEnabled) {
-			Plugin vaultPlug = Bukkit.getServer().getPluginManager().getPlugin("Vault");
+			Plugin vaultPlug = Bukkit.getPluginManager().getPlugin("Vault");
 			if (vaultPlug != null && vaultPlug.isEnabled()) {
 				hasVault = true;
 				plugin.getRedeemCommandExecutor().registerRedeemModule(new VaultRedeemModule());
@@ -114,7 +114,7 @@ public class TokensConfigHandler {
 
 		// CombatLogX Check
 		if (combatLogXEnabled) {
-			Plugin combPlug = Bukkit.getServer().getPluginManager().getPlugin("CombatLogX");
+			Plugin combPlug = Bukkit.getPluginManager().getPlugin("CombatLogX");
 			if (combPlug != null && combPlug.isEnabled()) {
 				hasCombatLogX = true;
 				isRunningCombatLogX = true;
@@ -128,7 +128,7 @@ public class TokensConfigHandler {
 
 		// mcMMO Check
 		if (mcmmoEnabled) {
-			Plugin mcmmoPlug = Bukkit.getServer().getPluginManager().getPlugin("mcMMO");
+			Plugin mcmmoPlug = Bukkit.getPluginManager().getPlugin("mcMMO");
 			if (mcmmoPlug != null && mcmmoPlug.isEnabled()) {
 				hasMCMMO = true;
 				isRunningMCMMO = true;

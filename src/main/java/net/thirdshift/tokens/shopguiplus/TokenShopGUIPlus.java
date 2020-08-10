@@ -1,5 +1,6 @@
 package net.thirdshift.tokens.shopguiplus;
 
+import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.brcdev.shopgui.provider.economy.EconomyProvider;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
@@ -12,6 +13,7 @@ public class TokenShopGUIPlus extends EconomyProvider {
 	public TokenShopGUIPlus(final Tokens plugin){
 		tokensHandler = plugin.getHandler();
 		this.currencySuffix = " Tokens";
+		ShopGuiPlusApi.registerEconomyProvider(this);
 	}
 
 	@Override

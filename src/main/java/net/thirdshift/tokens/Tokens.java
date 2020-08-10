@@ -1,12 +1,8 @@
 package net.thirdshift.tokens;
 
-import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemModule;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
 import net.thirdshift.tokens.commands.tokens.CommandTokens;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
 import net.thirdshift.tokens.commands.tokens.TabTokens;
@@ -25,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -73,7 +68,6 @@ public final class Tokens extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(tokensEventListener, this);
 		tokensHandler = new TokensHandler(this);
 		keyHander = new KeyHandler(this);
-		tokenShopGUIPlus = new TokenShopGUIPlus(this);
 		messageHandler = new MessageHandler(this);
 
 		messageHandler.loadMessages();
@@ -95,7 +89,7 @@ public final class Tokens extends JavaPlugin {
 			}
 		}
 		if(Bukkit.getPluginManager().getPlugin("ShopGUIPlus")!=null){
-			ShopGuiPlusApi.registerEconomyProvider(tokenShopGUIPlus);
+			tokenShopGUIPlus = new TokenShopGUIPlus(this);
 			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
 		}
 		this.reloadConfig();
