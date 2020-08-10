@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.util;
 
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
@@ -26,6 +27,7 @@ public class TokensConfigHandler {
 	private boolean combatLogXEnabled = false;
 	private boolean combatLogXBlockTokens = false;
 	private boolean isRunningCombatLogX = false;
+	private TokensCombatManager tokensCombatManager;
 
 	private boolean hasVault = false;
 	private boolean vaultEnabled = false;
@@ -118,6 +120,8 @@ public class TokensConfigHandler {
 			if (combPlug != null && combPlug.isEnabled()) {
 				hasCombatLogX = true;
 				isRunningCombatLogX = true;
+				if (tokensCombatManager==null)
+					tokensCombatManager = new TokensCombatManager(this);
 			} else if (combPlug == null || !combPlug.isEnabled()) {
 				isRunningCombatLogX = false;
 				plugin.getLogger().warning("CombatLogX addon is enabled but CombatLogX is not installed on the server!");
@@ -189,5 +193,9 @@ public class TokensConfigHandler {
 
 	public double getVaultSellPrice() {
 		return vaultSellPrice;
+	}
+
+	public TokensCombatManager getTokensCombatManager() {
+		return tokensCombatManager;
 	}
 }

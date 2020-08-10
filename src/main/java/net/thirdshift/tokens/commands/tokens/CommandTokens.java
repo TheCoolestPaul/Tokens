@@ -1,6 +1,5 @@
 package net.thirdshift.tokens.commands.tokens;
 
-import com.SirBlobman.combatlogx.utility.CombatUtil;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
@@ -8,7 +7,6 @@ import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -45,7 +43,7 @@ public class CommandTokens implements CommandExecutor {
         if(args[0].equalsIgnoreCase("add")) {
             if (commandSender instanceof Player) {
                 if (commandSender.hasPermission("tokens.add")) {
-                    if( plugin.getTokensConfigHandler().isRunningCombatLogX() && CombatUtil.isInCombat((Player) commandSender) ){
+                    if( plugin.getTokensConfigHandler().isRunningCombatLogX() && plugin.getTokensConfigHandler().getTokensCombatManager().isInCombat((Player) commandSender) ){
                         if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                             List<Object> objects = new ArrayList<>();
                             objects.add(new PlayerSender((Player) commandSender));
@@ -121,7 +119,7 @@ public class CommandTokens implements CommandExecutor {
             if(args.length==3){
                 if(commandSender instanceof Player){
                     if(commandSender.hasPermission("tokens.set")){
-                        if( plugin.getTokensConfigHandler().isRunningCombatLogX() && CombatUtil.isInCombat((Player) commandSender) ){
+                        if( plugin.getTokensConfigHandler().isRunningCombatLogX() && plugin.getTokensConfigHandler().getTokensCombatManager().isInCombat((Player) commandSender) ){
                             if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                                 List<Object> objects = new ArrayList<>();
                                 objects.add(new PlayerSender(commandSender));
@@ -266,7 +264,7 @@ public class CommandTokens implements CommandExecutor {
             return true;
         }else if(args[0].equalsIgnoreCase("give")) {
             if(commandSender instanceof Player){
-                if( plugin.getTokensConfigHandler().isRunningCombatLogX() && CombatUtil.isInCombat((Player) commandSender) ){
+                if( plugin.getTokensConfigHandler().isRunningCombatLogX() && plugin.getTokensConfigHandler().getTokensCombatManager().isInCombat((Player) commandSender) ){
                     if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                         List<Object> objects = new ArrayList<>();
                         objects.add(new PlayerSender((Player) commandSender));
