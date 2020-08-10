@@ -1,6 +1,5 @@
 package net.thirdshift.tokens.commands.redeem;
 
-import com.SirBlobman.combatlogx.utility.CombatUtil;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.RedeemModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
@@ -39,7 +38,7 @@ public class RedeemCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(commandSender instanceof Player && commandSender.hasPermission("tokens.redeem")){
-            if( plugin.getTokensConfigHandler().isRunningCombatLogX() && CombatUtil.isInCombat((Player) commandSender) ){
+            if( plugin.getTokensConfigHandler().isRunningCombatLogX() && plugin.getTokensConfigHandler().getTokensCombatManager().isInCombat((Player) commandSender) ){
                 if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                     List<Object> objects = new ArrayList<>();
                     objects.add(new PlayerSender((Player) commandSender));
