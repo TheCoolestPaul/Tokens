@@ -4,7 +4,7 @@ import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
-import net.thirdshift.tokens.commands.tokens.TokensCommandExecutor;
+import net.thirdshift.tokens.commands.tokens.CommandTokens;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
 import net.thirdshift.tokens.commands.tokens.TabTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
@@ -140,7 +140,7 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	public void workCommands(){
-		tokensCommand.setExecutor(new TokensCommandExecutor(this));
+		tokensCommand.setExecutor(new CommandTokens(this));
 		redeemCommand.setExecutor(redeemCommandExecutor);
 
 		tokensCommand.setTabCompleter(new TabTokens(this));
