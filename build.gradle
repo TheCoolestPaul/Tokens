@@ -38,6 +38,10 @@ repositories {
         name = "worldguard because mcmmo is a needy dependency"
         url = "https://maven.enginehub.org/repo/"
     }
+
+    // Added for Vault dependencies
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     flatDir {
         dirs 'libs'
     }
