@@ -10,14 +10,14 @@ targetCompatibility = '1.8'
 
 repositories {
     mavenCentral()
-    maven {
-        name = 'spigotmc-repo'
-        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-    }
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
-    }
+    //maven {
+    //    name = 'spigotmc-repo'
+    //    url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    //}
+    //maven {
+    //    name = 'sonatype'
+    //    url = 'https://oss.sonatype.org/content/groups/public/'
+    //}
     maven {
         name = 'placeholderapi-repo'
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
@@ -39,6 +39,10 @@ repositories {
         url = "https://repo.codemc.io/repository/maven-public/"
     }
     maven {
+        name = "maven NMS"
+        url = "https://repo.codemc.io/repository/nms/"
+    }
+    maven {
         name = "worldguard because mcmmo is a needy dependency"
         url = "https://maven.enginehub.org/repo/"
     }
@@ -48,7 +52,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT"
+    compileOnly "org.spigotmc:spigot:1.16.1-R0.1-SNAPSHOT"
     compileOnly "net.milkbowl.vault:VaultAPI:1.7"
     compileOnly "me.clip:placeholderapi:2.10.8"
     compileOnly "com.github.mcMMO-Dev:mcMMO:master-SNAPSHOT"

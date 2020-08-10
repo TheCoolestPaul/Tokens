@@ -1,6 +1,5 @@
 package net.thirdshift.tokens;
 
-import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
@@ -69,7 +68,6 @@ public final class Tokens extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(tokensEventListener, this);
 		tokensHandler = new TokensHandler(this);
 		keyHander = new KeyHandler(this);
-		tokenShopGUIPlus = new TokenShopGUIPlus(this);
 		messageHandler = new MessageHandler(this);
 
 		messageHandler.loadMessages();
@@ -91,7 +89,7 @@ public final class Tokens extends JavaPlugin {
 			}
 		}
 		if(Bukkit.getPluginManager().getPlugin("ShopGUIPlus")!=null){
-			ShopGuiPlusApi.registerEconomyProvider(tokenShopGUIPlus);
+			tokenShopGUIPlus = new TokenShopGUIPlus(this);
 			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
 		}
 		this.reloadConfig();
