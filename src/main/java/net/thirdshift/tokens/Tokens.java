@@ -3,11 +3,8 @@ package net.thirdshift.tokens;
 import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemModule;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
-import net.thirdshift.tokens.commands.tokens.CommandTokens;
+import net.thirdshift.tokens.commands.tokens.TokensCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
 import net.thirdshift.tokens.commands.tokens.TabTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
@@ -25,7 +22,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -144,7 +140,7 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	public void workCommands(){
-		tokensCommand.setExecutor(new CommandTokens(this));
+		tokensCommand.setExecutor(new TokensCommandExecutor(this));
 		redeemCommand.setExecutor(redeemCommandExecutor);
 
 		tokensCommand.setTabCompleter(new TabTokens(this));
