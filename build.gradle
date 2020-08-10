@@ -3,7 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 apply plugin: 'java'
 
 group = 'net.thirdshift'
-version = '3.8.7'
+version = '3.9.6'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -26,6 +26,10 @@ repositories {
         name = "Vault-API"
         url "http://nexus.hc.to/content/repositories/pub_releases"
     }
+    maven {
+        name = "Jitpack-io"
+        url = "https://jitpack.io"
+    }
     flatDir {
         dirs 'libs'
     }
@@ -38,6 +42,7 @@ dependencies {
     compileOnly "com.gmail.nossr50:mcMMO" // Provided in /libs/
     compileOnly "com.SirBlobman:CombatLogX" // Provided in /libs/
     compileOnly "com.massivecraft:Factions:1.6.9.5-U0.5.17" // Provided in /libs/
+    compileOnly "com.github.brcdev-minecraft:shopgui-api:1.5.0"
 }
 
 processResources {

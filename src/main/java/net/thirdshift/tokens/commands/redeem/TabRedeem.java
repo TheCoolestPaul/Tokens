@@ -1,7 +1,8 @@
-package net.thirdshift.tokens.commands;
+package net.thirdshift.tokens.commands.redeem;
 
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.RedeemModule;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -12,10 +13,12 @@ import java.util.List;
 
 public class TabRedeem implements TabCompleter {
 
-    Tokens plugin;
+    final Tokens plugin;
+    final RedeemCommandExecutor redeemCommandExecutor;
 
     public TabRedeem(Tokens instance){
         this.plugin=instance;
+        redeemCommandExecutor = instance.getRedeemCommandExecutor();
     }
 
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
@@ -23,17 +26,12 @@ public class TabRedeem implements TabCompleter {
         List<String> ret = new ArrayList<>();// Ret the closest of all of them
 
         if(args.length==1){
-            if(plugin.mcmmoEnabled)
-                completions.add("mcmmo");
-            if(plugin.factionsEnabled)
-                completions.add("factions");
-            if(plugin.vaultEnabled && plugin.vaultSell)
-                completions.add("money");
-            if(plugin.keyHander.getKeysSize()>0)
-                completions.add("key");
+            for(RedeemModule redeemModule :  redeemCommandExecutor.getRedeemModules().values()){
+                completions.add(redeemModule.getCommand());
+            }
             StringUtil.copyPartialMatches(args[0], completions, ret);
         }else if(args.length==2){
-            if(args[0].equalsIgnoreCase("mcmmo") && plugin.mcmmoEnabled){
+            if(args[0].equalsIgnoreCase("mcmmo") && plugin.getTokensConfigHandler().isRunningMCMMO()){
                 List<String> skillList = PrimarySkillType.SKILL_NAMES;
                 completions.addAll(skillList);
             }

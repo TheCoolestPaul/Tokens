@@ -14,8 +14,7 @@ public abstract class Database {
     Tokens plugin;
     Connection connection;
 
-    private String table = "tokens_table";
-    public int tokens = 0;
+    private final String table = "tokens_table";
     public Database(Tokens instance){
         plugin = instance;
     }
@@ -27,7 +26,7 @@ public abstract class Database {
     public Integer getTokens(Player player) {
         Connection conn = null;
         PreparedStatement ps = null;
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             conn = getSQLConnection();
             ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE player = ?;");

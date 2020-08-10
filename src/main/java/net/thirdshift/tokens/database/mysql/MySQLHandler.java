@@ -9,7 +9,7 @@ import java.util.logging.Level;
 
 public class MySQLHandler {
 
-    private Tokens plugin;
+    private final Tokens plugin;
     public String username=""; //Enter in your db username
     public String password=""; //Enter your password for the db
     public String dbName = "";//Database name
@@ -39,7 +39,6 @@ public class MySQLHandler {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.err.println("jdbc driver unavailable!");
-            plugin.mysqlEnabled = false;
             return;
         }
         try {
@@ -57,14 +56,11 @@ public class MySQLHandler {
         } catch (SQLException e) {
             if(e.getSQLState().equals("28000")) {
                 plugin.getLogger().warning("MySQL Login information was wrong! Check you config.yml");
-                plugin.mysqlEnabled = false;
             }else if(e.getSQLState().equals("08S01")){
                 plugin.getLogger().severe("MySQL Couldn't establish a connection!");
-                plugin.mysqlEnabled = false;
             }else {
                 System.err.println("MySQL Error: "+e.getSQLState());
                 e.printStackTrace();
-                plugin.mysqlEnabled = false;
             }
         }
     }

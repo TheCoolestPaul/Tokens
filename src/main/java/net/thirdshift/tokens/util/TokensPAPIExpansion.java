@@ -3,7 +3,6 @@ package net.thirdshift.tokens.util;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 
@@ -43,12 +42,14 @@ public class TokensPAPIExpansion extends PlaceholderExpansion {
         if(player==null){
             return null;
         }
-        if(getIdentifier().equals("getTokens")){ // %tokens_getTokens%
-            return String.valueOf(plugin.handler.getTokens(player.getPlayer()));
-        }else if(getIdentifier().equals("getTokens_Formatted")){ // %tokens_getTokens_Formatted%
+
+        if(params.equals("getTokens")){
+            return Integer.toString(plugin.getHandler().getTokens(player.getPlayer()));
+        }else if(params.equals("getTokensFormatted")){
             DecimalFormat formatter = new DecimalFormat("#,###");
-            return formatter.format(plugin.handler.getTokens(player.getPlayer()));
+            return formatter.format(plugin.getHandler().getTokens(player.getPlayer()));
         }
+
         return null;
     }
 

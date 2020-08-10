@@ -25,14 +25,15 @@ public class SQLLite extends Database{
     public Connection getSQLConnection() {
         File storageFolder = new File(plugin.getDataFolder(), "Storage");
         if (!storageFolder.exists()){
-            storageFolder.mkdirs();
-            plugin.getLogger().info("Made /Tokens/Storage/");
+            if(storageFolder.mkdirs())
+                plugin.getLogger().info("Made /Tokens/Storage/");
         }
 
         File dataFolder = new File(storageFolder, dbname+".db");
         if (!dataFolder.exists()){
             try {
-                dataFolder.createNewFile();
+                if(dataFolder.createNewFile())
+                    plugin.getLogger().info("Made /Tokens/Data");
             } catch (IOException e) {
                 plugin.getLogger().log(Level.SEVERE, "File write error: "+dbname+".db");
             }

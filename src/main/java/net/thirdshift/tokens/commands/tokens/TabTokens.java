@@ -1,4 +1,4 @@
-package net.thirdshift.tokens.commands;
+package net.thirdshift.tokens.commands.tokens;
 
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.util.PlayerListUtil;
@@ -28,7 +28,7 @@ public class TabTokens implements TabCompleter {
             completions.add("give");
             completions.add("help");
 
-            if(plugin.hasVault&&plugin.vaultEnabled&&plugin.vaultBuy)
+            if(plugin.getTokensConfigHandler().isVaultSell() && plugin.getTokensConfigHandler().isRunningVault())
                 completions.add("buy");
 
             if(sender.hasPermission("tokens.add"))

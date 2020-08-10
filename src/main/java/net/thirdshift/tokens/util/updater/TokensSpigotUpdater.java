@@ -1,6 +1,12 @@
-package net.thirdshift.tokens.util;
+package net.thirdshift.tokens.util.updater;
 
+import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.util.TokensEventListener;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.event.EventException;
+import org.bukkit.event.EventPriority;
+import org.bukkit.plugin.EventExecutor;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.BufferedReader;
@@ -15,9 +21,11 @@ public class TokensSpigotUpdater {
     private URL checkURL;
     private String newVersion;
     private final JavaPlugin plugin;
+    private TokensEventListener tokensEventListener;
 
-    public TokensSpigotUpdater(JavaPlugin tokens, int projectID) {
+    public TokensSpigotUpdater(Tokens tokens, int projectID) {
         this.plugin = tokens;
+        tokensEventListener=tokens.getTokensEventListener();
         this.newVersion = plugin.getDescription().getVersion();
         this.project = projectID;
         try {
@@ -61,6 +69,18 @@ public class TokensSpigotUpdater {
             plugin.getLogger().info("Pre-release version");
             return false;
         }else if(compare==2){
+            if ( !tokensEventListener.isOutdated() ){
+                tokensEventListener.setOutdated(true);
+                tokensEventListener.setUpdateURL(getResourceURL());
+                plugin.getLogger().info("We're notifying all operators of an available update on join.");
+            } else {
+                // I added this if-statement in case there are multiple updates while a server is live and hasn't updated.
+                if (!tokensEventListener.getUpdateURL().equals(getResourceURL())){
+                    tokensEventListener.setUpdateURL(getResourceURL());
+                }
+                plugin.getLogger().info("We're already notifying all operators of an available update on join.");
+            }
+
             return true;
         }else{
             plugin.getLogger().info("An error occurred in the updater");

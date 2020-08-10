@@ -43,7 +43,7 @@ public class Message {
             if(obj instanceof String){
                 ret = ret.replace("%command_usage%", obj.toString());
             }
-            if(plugin.mcmmoEnabled) {
+            if(plugin.getTokensConfigHandler().isRunningMCMMO()) {
                 if (obj instanceof PrimarySkillType) {
                     ret = ret.replace("%skill_name%", ((PrimarySkillType) obj).getName());
                 }
@@ -51,12 +51,10 @@ public class Message {
                     ret = ret.replace("%skill_list%", obj.toString());
                 }
             }
-            if(plugin.vaultEnabled){
-                if(obj instanceof Double){
-                    ret = ret.replace("%money%", obj.toString());
-                }
+            if(obj instanceof Double){
+                ret = ret.replace("%money%", obj.toString());
             }
-            if(plugin.factionsEnabled) {
+            if(plugin.getTokensConfigHandler().isRunningFactions()) {
                 if (obj instanceof FPlayer) {
                     ret = ret.replace("%power%", String.valueOf(((FPlayer) obj).getPowerMax()));
                 }

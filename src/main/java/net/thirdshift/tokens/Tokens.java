@@ -1,17 +1,25 @@
 package net.thirdshift.tokens;
 
+import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.milkbowl.vault.economy.Economy;
-import net.thirdshift.tokens.commands.CommandRedeem;
-import net.thirdshift.tokens.commands.CommandTokens;
-import net.thirdshift.tokens.commands.TabRedeem;
-import net.thirdshift.tokens.commands.TabTokens;
+import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
+import net.thirdshift.tokens.commands.tokens.CommandTokens;
+import net.thirdshift.tokens.commands.redeem.TabRedeem;
+import net.thirdshift.tokens.commands.tokens.TabTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.messages.MessageHandler;
+import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import net.thirdshift.tokens.util.BStats;
+import net.thirdshift.tokens.util.TokensConfigHandler;
+import net.thirdshift.tokens.util.TokensEventListener;
 import net.thirdshift.tokens.util.TokensPAPIExpansion;
-import net.thirdshift.tokens.util.TokensSpigotUpdater;
+import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
@@ -27,34 +35,16 @@ import java.util.Objects;
 
 public final class Tokens extends JavaPlugin {
 
-	public TokensHandler handler = new TokensHandler(this);
+	private static Tokens instance;
 
-	public boolean mysqlEnabled = false;
+	private TokensConfigHandler tokensConfigHandler;
+
 	private MySQLHandler mysql;
-
-	public boolean sqlliteEnabled = true;
 	private SQLLite sqllite;
 
-	public boolean hasFactions = false;
-	public boolean factionsEnabled = false;
-
-	public boolean hasMCMMO = false;
-	public boolean mcmmoEnabled = false;
-	public int tokenToFactionPower;
-	public int tokensToMCMMOLevels;
-
-	public boolean hasCombatLogX = false;
-	public boolean combatLogXEnabled = false;
-	public boolean combatLogXBlockTokens = false;
-
-	public boolean hasVault = false;
-	public boolean vaultEnabled = false;
-	public boolean vaultBuy = false;
-	public boolean vaultSell = false;
-	public double vaultBuyPrice = 0.0;
-	public double vaultSellPrice = 0.0;
 	public static Economy vaultEcon;
 
+	private final TokensEventListener tokensEventListener = new TokensEventListener(this);
 	private final TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 	private FileConfiguration keyConfig = null;
 	private File keyFile = null;
@@ -66,22 +56,34 @@ public final class Tokens extends JavaPlugin {
 
 	private PluginCommand tokensCommand;
 	private PluginCommand redeemCommand;
+	private TokensHandler tokensHandler;
+	private TokenShopGUIPlus tokenShopGUIPlus;
+	private RedeemCommandExecutor redeemCommandExecutor;
+
+	@Override
+	public void onLoad() {
+		instance = this;
+	}
 
 	@Override
 	public void onEnable() {
-		keyHander = new KeyHandler(this);
 		this.saveDefaultConfig();
-		this.reloadConfig();
+		tokensConfigHandler = new TokensConfigHandler(this);
 
-		this.messageHandler = new MessageHandler(this);
-		this.messageHandler.loadMessages();
+		getServer().getPluginManager().registerEvents(tokensEventListener, this);
+		tokensHandler = new TokensHandler(this);
+		keyHander = new KeyHandler(this);
+		tokenShopGUIPlus = new TokenShopGUIPlus(this);
+		messageHandler = new MessageHandler(this);
+
+		messageHandler.loadMessages();
 
 		tokensCommand = this.getCommand("tokens");
 		redeemCommand = this.getCommand("redeem");
 
-		new BStats(this, 5849);
+		redeemCommandExecutor = new RedeemCommandExecutor(this);
 
-		this.checkUpdates();
+		new BStats(this, 5849);
 
 		this.workCommands();
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
@@ -92,19 +94,58 @@ public final class Tokens extends JavaPlugin {
 				this.getLogger().warning("Couldn't register into PlaceholderAPI");
 			}
 		}
+		if(Bukkit.getPluginManager().getPlugin("ShopGUIPlus")!=null){
+			ShopGuiPlusApi.registerEconomyProvider(tokenShopGUIPlus);
+			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
+		}
+		this.reloadConfig();
+
+		// Auto-check updates related code
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				checkUpdates();
+			}
+		};
+		// Initial check for updates, then schedule one once every 20 minutes
+		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 24000);
+		if (task==-1){
+			getLogger().warning("Couldn't schedule an auto-update check!");
+		}
+	}
+
+	public TokensConfigHandler getTokensConfigHandler() {
+		return tokensConfigHandler;
+	}
+
+	public TokensEventListener getTokensEventListener() {
+		return tokensEventListener;
+	}
+
+	public static Tokens getInstance(){
+		return instance;
+	}
+
+	public TokenShopGUIPlus getTokenShopGUIPlus() {
+		return tokenShopGUIPlus;
+	}
+
+	public TokensHandler getHandler() {
+		return tokensHandler;
 	}
 
 	@Override
 	public void onDisable() {
 		keyHander.saveKeyCooldown();
-		if(this.mysqlEnabled){
+		instance = null;
+		if(tokensConfigHandler.isRunningMySQL()){
 			mysql.stopSQLConnection();//Cut off any loose bois
 		}
 	}
 
 	public void workCommands(){
 		tokensCommand.setExecutor(new CommandTokens(this));
-		redeemCommand.setExecutor(new CommandRedeem(this));
+		redeemCommand.setExecutor(redeemCommandExecutor);
 
 		tokensCommand.setTabCompleter(new TabTokens(this));
 		redeemCommand.setTabCompleter(new TabRedeem(this));
@@ -197,82 +238,8 @@ public final class Tokens extends JavaPlugin {
 	@Override
 	public void reloadConfig() {
 		super.reloadConfig();
-		this.mysqlEnabled = this.getConfig().getBoolean("MySQL.Enabled");
-
-		// vault
-		this.vaultEnabled = this.getConfig().getBoolean("VaultEco.Enabled");
-		this.vaultEnabled = this.getConfig().getBoolean("VaultEco.Enabled");
-		this.vaultBuy = this.getConfig().getBoolean("VaultEco.Buy-Tokens");
-		this.vaultBuyPrice = this.getConfig().getDouble("VaultEco.Buy-Price");
-		this.vaultSell = this.getConfig().getBoolean("VaultEco.Sell-Tokens");
-		this.vaultSellPrice = this.getConfig().getDouble("VaultEco.Sell-Price");
-
-		// factions
-		this.factionsEnabled = this.getConfig().getBoolean("Factions.Enabled");
-		this.tokenToFactionPower = this.getConfig().getInt("Factions.Tokens-To-Power");
-
-		// combatlogx
-		this.combatLogXEnabled = this.getConfig().getBoolean("CombatLogX.Enabled");
-		this.combatLogXBlockTokens = this.getConfig().getBoolean("CombatLogX.Block-Tokens");
-
-		// mcmmo
-		this.mcmmoEnabled = this.getConfig().getBoolean("mcMMO.Enabled");
-		this.tokensToMCMMOLevels = this.getConfig().getInt("mcMMO.Tokens-To-Levels");
-
-		if (this.mysqlEnabled) {
-			this.getLogger().info("Storage Type: [ MySQL ]");
-			if(this.sqllite!=null){
-				this.sqllite=null;
-			}
-			mySQLWork();
-			sqlliteEnabled = false;
-		} else {
-			if(this.mysql!=null){
-				this.mysql.stopSQLConnection();
-				this.mysql=null;
-			}
-			sqlliteEnabled=true;
-			doSQLLiteWork();
-			this.getLogger().info("Storage Type: [ SQLLite ] ( Default )");
-		}
-
-		// Factions Check
-		Plugin factionsPlug = this.getServer().getPluginManager().getPlugin("Factions");
-		if(factionsPlug!=null && factionsPlug.isEnabled()){
-			this.hasFactions=true;
-		}else if (factionsPlug==null && this.factionsEnabled){
-			this.getLogger().warning("Factions addon is enabled but Factions is not installed on the server!");
-		}
-
-		// Vault Check
-		Plugin vaultPlug = this.getServer().getPluginManager().getPlugin("Vault");
-		if (vaultPlug != null && vaultPlug.isEnabled()) {
-			this.hasVault=true;
-		}else if (vaultPlug==null && this.vaultEnabled){
-			this.getLogger().warning("Vault addon is enabled but Vault is not installed on the server!");
-		}
-
-		// CombatLogX Check
-		Plugin combPlug = this.getServer().getPluginManager().getPlugin("CombatLogX");
-		if(combPlug!=null && combPlug.isEnabled()){
-			this.hasCombatLogX=true;
-		}else if (combPlug==null && this.combatLogXEnabled){
-			this.getLogger().warning("CombatLogX addon is enabled but CombatLogX is not installed on the server!");
-		}
-
-		// mcMMO Check
-		Plugin mcmmoPlug = this.getServer().getPluginManager().getPlugin("mcMMO");
-		if(mcmmoPlug!=null&&mcmmoPlug.isEnabled()){
-			this.hasMCMMO=true;
-		}else if (mcmmoPlug==null&&this.mcmmoEnabled){
-			this.getLogger().warning("mcMMO addon is enabled but mcMMO is not installed on the server!");
-		}
-
-		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
-		if (!hasVault && !hasFactions && !hasMCMMO) {
-			this.getLogger().warning("You don't have any supported plugins installed.");
-		}
-		initializeTokensAddons();
+		tokensConfigHandler.reloadConfig();
+		redeemCommandExecutor.registerRedeemModule(new KeyRedeemModule());
 	}
 
 	public void doSQLLiteWork(){
@@ -285,21 +252,11 @@ public final class Tokens extends JavaPlugin {
 			this.mysql = new MySQLHandler(this);
 		}else{
 			this.mysql.stopSQLConnection();
+			this.getLogger().info("Closing old MySQL connection.");
 		}
 		this.mysql.updateSettings();
 		this.getLogger().info("Updated MySQL connection.");
 		this.mysql.startSQLConnection();
-	}
-
-	public void initializeTokensAddons(){
-		if(this.vaultEnabled && this.hasVault)
-			vaultIntegration();
-		if(this.factionsEnabled && this.hasFactions)
-			factionsIntegration();
-		if(this.combatLogXEnabled && this.hasCombatLogX)
-			combatLogXIntegration();
-		if(this.mcmmoEnabled && this.hasMCMMO)
-			mcmmoIntegration();
 	}
 
 	public void vaultIntegration(){
@@ -308,20 +265,6 @@ public final class Tokens extends JavaPlugin {
 				this.getLogger().warning("No Vault economy is present but the addon is enabled!");
 			}
 		}
-		this.getLogger().info("Hooked into Vault.");
-	}
-
-	public void factionsIntegration(){
-		this.getLogger().info("Hooked into Factions");
-		this.hasFactions = true;
-	}
-
-	public void mcmmoIntegration(){
-		this.getLogger().info("Hooked into McMMO");
-	}
-
-	public void combatLogXIntegration(){
-		this.getLogger().info("Hooked into CombatLogX");
 	}
 
 	private boolean setupEconomy() {
@@ -334,25 +277,6 @@ public final class Tokens extends JavaPlugin {
 		}
 		vaultEcon = rsp.getProvider();
 		return true;
-	}
-
-	public String getAddons(){
-		String str = "";
-		if(this.mcmmoEnabled){
-			str+="_mcMMO_";
-		}
-		if(this.factionsEnabled){
-			str+="_factions_";
-		}
-		if(this.vaultEnabled){
-			str+="_money_";
-		}
-		if(this.keyHander.keys.size()>0){
-			str+="_key_";
-		}
-		str=str.replace("__", " | ");
-		str=str.replace("_", "");
-		return str;
 	}
 
 	public SQLLite getSqllite() {
@@ -380,4 +304,15 @@ public final class Tokens extends JavaPlugin {
 		}
 	}
 
+	public RedeemCommandExecutor getRedeemCommandExecutor() {
+		return redeemCommandExecutor;
+	}
+
+	public void nullMySQL() {
+		mysql = null;
+	}
+
+	public void nullSQLLite() {
+		sqllite = null;
+	}
 }

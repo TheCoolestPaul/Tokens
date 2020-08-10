@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class KeyHandler {
     public Map<String, Key> keys;
-    private Tokens plugin;
-    private FileConfiguration keyConfig;
+    private final Tokens plugin;
+    private final FileConfiguration keyConfig;
     private File keyData;
 
     public KeyHandler(Tokens instance){
@@ -43,13 +43,13 @@ public class KeyHandler {
         keyData = new File(storageFolder, "KeyData");
 
         if (!storageFolder.exists()){
-            storageFolder.mkdirs();
-            plugin.getLogger().info("Made /Tokens/Storage/");
+            if(storageFolder.mkdirs())
+                plugin.getLogger().info("Made /Tokens/Storage/");
         }
 
         if (!keyData.exists()){
-            keyData.mkdirs();
-            plugin.getLogger().info("Made /Tokens/Storage/KeyData/");
+            if(keyData.mkdirs())
+                plugin.getLogger().info("Made /Tokens/Storage/KeyData/");
         }
 
         plugin.getLogger().info("Loading keys");
