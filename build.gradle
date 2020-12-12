@@ -53,7 +53,7 @@ dependencies {
     compileOnly "org.spigotmc:spigot:1.16.1-R0.1-SNAPSHOT"
     compileOnly "net.milkbowl.vault:VaultAPI:1.7"
     compileOnly "me.clip:placeholderapi:2.10.8"
-    compileOnly "com.github.mcMMO-Dev:mcMMO:master-SNAPSHOT"
+    compileOnly "com.gmail.nossr50.mcMMO:mcMMO:2.1.161"
     compileOnly "com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT"
 
     compileOnly "com.massivecraft:Factions:1.6.9.5-U0.5.13"
