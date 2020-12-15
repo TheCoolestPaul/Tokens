@@ -1,9 +1,22 @@
 import org.apache.tools.ant.filters.ReplaceTokens
+import java.text.SimpleDateFormat
+import java.util.Date
 
 apply plugin: 'java'
 
 group = 'net.thirdshift'
-version = '3.9.7'
+
+ 
+println """
+==========================================================================
+You are building the Token plugin 
+  Version:    ${project.version} 
+  Build time: ${getCurrentTimestamp()}
+
+Output files are located in [project]/build/libs/Tokens-${project.version}.jar
+==========================================================================
+"""
+
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -63,6 +76,15 @@ dependencies {
 
 processResources {
     from(sourceSets.main.resources.srcDirs) {
-        filter ReplaceTokens, tokens: [version: version]
+        expand 'version': project.version
+        include 'plugin.yml'
     }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'plugin.yml'
+    }
+}
+
+def getCurrentTimestamp() {
+  SimpleDateFormat df = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss")
+  return df.format (new Date())
 }
