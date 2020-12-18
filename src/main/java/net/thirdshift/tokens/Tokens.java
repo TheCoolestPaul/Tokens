@@ -101,8 +101,8 @@ public final class Tokens extends JavaPlugin {
 				checkUpdates();
 			}
 		};
-		// Initial check for updates, then schedule one once every 20 minutes
-		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 24000);
+		// Initial check for updates, then schedule a repeating check once every 4 hours (14400 Seconds)
+		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 20 * 14400);
 		if (task==-1){
 			getLogger().warning("Couldn't schedule an auto-update check!");
 		}
