@@ -1,6 +1,7 @@
 package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
+import net.thirdshift.tokens.cache.TokenCache;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
 import net.thirdshift.tokens.commands.tokens.CommandTokens;
@@ -77,6 +78,8 @@ public final class Tokens extends JavaPlugin {
 
 		redeemCommandExecutor = new RedeemCommandExecutor(this);
 
+		TokenCache.initialize( this );
+		
 		new BStats(this, 5849);
 
 		this.workCommands();
@@ -130,6 +133,9 @@ public final class Tokens extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		
+		TokenCache.onDisable();
+		
 		keyHander.saveKeyCooldown();
 		instance = null;
 		if(tokensConfigHandler.isRunningMySQL()){

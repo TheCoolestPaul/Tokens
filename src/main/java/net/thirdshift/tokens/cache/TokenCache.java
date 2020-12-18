@@ -59,10 +59,14 @@ public class TokenCache {
 	}
 
 	public static void initialize( Tokens plugin ) {
-		TokenCache cache = getInstance();
-		cache.setPlugin( plugin );
+		getInstance().internalInititalize( plugin );
+	}
+	
+	private void internalInititalize( Tokens plugin ) {
 		
-		cache.cacheDatabase = new TokenCacheDatabase( cache );
+		this.plugin = plugin;
+		
+		this.cacheDatabase = new TokenCacheDatabase( this );
 
 		
 		FileConfiguration config = plugin.getConfig();
@@ -84,17 +88,17 @@ public class TokenCache {
 		}
 		
 		if ( dirty ) {
-			cache.getPlugin().saveConfig();
+			getPlugin().saveConfig();
 		}
 
 		// Load settings from config:
-		cache.setEnabled( config.isBoolean( TOKEN_CACHE_IS_ENABLED ));
-		cache.setWriteDelay( config.getLong( TOKEN_CACHE_WRITE_DELAY ) );
+		setEnabled( config.isBoolean( TOKEN_CACHE_IS_ENABLED ));
+		setWriteDelay( config.getLong( TOKEN_CACHE_WRITE_DELAY ) );
 
-		cache.getPlugin().getLogger().info( "### @@@ TokenCache: @@@ ### " + 
-				TOKEN_CACHE_IS_ENABLED + ": " + cache.isEnabled() + " (" +
+		getPlugin().getLogger().info( "### @@@ TokenCache: @@@ ### " + 
+				TOKEN_CACHE_IS_ENABLED + ": " + isEnabled() + " (" +
 				config.isBoolean( TOKEN_CACHE_IS_ENABLED ) + ")  " +
-				"  " + TOKEN_CACHE_WRITE_DELAY + ": " + cache.getWriteDelay() + 
+				"  " + TOKEN_CACHE_WRITE_DELAY + ": " + getWriteDelay() + 
 				" (" + config.getLong( TOKEN_CACHE_WRITE_DELAY ) + ")" );
 	}
 	
@@ -194,7 +198,9 @@ public class TokenCache {
 	private TokenCachePlayerData getPlayer( Player player ) {
 		
 		if ( !getPlayers().containsKey( player.getUniqueId() ) ) {
-			getPlayers().put( player.getUniqueId(), new TokenCachePlayerData( player ) );
+			
+			// Load the player's existing balance:
+			submitAsyncLoadPlayer( player );
 		}
 		
 		return getPlayers().get( player.getUniqueId() );
@@ -228,8 +234,15 @@ public class TokenCache {
 	
 	
 	protected void submitAsyncLoadPlayer( Player player ) {
-		
+	
 		TokenCachePlayerData playerData = new TokenCachePlayerData( player );
+		
+		getPlayers().put( player.getUniqueId(), playerData );
+		
+		submitAsyncLoadPlayer( playerData );
+		
+	}
+	private void submitAsyncLoadPlayer( TokenCachePlayerData playerData ) {
 		
 		TokenCacheLoadPlayerTask task = new TokenCacheLoadPlayerTask( playerData );
 
@@ -328,12 +341,8 @@ public class TokenCache {
 
 	
 	
-	
 	protected Tokens getPlugin() {
 		return plugin;
-	}
-	private void setPlugin( Tokens plugin ) {
-		this.plugin = plugin;
 	}
 
 	public boolean isEnabled() {

@@ -195,6 +195,11 @@ public class TokenCachePlayerData {
 	
 	protected void setInitialValue( int tokens ) {
 		synchronized ( lock ) {
+			
+			System.err.println("### @@@ TokenCachePlayer: setInitialValue: player: " + 
+						getPlayer().getName() + "  valueDB= " + valueDB +
+						"  new value= "  + tokens );
+			
 			valueDB = tokens;
 		}
 	}
