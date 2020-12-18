@@ -1,17 +1,17 @@
 package net.thirdshift.tokens.database.sqllite;
 
-import net.thirdshift.tokens.Tokens;
-
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 
+import net.thirdshift.tokens.Tokens;
+
 public class SQLLite extends Database{
-    String dbname;
+    private String dbname;
+    
     public SQLLite(Tokens instance){
         super(instance);
         dbname = "tokens_table";
@@ -22,47 +22,77 @@ public class SQLLite extends Database{
     // TODO: Actually read and analyze this.
     // This code isn't mine, it was handed out to learn from
 
-    public Connection getSQLConnection() {
-        File storageFolder = new File(plugin.getDataFolder(), "Storage");
+//    /**
+//     * <p>This establishes the SQLite connection if it does not exist,
+//     * and then upon subsequent calls, returns that connection. 
+//     * A simple check with low overhead (if connection is null or closed) 
+//     * is performed to establish if the more expensive checks and operations
+//     * are required (file checks and establishing database connections).
+//     * </p>
+//     * 
+//     */
+//    public Connection getSQLConnection() {
+//    	try {
+//			if ( connection == null || connection.isClosed() ) {
+//				// Once the connection is established, then skip all of this:
+//				openConnection();
+//			}
+//		}
+//		catch ( SQLException e ) {
+//			plugin.getLogger().log( Level.SEVERE,
+//            		String.format("SQLite ERROR: cannot establish if the connection is closed: %s", 
+//            				e.getMessage()), e);
+//		}
+//
+//    	return connection;
+//    }
+
+    @Override
+    protected void openConnection() {
+        File storageFolder = new File(getPlugin().getDataFolder(), "Storage");
         if (!storageFolder.exists()){
             if(storageFolder.mkdirs())
-                plugin.getLogger().info("Made /Tokens/Storage/");
+            	getPlugin().getLogger().info("SQLite openConnection: Created dirs: plugins/Tokens/Storage/");
         }
 
-        File dataFolder = new File(storageFolder, dbname+".db");
+        String databaseFileName = dbname + ".db";
+        File dataFolder = new File(storageFolder, databaseFileName);
         if (!dataFolder.exists()){
             try {
                 if(dataFolder.createNewFile())
-                    plugin.getLogger().info("Made /Tokens/Data");
-            } catch (IOException e) {
-                plugin.getLogger().log(Level.SEVERE, "File write error: "+dbname+".db");
+                	getPlugin().getLogger().info( String.format( 
+                    		"SQLite openConnection: Created file: /Tokens/%s", databaseFileName));
+            } 
+            catch (IOException e) {
+            	getPlugin().getLogger().log(Level.SEVERE, String.format( 
+                		"SQLite openConnection: Could not created file: /Tokens/%s", databaseFileName));
             }
         }
         try {
-            if(connection!=null&&!connection.isClosed()){
-                return connection;
-            }
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
-            return connection;
-        } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE,"SQLite exception on initialize", ex);
-        } catch (ClassNotFoundException ex) {
-            plugin.getLogger().log(Level.SEVERE, "You need the SQLite JBDC library. Google it. Put it in /lib folder.");
+            setConnection( DriverManager.getConnection("jdbc:sqlite:" + dataFolder) );
+        } 
+        catch (SQLException ex) {
+        	getPlugin().getLogger().log(Level.SEVERE,
+            			"SQLite openConnection: Failure establishing a connection to the database", ex);
+        } 
+        catch (ClassNotFoundException ex) {
+        	getPlugin().getLogger().log(Level.SEVERE, "" +
+            		"SQLite openConnection: The SQLite JDBC Driver was not found. " +
+            		"You need the SQLite JBDC library. Google it. Put it in /lib folder.");
         }
-        return null;
     }
-
+    
     public void load() {
-        connection = getSQLConnection();
-        try {
-            Statement s = connection.createStatement();
-            String SQLiteCreateTokensTable = "CREATE TABLE IF NOT EXISTS tokens_table (`player` varchar(32) NOT NULL,`tokens` int(11) NOT NULL,PRIMARY KEY (`player`));";
-            s.executeUpdate(SQLiteCreateTokensTable);
-            s.close();
-        } catch (SQLException e) {
-            plugin.getLogger().severe("SQLite error: ");
-            e.printStackTrace();
+        try ( Statement s = getSQLConnection().createStatement(); ) {
+            String sql = 
+            		"CREATE TABLE IF NOT EXISTS tokens_table " +
+            		"(`player` varchar(32) NOT NULL,`tokens` int(11) NOT NULL, PRIMARY KEY (`player`));";
+            s.executeUpdate(sql);
+        } 
+        catch (SQLException e) {
+            getPlugin().getLogger().log( Level.SEVERE,
+            		String.format("SQLite ERROR: cannot create tokens_table: %s", e.getMessage()), e);
         }
     }
 }

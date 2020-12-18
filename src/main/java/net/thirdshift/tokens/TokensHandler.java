@@ -34,7 +34,7 @@ public class TokensHandler {
         if(configHandler.isRunningMySQL()){
             plugin.getMySQL().addTokens(player, tokensIn);
         } else {
-            plugin.getSqllite().setTokens(player, (plugin.getSqllite().getTokens(player) + tokensIn) );
+            plugin.getSqllite().addTokens(player, tokensIn );
         }
     }
 

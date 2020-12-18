@@ -37,23 +37,23 @@ Once you edit `keys.yml` you can use /tokens reload to apply your changes in gam
 
 **What are the commands?**  
 
--   /tokens (Used to show the player how many tokens they have)
--   /tokens give [player name] [token amount] (Used for players to give tokens to one another)
--   /tokens add [player name] [token amount] (Used to add a number of tokens to a player's tokens)
--   /tokens remove [player name] [token amount] (Used to remove a number of tokens from a player's tokens)
--   /tokens set [player name] [token amount] (Used to set a player's tokens to a number)
--   /tokens reload (Used to reload the config into the plugin)
--   /redeem (Command used to show help for redeeming tokens)
--   /redeem <key> (Command used to redeem a key)
+-   `/tokens`  *(Used to show the player how many tokens they have)*
+-   `/tokens give <playerName> <tokenAmount>`  *(Used for players to give tokens to one another)*
+-   `/tokens add <playerName> <tokenAmount>`  *(Used to add a number of tokens to a player's tokens)*
+-   `/tokens remove <playerName> <tokenAmount>`  *(Used to remove a number of tokens from a player's tokens)*
+-   `/tokens set <playerName> <tokenAmount>`  *(Used to set a player's tokens to a number)*
+-   `/tokens reload`  *(Used to reload the config into the plugin)*
+-   `/redeem`  *(Command used to show help for redeeming tokens)*
+-   `/redeem <key>`  *(Command used to redeem a key)*
 
 **What are the permissions?**  
 
--   tokens.use (Recommended for all users /tokens)
--   tokens.give (Recommended for all users /tokens give)
--   tokens.add (Recommended for admins /tokens add)
--   tokens.remove (Recommended for admins/tokens remove)
--   tokens.set (Recommended for admins /tokens set)
--   tokens.reload (Recommended for admins /tokens reload)
+-   `tokens.use`  *(Recommended for all users /tokens)*
+-   `tokens.give`  *(Recommended for all users /tokens give)*
+-   `tokens.add`  *(Recommended for admins /tokens add)*
+-   `tokens.remove`  *(Recommended for admins/tokens remove)*
+-   `tokens.set`  *(Recommended for admins /tokens set)*
+-   `tokens.reload`  *(Recommended for admins /tokens reload)*
 
 **What if I need support?**  
   
