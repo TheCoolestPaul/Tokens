@@ -138,8 +138,15 @@ public final class Tokens extends JavaPlugin {
 		
 		keyHander.saveKeyCooldown();
 		instance = null;
+		
+		// The database connections are shutdown in TokenCacheDatabase but
+		// providing final attempts here just to ensure they are shutdown to
+		// help prevent corruption.
 		if(tokensConfigHandler.isRunningMySQL()){
-			mysql.stopSQLConnection();//Cut off any loose bois
+			mysql.closeConnection();//Cut off any loose bois
+		}
+		else {
+			sqllite.closeConnection();
 		}
 	}
 
@@ -251,7 +258,7 @@ public final class Tokens extends JavaPlugin {
 		if(this.mysql==null) {
 			this.mysql = new MySQLHandler(this);
 		}else{
-			this.mysql.stopSQLConnection();
+			this.mysql.closeConnection();
 			this.getLogger().info("Closing old MySQL connection.");
 		}
 		this.mysql.updateSettings();

@@ -65,5 +65,16 @@ public class TokenCacheDatabase {
     		getPlugin().getSqllite().setTokens(player, tokensIn );
     	}
     }
+
+	public void closeConnections()
+	{
+    	if( getPlugin().getTokensConfigHandler().isRunningMySQL() ) {
+    		getPlugin().getMySQL().closeConnection();
+    	} 
+    	else {
+    		getPlugin().getSqllite().closeConnection();
+    	}
+		
+	}
     
 }

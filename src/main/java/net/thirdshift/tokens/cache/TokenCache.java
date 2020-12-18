@@ -115,6 +115,7 @@ public class TokenCache {
 	 */
 	public static void onDisable() {
 		getInstance().onDisableInternal();
+		
 	}
 	
 	/**
@@ -188,6 +189,10 @@ public class TokenCache {
 			}
 			
 		}
+		
+		// Shutdown the database connections:
+		getCacheDatabase().closeConnections();
+		
 	}
 
 	

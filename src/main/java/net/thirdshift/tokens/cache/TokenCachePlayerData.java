@@ -120,9 +120,9 @@ public class TokenCachePlayerData {
 	 * adjustment amount that needs to be stored within the valueUncommited
 	 * field.  As simple as this is, we really need to take in to consideration
 	 * database updates that may be in progress.  So that modifies the 
-	 * calculations that we must perform, which is:
+	 * calculations that we must perform:
 	 * </p>
-	 * <pre>valueUncommited = (valueDB + valueTransition)</pre>
+	 * <pre>valueUncommited = tokens - (valueDB + valueTransition)</pre>
 	 * <p>The reason we need to include valueTransition is because if a
 	 * database update is in progress, then valueTransition will represent
 	 * how the players record will be reflected once the transaction is 
@@ -134,7 +134,7 @@ public class TokenCachePlayerData {
 	public void setTokens( int tokens ) {
 			
 		synchronized ( lock ) {
-			valueUncommitted = (valueDB + valueTransition);
+			valueUncommitted = tokens - (valueDB + valueTransition);
 		}
 	}
 

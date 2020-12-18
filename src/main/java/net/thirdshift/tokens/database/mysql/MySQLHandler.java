@@ -84,7 +84,7 @@ public class MySQLHandler {
          }
     }
 
-    public void stopSQLConnection() {
+    public void closeConnection() {
         try {
             if (connection!=null && !connection.isClosed()){
                 connection.close();

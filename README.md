@@ -17,6 +17,7 @@ Tokens was initially developed for use in my private server, the idea was to giv
 -   **[CombatLogX](https://www.spigotmc.org/resources/combatlogx.31689/)**
 -   **[PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)**
 -   **[Any Vault Economy](https://www.spigotmc.org/resources/vault.34315/)**
+-   **[Prison](https://www.spigotmc.org/resources/prison.1223/history/)**
 
 Want a plugin on this list? Let me know  [here](https://github.com/TheCoolestPaul/Tokens/issues), make sure to include a link to the plugin, what a token should be spent on, and any information you think I'll need to add it.​
 
