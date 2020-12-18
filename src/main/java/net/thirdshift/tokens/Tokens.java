@@ -43,7 +43,7 @@ public final class Tokens extends JavaPlugin {
 	private final TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 	private FileConfiguration keyConfig = null;
 	private File keyFile = null;
-	public KeyHandler keyHander;
+	public KeyHandler keyHandler;
 
 	public MessageHandler messageHandler;
 	private File messageFile = null;
@@ -67,7 +67,7 @@ public final class Tokens extends JavaPlugin {
 
 		getServer().getPluginManager().registerEvents(tokensEventListener, this);
 		tokensHandler = new TokensHandler(this);
-		keyHander = new KeyHandler(this);
+		keyHandler = new KeyHandler(this);
 		messageHandler = new MessageHandler(this);
 
 		messageHandler.loadMessages();
@@ -95,14 +95,9 @@ public final class Tokens extends JavaPlugin {
 		this.reloadConfig();
 
 		// Auto-check updates related code
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				checkUpdates();
-			}
-		};
-		// Initial check for updates, then schedule one once every 20 minutes
-		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 24000);
+		Runnable runnable = this::checkUpdates;
+		// Initial check for updates, then schedule a repeating check once every 4 hours (14400 Seconds)
+		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 20 * 14400);
 		if (task==-1){
 			getLogger().warning("Couldn't schedule an auto-update check!");
 		}
@@ -130,7 +125,7 @@ public final class Tokens extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		keyHander.saveKeyCooldown();
+		keyHandler.saveKeyCooldown();
 		instance = null;
 		if(tokensConfigHandler.isRunningMySQL()){
 			mysql.stopSQLConnection();//Cut off any loose bois
