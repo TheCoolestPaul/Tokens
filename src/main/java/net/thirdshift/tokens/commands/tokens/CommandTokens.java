@@ -135,8 +135,10 @@ public class CommandTokens implements CommandExecutor {
                             objects.add(num);
                             objects.add(new PlayerSender(commandSender));
                             objects.add(new PlayerTarget(target));
-                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
-                            target.sendMessage(plugin.messageHandler.useMessage("tokens.set.receiver", objects));
+                            if (!plugin.messageHandler.useMessage("tokens.set.sender", objects).isEmpty())
+                                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
+                            if (!plugin.messageHandler.useMessage("tokens.set.receiver", objects).isEmpty())
+                                target.sendMessage(plugin.messageHandler.useMessage("tokens.set.receiver", objects));
                         }else{
                             if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
                                 List<Object> objects = new ArrayList<>();
@@ -153,10 +155,12 @@ public class CommandTokens implements CommandExecutor {
                         tokensHandler.setTokens(target, num);
                         List<Object> objects = new ArrayList<>();
                         objects.add(num);
-                        objects.add(new PlayerSender(commandSender));
+                        objects.add(new PlayerSender("Console"));
                         objects.add(new PlayerTarget(target));
-                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
-                        target.sendMessage(plugin.messageHandler.useMessage("tokens.receiver", objects));
+                        if (!plugin.messageHandler.useMessage("tokens.set.sender", objects).isEmpty())
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
+                        if (!plugin.messageHandler.useMessage("tokens.set.receiver", objects).isEmpty())
+                            target.sendMessage(plugin.messageHandler.useMessage("tokens.set.receiver", objects));
                     }else{
                         if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
                             List<Object> objects = new ArrayList<>();
