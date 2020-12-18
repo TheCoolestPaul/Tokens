@@ -37,9 +37,9 @@ public class KeyRedeemModule extends RedeemModule {
 
 		String keyName = args.get(0);
 
-		if(plugin.keyHander.isValidKey(keyName)){
-			if(plugin.keyHander.getKey(keyName).enabled) {
-				Key key = plugin.keyHander.getKey(keyName);
+		if(plugin.keyHandler.isValidKey(keyName)){
+			if(plugin.keyHandler.getKey(keyName).enabled) {
+				Key key = plugin.keyHandler.getKey(keyName);
 				if(key.getPlayerCooldown(player) != -1) {
 					long timeLeft = System.currentTimeMillis() - key.getPlayerCooldown(player);
 					if (TimeUnit.MILLISECONDS.toSeconds(timeLeft) >= TimeUnit.MINUTES.toSeconds(key.getCooldown())) {
