@@ -23,7 +23,7 @@ tokens:
     sender: "&7You removed &5%tokens% &7Tokens from &e%target%"
     receiver: "" # I left this blank so the player doesn't know who removed the Tokens.
   set:
-    sender: "&7You set &5%tokens% &7Tokens to &e%target%"
+    sender: "&7You set &e%target% &7Tokens to &5%tokens%"
     receiver: "" # I left this blank so the player doesn't know who set the Tokens.
   errors:
     no-player: "&4Couldn't find player &7%target%&4. Did you spell their username correctly?"
