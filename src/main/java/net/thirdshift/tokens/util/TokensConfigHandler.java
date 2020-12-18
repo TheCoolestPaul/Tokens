@@ -75,7 +75,7 @@ public class TokensConfigHandler {
 			plugin.getLogger().info("Storage Type: SQLLite | [ MySQL ]");
 		} else {
 			if(plugin.getMySQL()!=null){
-				plugin.getMySQL().stopSQLConnection();
+				plugin.getMySQL().closeConnection();
 				plugin.nullMySQL();
 			}
 			isRunningMySQL = false;
