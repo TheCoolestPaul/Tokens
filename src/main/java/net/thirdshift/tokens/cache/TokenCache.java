@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class TokenCache {
 	
 	
 	private Map<UUID, TokenCachePlayerData> players;
-//	private List<TokenCacheUser> usersDirty;
+	private TreeMap<String, TokenCachePlayerData> playerStrings;
 	
 	private Map<BukkitTask, TokenCachePlayerData> tasks;
 	
@@ -41,6 +42,8 @@ public class TokenCache {
 		super();
 		
 		this.players = new HashMap<>();
+		this.playerStrings = new TreeMap<>();
+		
 		this.tasks = new HashMap<>();
 		
 //		this.usersDirty = new ArrayList<>();
@@ -95,11 +98,9 @@ public class TokenCache {
 		setEnabled( config.isBoolean( TOKEN_CACHE_IS_ENABLED ));
 		setWriteDelay( config.getLong( TOKEN_CACHE_WRITE_DELAY ) );
 
-		getPlugin().getLogger().info( "### @@@ TokenCache: @@@ ### " + 
-				TOKEN_CACHE_IS_ENABLED + ": " + isEnabled() + " (" +
-				config.isBoolean( TOKEN_CACHE_IS_ENABLED ) + ")  " +
-				"  " + TOKEN_CACHE_WRITE_DELAY + ": " + getWriteDelay() + 
-				" (" + config.getLong( TOKEN_CACHE_WRITE_DELAY ) + ")" );
+		getPlugin().getLogger().info( "TokenCache: " + 
+				TOKEN_CACHE_IS_ENABLED + ": " + isEnabled() + "  " +
+				"  " + TOKEN_CACHE_WRITE_DELAY + ": " + getWriteDelay() );
 	}
 	
 	/**
@@ -146,6 +147,8 @@ public class TokenCache {
 			for ( UUID key : keys ) {
 				// Remove the player from the cache and get the playerData:
 				TokenCachePlayerData playerData = getPlayers().remove( key );
+				
+				getPlayerStrings().remove( key.toString() );
 				
 				if ( playerData != null ) {
 					
@@ -216,6 +219,7 @@ public class TokenCache {
 		if ( getPlayers().containsKey( playerData.getPlayer().getUniqueId() ) ) {
 			
 			getPlayers().remove( playerData.getPlayer().getUniqueId() );
+			getPlayerStrings().remove( playerData.getPlayer().getUniqueId().toString() );
 		}
 	}
 	
@@ -279,6 +283,14 @@ public class TokenCache {
 			playerData.setBuckkitTask( bTask );
 			
 		}
+		
+	}
+	
+	protected void submitAsyncSynchronizePlayers() {
+		
+		TokenCacheSynchronizeCacheTask task = new TokenCacheSynchronizeCacheTask();
+		getPlugin().getServer().getScheduler().runTaskLaterAsynchronously( 
+										getPlugin(), task, 0 );
 		
 	}
 	
@@ -364,8 +376,12 @@ public class TokenCache {
 		this.writeDelay = writeDelay;
 	}
 
-	private Map<UUID, TokenCachePlayerData> getPlayers() {
+	protected Map<UUID, TokenCachePlayerData> getPlayers() {
 		return players;
+	}
+
+	public TreeMap<String, TokenCachePlayerData> getPlayerStrings() {
+		return playerStrings;
 	}
 
 	protected TokenCacheDatabase getCacheDatabase() {

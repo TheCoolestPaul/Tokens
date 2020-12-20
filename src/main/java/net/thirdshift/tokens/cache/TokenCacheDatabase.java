@@ -27,7 +27,7 @@ public class TokenCacheDatabase {
      * @param player Target player
      * @return Current balance of Player's tokens
      */
-    public int getTokens(Player player){
+    public int getTokens(Player player) {
         if( getPlugin().getTokensConfigHandler().isRunningMySQL() ) {
             return getPlugin().getMySQL().getTokens(player);
         }
@@ -41,7 +41,7 @@ public class TokenCacheDatabase {
      * @param player Target player
      * @param tokensIn Amount of tokens
      */
-    public void addTokens(Player player, int tokensIn){
+    public void addTokens(Player player, int tokensIn) {
         if( getPlugin().getTokensConfigHandler().isRunningMySQL() ) {
         	getPlugin().getMySQL().addTokens(player, tokensIn);
         } 

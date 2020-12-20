@@ -204,6 +204,24 @@ public class TokenCachePlayerData {
 		}
 	}
 	
+
+	/**
+	 * <p>This function will check to see if the token value in the cache
+	 * for the database (both valueDB + valueTransition) is the same as 
+	 * the value in the database.
+	 * </p>
+	 * 
+	 * @param tokens
+	 */
+	protected void synchronizeFromDatabase( int tokensDB ) {
+		synchronized ( lock ) {
+			if ( tokensDB != (valueDB + valueTransition ) ) {
+				valueDB = tokensDB - valueTransition;
+			}
+		}
+	}
+	
+	
 	protected Player getPlayer() {
 		return player;
 	}
@@ -243,6 +261,5 @@ public class TokenCachePlayerData {
 	public void setBuckkitTask( BukkitTask bukkitTask ) {
 		this.bukkitTask = bukkitTask;
 	}
-	
 	
 }
