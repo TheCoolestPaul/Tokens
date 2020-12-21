@@ -25,6 +25,27 @@ public class MessageHandler {
         return messageList.get(path).use(objectList);
     }
 
+    /**
+     * <p>This uses the String.format() to apply parameters to the given message.
+     * </p>
+     * 
+     * @param path
+     * @param args Arguments to be applied to the String.format(). Does not support the placeholders.
+     * @return
+     */
+    public String formatMessage(String path, Object... args) {
+    	String formatted = null;
+    	if ( messageList.containsKey(path) ) {
+    		String message = messageList.get(path).getFormatted();
+    		formatted = String.format( message, args );
+    	}
+    	else {
+    		formatted = "Tokens message failure: Could not find message path: " + path + 
+					" Please report to an admin and have them check token's message file.";
+    	}
+    	return formatted;
+    }
+    
     public void loadMessages(){
         this.messageConfig=plugin.getMessageConfig();
         if(messageList!=null){
@@ -34,6 +55,7 @@ public class MessageHandler {
         List<String> paths = new ArrayList<>();
         paths.add("tokens.main");
         paths.add("tokens.others");
+        paths.add("tokens.console");
 
         paths.add("tokens.add.sender");
         paths.add("tokens.add.receiver");
@@ -51,6 +73,15 @@ public class MessageHandler {
         paths.add("tokens.errors.invalid-command.message");
         paths.add("tokens.errors.invalid-command.correction");
 
+        
+        // Token Cache messages:
+        paths.add("tokens.cache.menu.help-help");
+        paths.add("tokens.cache.menu.help-sync");
+        paths.add("tokens.cache.menu.help-stats");
+        paths.add("tokens.cache.sync.start.message");
+        paths.add("tokens.cache.sync.completed.message");
+        
+        
         // Start redeem
         paths.add("redeem.mcmmo.redeemed");
         paths.add("redeem.mcmmo.invalid-skill");

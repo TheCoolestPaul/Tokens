@@ -70,5 +70,9 @@ public class Message {
     public String getRaw() {
         return raw;
     }
+    
+    public String getFormatted() {
+    	return formatted;
+    }
 
 }
