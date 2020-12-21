@@ -3,6 +3,7 @@ package net.thirdshift.tokens.cache;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
@@ -43,14 +44,21 @@ import org.bukkit.entity.Player;
 public class TokenCacheSynchronizeCacheTask
 				implements Runnable
 {
+	private CommandSender commandSender;
 	
-	public TokenCacheSynchronizeCacheTask() {
+	public TokenCacheSynchronizeCacheTask( CommandSender commandSender ) {
 		super();
 		
+		this.commandSender = commandSender;
 	}
 	
 	public void run() {
 
+		int cachedItems = 0;
+		int cachedUnloaded = 0;
+		int playersUpdated = 0;
+		int playersSyncd = 0;
+		
 		TokenCache tCache = TokenCache.getInstance();
 		
 		List<String> keys = new ArrayList<>( tCache.getPlayerStrings().keySet() );
@@ -64,21 +72,39 @@ public class TokenCacheSynchronizeCacheTask
 			if ( currentPlayer == null || !currentPlayer.isOnline() ) {
 				// Player is no longer online so unload them:
 				tCache.submitAsyncUnloadPlayer( playerData.getPlayer() );
+				cachedUnloaded++;
 			}
 			else {
 				if ( currentPlayer.equals( playerData.getPlayer() )  ) {
 					// If a player logs off and then back on, will the Player object be the same?
 					// Not sure how you could tell, but I suspect they will be different objects.
 					playerData.setPlayer( currentPlayer );
+					playersUpdated++;
 				}
 				
 				// check the synchronization:
 				int tokens = tCache.getCacheDatabase().getTokens( playerData.getPlayer() );
 				
-				playerData.synchronizeFromDatabase( tokens );
+				if ( playerData.synchronizeFromDatabase( tokens ) ) {
+					playersSyncd++;
+				}
 			}
 				
+			cachedItems++;
 		}
+		
+		
+		String message = tCache.getPlugin().messageHandler.
+        		formatMessage( "tokens.cache.sync.completed.message", 
+        				cachedItems, cachedUnloaded, playersUpdated, playersSyncd );
+		
+		if ( commandSender != null ) {
+			commandSender.sendMessage( message );
+		}
+		else {
+			tCache.getPlugin().getLogger().info( message );
+		}
+
 		
 //		List<TokenCachePlayersTokensData> players = 
 //								tCache.getCacheDatabase().getAllPlayerTokens();

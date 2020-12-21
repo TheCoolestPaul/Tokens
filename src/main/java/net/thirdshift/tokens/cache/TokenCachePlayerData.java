@@ -212,13 +212,18 @@ public class TokenCachePlayerData {
 	 * </p>
 	 * 
 	 * @param tokens
+	 * @return boolean indicating if the player was synchronized with the database
 	 */
-	protected void synchronizeFromDatabase( int tokensDB ) {
+	protected boolean synchronizeFromDatabase( int tokensDB ) {
+		boolean synched = false;
+		
 		synchronized ( lock ) {
 			if ( tokensDB != (valueDB + valueTransition ) ) {
 				valueDB = tokensDB - valueTransition;
+				synched = true;
 			}
 		}
+		return synched;
 	}
 	
 	

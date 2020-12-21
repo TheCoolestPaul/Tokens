@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -127,7 +128,7 @@ public class TokenCache {
 	 * </p>
 	 * 
 	 * <p>This function runs all database transactions synchronously so as to 
-	 * ensure all data is writted to the database before the server is 
+	 * ensure all data is written to the database before the server is 
 	 * terminated.
 	 * </p>
 	 * 
@@ -247,6 +248,8 @@ public class TokenCache {
 		TokenCachePlayerData playerData = new TokenCachePlayerData( player );
 		
 		getPlayers().put( player.getUniqueId(), playerData );
+		getPlayerStrings().put( player.getUniqueId().toString(), playerData );
+		
 		
 		submitAsyncLoadPlayer( playerData );
 		
@@ -286,9 +289,12 @@ public class TokenCache {
 		
 	}
 	
-	protected void submitAsyncSynchronizePlayers() {
+	public void submitAsyncSynchronizePlayers() {
+		submitAsyncSynchronizePlayers( null );
+	}
+	public void submitAsyncSynchronizePlayers( CommandSender commandSender ) {
 		
-		TokenCacheSynchronizeCacheTask task = new TokenCacheSynchronizeCacheTask();
+		TokenCacheSynchronizeCacheTask task = new TokenCacheSynchronizeCacheTask( commandSender );
 		getPlugin().getServer().getScheduler().runTaskLaterAsynchronously( 
 										getPlugin(), task, 0 );
 		
