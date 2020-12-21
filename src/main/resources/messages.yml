@@ -40,7 +40,7 @@ tokens:
       start:
         message: "&7Starting Token Cache database synchronization..."
       completed:
-        message: "&7Finished Token Cache database synchronization: cached players= %d  unloaded players= %d  players updated= %d  players syncronized= %d"
+        message: "&7Finished Token Cache database synchronization: cached players= %d  unloaded players= %d  players syncronized= %d"
 redeem:
   mcmmo:
     redeemed: "&7You redeemed &6%tokens% &7Tokens for the skill &8%skill_name%"

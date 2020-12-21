@@ -54,9 +54,9 @@ public class TokenCacheSynchronizeCacheTask
 	
 	public void run() {
 
-		int cachedItems = 0;
+		int cachedPlayers = 0;
 		int cachedUnloaded = 0;
-		int playersUpdated = 0;
+//		int playersUpdated = 0;
 		int playersSyncd = 0;
 		
 		TokenCache tCache = TokenCache.getInstance();
@@ -75,12 +75,13 @@ public class TokenCacheSynchronizeCacheTask
 				cachedUnloaded++;
 			}
 			else {
-				if ( currentPlayer.equals( playerData.getPlayer() )  ) {
-					// If a player logs off and then back on, will the Player object be the same?
-					// Not sure how you could tell, but I suspect they will be different objects.
-					playerData.setPlayer( currentPlayer );
-					playersUpdated++;
-				}
+				// NOTE: currentPlayer.equals() does not work correctly... skip this for now:
+//				if ( currentPlayer.equals( playerData.getPlayer() )  ) {
+//					// If a player logs off and then back on, will the Player object be the same?
+//					// Not sure how you could tell, but I suspect they will be different objects.
+//					playerData.setPlayer( currentPlayer );
+//					playersUpdated++;
+//				}
 				
 				// check the synchronization:
 				int tokens = tCache.getCacheDatabase().getTokens( playerData.getPlayer() );
@@ -90,13 +91,13 @@ public class TokenCacheSynchronizeCacheTask
 				}
 			}
 				
-			cachedItems++;
+			cachedPlayers++;
 		}
 		
 		
 		String message = tCache.getPlugin().messageHandler.
         		formatMessage( "tokens.cache.sync.completed.message", 
-        				cachedItems, cachedUnloaded, playersUpdated, playersSyncd );
+        				cachedPlayers, cachedUnloaded, playersSyncd );
 		
 		if ( commandSender != null ) {
 			commandSender.sendMessage( message );

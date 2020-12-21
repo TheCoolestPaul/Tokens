@@ -335,6 +335,7 @@ public class TokenCache {
 		if ( isEnabled() ) {
 			TokenCachePlayerData playerData = getPlayer( player );
 			playerData.setTokens( tokens );
+			submitAsyncDatabaseUpdate( playerData );
 		}
 		else {
 			// The cache is not enabled, so pass through directly to the database:
