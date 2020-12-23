@@ -91,7 +91,7 @@ public class SQLLite extends Database{
         try ( Statement s = getSQLConnection().createStatement(); ) {
             String sql = 
             		"CREATE TABLE IF NOT EXISTS tokens_table " +
-            		"(`player` varchar(32) NOT NULL,`tokens` int(11) NOT NULL, PRIMARY KEY (`player`));";
+            		"(`player` varchar(40) NOT NULL,`tokens` int(11) NOT NULL, PRIMARY KEY (`player`));";
             s.executeUpdate(sql);
         } 
         catch (SQLException e) {
