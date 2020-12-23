@@ -29,6 +29,8 @@ public class TokenCache {
 	private boolean enabled = false;
 	private long writeDelay = 0L;
 	
+	private TokenCacheStats stats;
+
 	
 	private Map<UUID, TokenCachePlayerData> players;
 	private TreeMap<String, TokenCachePlayerData> playerStrings;
@@ -48,6 +50,8 @@ public class TokenCache {
 		this.tasks = new HashMap<>();
 		
 //		this.usersDirty = new ArrayList<>();
+		
+		this.stats = new TokenCacheStats();
 
 	}
 	
@@ -205,6 +209,7 @@ public class TokenCache {
 	}
 	
 	private TokenCachePlayerData getPlayer( Player player ) {
+		getStats().incrementGetPlayers();
 		
 		if ( !getPlayers().containsKey( player.getUniqueId() ) ) {
 			
@@ -216,6 +221,7 @@ public class TokenCache {
 	}
 	
 	private void removePlayerFromCache( TokenCachePlayerData playerData ) {
+		getStats().incrementRemovePlayers();
 		
 		if ( getPlayers().containsKey( playerData.getPlayer().getUniqueId() ) ) {
 			
@@ -229,6 +235,9 @@ public class TokenCache {
 			// Submit the async job
 			
 			if ( playerData.getValueUncommitted() > 0 ) {
+				getStats().incrementSubmitDatabaseUpdate();
+				
+				playerData.setAsyncDatabaseUpdateSubmitted( true );
 				
 				TokenCacheUpdateDatabaseTask task = new TokenCacheUpdateDatabaseTask( playerData );
 				BukkitTask bTask = getPlugin().getServer().getScheduler().runTaskLaterAsynchronously( 
@@ -244,6 +253,7 @@ public class TokenCache {
 	
 	
 	protected void submitAsyncLoadPlayer( Player player ) {
+		getStats().incrementLoadPlayers();
 	
 		TokenCachePlayerData playerData = new TokenCachePlayerData( player );
 		
@@ -255,6 +265,7 @@ public class TokenCache {
 		
 	}
 	private void submitAsyncLoadPlayer( TokenCachePlayerData playerData ) {
+		getStats().incrementLoadPlayers();
 		
 		TokenCacheLoadPlayerTask task = new TokenCacheLoadPlayerTask( playerData );
 
@@ -273,6 +284,7 @@ public class TokenCache {
 		TokenCachePlayerData playerData = getPlayer( player );
 		
 		if ( playerData != null ) {
+			getStats().incrementUnloadPlayers();
 			
 			// Remove from the player cache:
 			removePlayerFromCache( playerData );
@@ -293,6 +305,7 @@ public class TokenCache {
 		submitAsyncSynchronizePlayers( null );
 	}
 	public void submitAsyncSynchronizePlayers( CommandSender commandSender ) {
+		getStats().incrementSubmitSynchronizePlayers();
 		
 		TokenCacheSynchronizeCacheTask task = new TokenCacheSynchronizeCacheTask( commandSender );
 		getPlugin().getServer().getScheduler().runTaskLaterAsynchronously( 
@@ -304,6 +317,7 @@ public class TokenCache {
 		int results = 0;
 		
 		if ( isEnabled() ) {
+			getStats().incrementAddTokens();
 			TokenCachePlayerData playerData = getPlayer( player );
 			results = playerData.addTokens( tokens );
 			submitAsyncDatabaseUpdate( playerData );
@@ -320,6 +334,7 @@ public class TokenCache {
 		int tokens = 0;
 		
 		if ( isEnabled() ) {
+			getStats().incrementGetTokens();
 			TokenCachePlayerData playerData = getPlayer( player );
 			tokens = playerData.getTokens();
 		}
@@ -333,6 +348,7 @@ public class TokenCache {
 	
 	public void setTokens( Player player, int tokens ) {
 		if ( isEnabled() ) {
+			getStats().incrementSetTokens();
 			TokenCachePlayerData playerData = getPlayer( player );
 			playerData.setTokens( tokens );
 			submitAsyncDatabaseUpdate( playerData );
@@ -344,6 +360,8 @@ public class TokenCache {
 	}
 
 	public int removeTokens( Player player, int tokens ) {
+		getStats().incrementRemveTokens();
+		
 		return addTokens( player, -1 * tokens );
 	}
 	
@@ -352,6 +370,7 @@ public class TokenCache {
 		boolean results = false;
 		
 		if ( isEnabled() ) {
+			getStats().incrementHasTokens();
 			TokenCachePlayerData playerData = getPlayer( player );
 			results = playerData.hasTokens( tokens );
 		}
@@ -363,8 +382,26 @@ public class TokenCache {
 		return results;
 	}
 
+	public String getPlayerDumpStats() {
+		StringBuilder sb = new StringBuilder();
+
+		List<String> keys = new ArrayList<>( getPlayerStrings().keySet() );
+		
+		for ( String key : keys ) {
+			TokenCachePlayerData playerData = getPlayerStrings().get( key );
+			
+			sb.append( playerData.toString() );
+		}
+		return sb.toString();
+	}
 	
-	
+	public TokenCacheStats getStats() {
+		return stats;
+	}
+	public void setStats( TokenCacheStats stats ) {
+		this.stats = stats;
+	}
+
 	protected Tokens getPlugin() {
 		return plugin;
 	}

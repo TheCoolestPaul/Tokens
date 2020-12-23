@@ -290,24 +290,44 @@ public class CommandTokens implements CommandExecutor {
         	
             return true;
         }
+        
         else if ( args[0].equalsIgnoreCase("cache") && 
         		(commandSender.hasPermission("tokens.cache") || commandSender.isOp()) ) {
-        	if ( args.length > 1 && args[1].equalsIgnoreCase("stats") ) {
-        		commandSender.sendMessage( "/tokens cache stats: coming soon... under construction." );
-        	}
-        	else if ( args.length > 1 && args[1].equalsIgnoreCase("sync") ) {
+        	
+        	if ( args.length > 1 && args[1].equalsIgnoreCase("sync") ) {
                 commandSender.sendMessage(plugin.messageHandler.formatMessage("tokens.cache.sync.start.message"));
                 TokenCache.getInstance().submitAsyncSynchronizePlayers( commandSender );
         	}
+        	else if ( args.length > 2 && args[1].equalsIgnoreCase("stats") && args[2].equalsIgnoreCase("toggle") ) {
+        		TokenCache.getInstance().getStats().setEnabled( !TokenCache.getInstance().getStats().isEnabled() );;
+        		commandSender.sendMessage( plugin.messageHandler.formatMessage("tokens.cache.stats.toggled",
+        				TokenCache.getInstance().getStats().isEnabled()) );
+        	}
+        	else if ( args.length > 2 && args[1].equalsIgnoreCase("stats") && args[2].equalsIgnoreCase("clear") ) {
+        		TokenCache.getInstance().getStats().clear();
+        		commandSender.sendMessage( plugin.messageHandler.formatMessage("tokens.cache.stats.cleared") );
+        	}
+        	else if ( args.length > 2 && args[1].equalsIgnoreCase("stats") && args[2].equalsIgnoreCase("dump") ) {
+        		String playerCacheDump = TokenCache.getInstance().getPlayerDumpStats();
+        		commandSender.sendMessage( playerCacheDump );
+        	}
+        	else if ( args.length > 1 && args[1].equalsIgnoreCase("stats") ) {
+        		commandSender.sendMessage( TokenCache.getInstance().getStats().displayStats() );
+        	}
         	else {
-                commandSender.sendMessage(ChatColor.GREEN + "===============[ " + ChatColor.GOLD + "Tokens Cache Help" + ChatColor.GREEN + " ]===============");
+                commandSender.sendMessage(ChatColor.GREEN + "===============[ " + ChatColor.GOLD + "Tokens Cache Help " +
+                			ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + " ]===============");
                 commandSender.sendMessage(ChatColor.AQUA + "/tokens cache help " + plugin.messageHandler.formatMessage("tokens.cache.menu.help-help"));
                 commandSender.sendMessage(ChatColor.AQUA + "/tokens cache sync " + plugin.messageHandler.formatMessage("tokens.cache.menu.help-sync"));
                 commandSender.sendMessage(ChatColor.AQUA + "/tokens cache stats " + plugin.messageHandler.formatMessage("tokens.cache.menu.help-stats"));
+                commandSender.sendMessage(ChatColor.AQUA + "/tokens cache stats toggle " + plugin.messageHandler.formatMessage("tokens.cache.menu.help-stats-toggle"));
+                commandSender.sendMessage(ChatColor.AQUA + "/tokens cache stats clear " + plugin.messageHandler.formatMessage("tokens.cache.menu.help-stats-clear"));
+                commandSender.sendMessage(ChatColor.AQUA + "/tokens cache stats dump " + plugin.messageHandler.formatMessage("tokens.cache.menu.help-stats-dump"));
 
         	}
         	return true;
         }
+        
         else if(args.length==1) {
             Player target = Bukkit.getPlayerExact(args[0]);
             if(commandSender instanceof Player) {
@@ -451,7 +471,8 @@ public class CommandTokens implements CommandExecutor {
     private void displayTokenHelp( CommandSender commandSender ) {
     	boolean isConsole = !(commandSender instanceof Player) || commandSender.isOp();
     	
-        commandSender.sendMessage(ChatColor.GREEN + "===============[ " + ChatColor.GOLD + "Tokens Help" + ChatColor.GREEN + " ]===============");
+        commandSender.sendMessage(ChatColor.GREEN + "===============[ " + ChatColor.GOLD + "Tokens Help " +
+    								ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + " ]===============");
         commandSender.sendMessage(ChatColor.AQUA + "/tokens help " + ChatColor.GRAY + " Displays this helpful text");
         commandSender.sendMessage(ChatColor.AQUA + "/tokens" + ChatColor.GRAY + " Displays your number of tokens");
         if (commandSender.hasPermission("tokens.add") || isConsole) {

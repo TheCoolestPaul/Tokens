@@ -18,8 +18,8 @@ implements Runnable
 		
 		int tokens = tCache.getCacheDatabase().getTokens( playerData.getPlayer() );
 		
-		playerData.setInitialValue( tokens );
-		
+		String stats = playerData.setInitialValue( tokens );
+		tCache.getPlugin().getLogger().info( stats );
 		
 		// If valueUncommitted is non-zero, then that means more
 		// transactions have been added and needs to schedule 

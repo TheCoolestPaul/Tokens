@@ -80,6 +80,19 @@ public class TokenCachePlayerData {
 		this.player = player;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append( getPlayer().getName() ).append( " [tokens= " ).append( getTokens() )
+				.append( " (uncommitted= " ).append( getValueUncommitted() )
+				.append( isAsyncDatabaseUpdateSubmitted() ? " *UpdateSubmitted*" : "" )
+				.append( " db= " ).append( valueDB )
+				.append( " transition= " ).append( valueTransition )
+				.append( " )]  " );
+		
+		return sb.toString();
+	}
 	
 	/**
 	 * <p>This function adds the number of tokens to the player.
@@ -173,6 +186,7 @@ public class TokenCachePlayerData {
 			valueUncommitted = 0;
 			
 			tokens = valueTransition;
+			
 		}
 		return tokens;
 	}
@@ -183,6 +197,8 @@ public class TokenCachePlayerData {
 		synchronized ( lock ) {
 			valueDB += valueTransition;
 			valueTransition = 0;
+			
+			setAsyncDatabaseUpdateSubmitted( false );
 		}
 	}
 
@@ -193,15 +209,12 @@ public class TokenCachePlayerData {
 	}
 	
 	
-	protected void setInitialValue( int tokens ) {
+	protected String setInitialValue( int tokens ) {
 		synchronized ( lock ) {
-			
-			System.err.println("### @@@ TokenCachePlayer: setInitialValue: player: " + 
-						getPlayer().getName() + "  valueDB= " + valueDB +
-						"  new value= "  + tokens );
 			
 			valueDB = tokens;
 		}
+		return "### TokenCachePlayer: setInitialValue: " + toString();
 	}
 	
 
@@ -253,11 +266,14 @@ public class TokenCachePlayerData {
 //		this.valueUncommitted = valueUncommitted;
 //	}
 
+
 	protected boolean isAsyncDatabaseUpdateSubmitted() {
 		return asyncDatabaseUpdateSubmitted;
 	}
 	protected void setAsyncDatabaseUpdateSubmitted( boolean asyncDatabaseUpdateSubmitted ) {
-		this.asyncDatabaseUpdateSubmitted = asyncDatabaseUpdateSubmitted;
+		synchronized ( lock ) {
+			this.asyncDatabaseUpdateSubmitted = asyncDatabaseUpdateSubmitted;
+		}
 	}
 
 	public BukkitTask getBukkitTask() {
