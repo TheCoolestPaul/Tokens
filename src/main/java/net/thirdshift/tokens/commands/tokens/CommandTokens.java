@@ -112,11 +112,11 @@ public class CommandTokens implements CommandExecutor {
                     objects.add("/tokens set <player name> <tokens amount>");
                     commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.message", objects));
                 }
-                if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command-correction").isEmpty()){
+                if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.correction").isEmpty()){
                     List<Object> objects = new ArrayList<>();
                     objects.add(new PlayerSender((Player)commandSender));
                     objects.add("/tokens set <player name> <tokens amount>");
-                    commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+                    commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
                 }
             }
             return true;
@@ -153,11 +153,11 @@ public class CommandTokens implements CommandExecutor {
                             objects.add("/tokens remove <player name> <tokens amount>");
                             commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.message", objects));
                         }
-                        if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command-correction").isEmpty()){
+                        if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.correction").isEmpty()){
                             List<Object> objects = new ArrayList<>();
                             objects.add(new PlayerSender(commandSender));
                             objects.add("/tokens remove <player name> <tokens amount>");
-                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
                         }
                     }
                 }else return false;
@@ -192,11 +192,11 @@ public class CommandTokens implements CommandExecutor {
                         objects.add("/tokens remove <player name> <tokens amount>");
                         commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.message", objects));
                     }
-                    if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command-correction").isEmpty()){
+                    if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.correction").isEmpty()){
                         List<Object> objects = new ArrayList<>();
                         objects.add(new PlayerSender(commandSender));
                         objects.add("/tokens remove <player name> <tokens amount>");
-                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
                     }
                 }
             }
@@ -411,7 +411,7 @@ public class CommandTokens implements CommandExecutor {
 		                List<Object> objects = new ArrayList<>();
 		                objects.add(new PlayerSender((Player)commandSender));
 		                objects.add(ChatColor.AQUA + "/tokens add <player name> <tokens amount>");
-		                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command-correction", objects));
+		                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
 		            }
 		        }
 		    }
