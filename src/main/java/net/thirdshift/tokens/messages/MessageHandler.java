@@ -21,8 +21,21 @@ public class MessageHandler {
 
     public Message getMessage(String path){ return messageList.get(path); }
 
+    /**
+     * <p>Uses the give message, but if the path does not exist, then it returns
+     * an empty String so it does not generate a NullPointerException.
+     * </p>
+     * 
+     * @param path
+     * @param objectList
+     * @return
+     */
     public String useMessage(String path, List<Object> objectList){
-        return messageList.get(path).use(objectList);
+    	String results = null;
+    	if ( messageList.containsKey( path ) ) {
+    		results = messageList.get(path).use(objectList);
+    	}
+        return results == null ? "" : results;
     }
 
     /**
