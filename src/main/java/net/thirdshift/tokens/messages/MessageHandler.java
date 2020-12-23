@@ -91,8 +91,13 @@ public class MessageHandler {
         paths.add("tokens.cache.menu.help-help");
         paths.add("tokens.cache.menu.help-sync");
         paths.add("tokens.cache.menu.help-stats");
+        paths.add("tokens.cache.menu.help-stats-toggle");
+        paths.add("tokens.cache.menu.help-stats-clear");
+        paths.add("tokens.cache.menu.help-stats-dump");
         paths.add("tokens.cache.sync.start.message");
         paths.add("tokens.cache.sync.completed.message");
+        paths.add("tokens.cache.stats.toggled");
+        paths.add("tokens.cache.stats.cleared");
         
         
         // Start redeem

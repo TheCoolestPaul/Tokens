@@ -35,12 +35,18 @@ tokens:
     menu:
       help-help: "&7Displays this helpful cache text"
       help-sync: "&7Synchronizes the cache with the database. Purge non-active players."
-      help-stats: "&7Token Cache stats"
+      help-stats: "&7Token Cache stats - Displays collected stats"
+      help-stats-toggle: "&7Token Cache stats - Toggle on and off"
+      help-stats-clear: "&7Token Cache Stats - Clear & reset the stats. If off, it will not start the stats."
+      help-stats-dump: "&7Token Cache Stats Dump - Dumps the player cache and shows internal stats."
     sync:
       start:
         message: "&7Starting Token Cache database synchronization..."
       completed:
-        message: "&7Finished Token Cache database synchronization: cached players= %d  unloaded players= %d  players syncronized= %d"
+        message: "&7Finished synchronization: cached players= %d  unloaded players= %d  players synchronized= %d"
+    stats:
+      toggled: "&7Token Cache stats toggled. enabled= &5%b"
+      cleared: "&7Token Cache stats have been cleared & reset."
 redeem:
   mcmmo:
     redeemed: "&7You redeemed &6%tokens% &7Tokens for the skill &8%skill_name%"
