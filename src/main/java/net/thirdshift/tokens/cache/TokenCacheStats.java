@@ -50,8 +50,12 @@ public class TokenCacheStats {
 	public void setEnabled( boolean enabled ) {
 		this.enabled = enabled;
 	}
+	public void toggleEnabled() {
+		this.enabled = !this.enabled;
+	}
 
-	
+
+
 	public String displayStats() {
 		StringBuilder sb = new StringBuilder();
 		

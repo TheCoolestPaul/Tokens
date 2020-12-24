@@ -30,6 +30,8 @@ public class TokenCache {
 	private long writeDelay = 0L;
 	
 	private TokenCacheStats stats;
+	private boolean journal;
+	private String journalPlayer;
 
 	
 	private Map<UUID, TokenCachePlayerData> players;
@@ -401,7 +403,46 @@ public class TokenCache {
 	public void setStats( TokenCacheStats stats ) {
 		this.stats = stats;
 	}
+	
+	
+	public boolean isJournal() {
+		return journal;
+	}
+	public void setJournal( boolean journal ) {
+		this.journal = journal;
+	}
+	public boolean toggleJournal() {
+		return this.journal = !this.journal;
+	}
+	
+	public String getJournalPlayer() {
+		return journalPlayer;
+	}
+	public void setJournalPlayer( String journalPlayer ){
+		this.journalPlayer = journalPlayer;
+	}
 
+	void journal( TokenCachePlayerData playerData, String message )
+	{
+		if ( isJournal() && (
+				getJournalPlayer() == null || 
+				getJournalPlayer().equalsIgnoreCase( playerData.getPlayer().getName() ) )) {
+			log( message + (playerData != null ? playerData.toString() : "") );
+		}
+	}
+	private void journal( Player player, String message )
+	{
+		if ( isJournal() && (
+				getJournalPlayer() == null || 
+				getJournalPlayer().equalsIgnoreCase( player.getName() ) )) {
+			log( message + (player != null ? player.getName() : "") );
+		}
+	}
+
+	protected void log( String message ) {
+		getPlugin().getLogger().info( message );
+	}
+	
 	protected Tokens getPlugin() {
 		return plugin;
 	}

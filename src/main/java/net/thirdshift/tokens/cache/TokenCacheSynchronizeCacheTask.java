@@ -58,6 +58,7 @@ public class TokenCacheSynchronizeCacheTask
 		int cachedUnloaded = 0;
 //		int playersUpdated = 0;
 		int playersSyncd = 0;
+		int playersUpdated = 0;
 		
 		TokenCache tCache = TokenCache.getInstance();
 		
@@ -89,6 +90,15 @@ public class TokenCacheSynchronizeCacheTask
 				if ( playerData.synchronizeFromDatabase( tokens ) ) {
 					playersSyncd++;
 				}
+				
+				if ( !playerData.isAsyncDatabaseUpdateSubmitted() && playerData.getValueUncommitted() > 0 ) {
+					
+					// Use the task but don't submit it, just run the function directly since this is already 
+					// running in an async thread.
+					TokenCacheUpdateDatabaseTask task = new TokenCacheUpdateDatabaseTask( playerData );
+					task.run();
+					playersUpdated++;
+				}
 			}
 				
 			cachedPlayers++;
@@ -97,7 +107,7 @@ public class TokenCacheSynchronizeCacheTask
 		
 		String message = tCache.getPlugin().messageHandler.
         		formatMessage( "tokens.cache.sync.completed.message", 
-        				cachedPlayers, cachedUnloaded, playersSyncd );
+        				cachedPlayers, cachedUnloaded, playersSyncd, playersUpdated );
 		
 		if ( commandSender != null ) {
 			commandSender.sendMessage( message );
