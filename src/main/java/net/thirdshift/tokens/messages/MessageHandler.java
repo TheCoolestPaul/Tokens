@@ -94,10 +94,14 @@ public class MessageHandler {
         paths.add("tokens.cache.menu.help-stats-toggle");
         paths.add("tokens.cache.menu.help-stats-clear");
         paths.add("tokens.cache.menu.help-stats-dump");
+        paths.add("tokens.cache.menu.help-stats-journaling");
         paths.add("tokens.cache.sync.start.message");
         paths.add("tokens.cache.sync.completed.message");
         paths.add("tokens.cache.stats.toggled");
         paths.add("tokens.cache.stats.cleared");
+        paths.add("tokens.cache.stats.journaling-enbled");
+        paths.add("tokens.cache.stats.journaling-player");
+        paths.add("tokens.cache.stats.journaling-disabled");
         
         
         // Start redeem
