@@ -17,9 +17,13 @@ public class TokenCacheUpdateDatabaseTask
 		
 		int tokens = playerData.databaseStageTokens();
 		
+		tCache.journal( playerData, "TokenCacheUpdateDatabaseTask.run: Running. ");
+		
 		tCache.getCacheDatabase().addTokens( playerData.getPlayer(), tokens );
 		
 		playerData.databaseFinalizeTokens();
+
+		tCache.journal( playerData, "TokenCacheUpdateDatabaseTask.run: Finished. ");
 		
 		// If valueUncommitted is non-zero, then that means more
 		// transactions have been added and needs to schedule 
@@ -28,7 +32,9 @@ public class TokenCacheUpdateDatabaseTask
 		tCache.submitAsyncDatabaseUpdate( playerData );
 		
 		// Remove the saved task:
-		tCache.getTasks().remove( playerData.getBukkitTask() );
+		if ( playerData.getBukkitTask() != null ) {
+			tCache.getTasks().remove( playerData.getBukkitTask() );
+		}
 	}
 
 }

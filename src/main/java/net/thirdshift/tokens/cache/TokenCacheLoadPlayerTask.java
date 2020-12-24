@@ -15,11 +15,14 @@ implements Runnable
 	
 		TokenCache tCache = TokenCache.getInstance();
 		
+		tCache.journal( playerData, "TokenCacheLoadPlayerTask.run(): before loading from DB.");
 		
 		int tokens = tCache.getCacheDatabase().getTokens( playerData.getPlayer() );
 		
 		String stats = playerData.setInitialValue( tokens );
 		tCache.getPlugin().getLogger().info( stats );
+
+		tCache.journal( playerData, "TokenCacheLoadPlayerTask.run(): finished loading from DB.");
 		
 		// If valueUncommitted is non-zero, then that means more
 		// transactions have been added and needs to schedule 

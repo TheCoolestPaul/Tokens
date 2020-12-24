@@ -214,14 +214,19 @@ public class TokenCache {
 		getStats().incrementGetPlayers();
 		
 		if ( !getPlayers().containsKey( player.getUniqueId() ) ) {
+			journal( player, "getPlayer: Player not in cache. Loading from DB: " +
+					" Player returned from cache will have a token balance of zero until database is loaded");
 			
 			// Load the player's existing balance:
 			submitAsyncLoadPlayer( player );
 		}
-		
-		return getPlayers().get( player.getUniqueId() );
+		TokenCachePlayerData playerData = getPlayers().get( player.getUniqueId() );
+
+		// journal( playerData, "getPlayer: Player returned: ");
+		return playerData;
 	}
-	
+
+
 	private void removePlayerFromCache( TokenCachePlayerData playerData ) {
 		getStats().incrementRemovePlayers();
 		
@@ -229,6 +234,7 @@ public class TokenCache {
 			
 			getPlayers().remove( playerData.getPlayer().getUniqueId() );
 			getPlayerStrings().remove( playerData.getPlayer().getUniqueId().toString() );
+			journal( playerData, "removePlayerFromCache: ");
 		}
 	}
 	
@@ -236,14 +242,18 @@ public class TokenCache {
 		if ( !playerData.isAsyncDatabaseUpdateSubmitted() ) {
 			// Submit the async job
 			
-			if ( playerData.getValueUncommitted() > 0 ) {
-				getStats().incrementSubmitDatabaseUpdate();
-				
+			if ( playerData.getValueUncommitted() != 0 ) {
 				playerData.setAsyncDatabaseUpdateSubmitted( true );
+				
+				long delay = (getCacheWriteDelay() / 50);
+				journal( playerData, "submitAsyncDatabaseUpdate: Submitting. " +
+													"delay= " + delay + " ticks. " );
+				
+				getStats().incrementSubmitDatabaseUpdate();
 				
 				TokenCacheUpdateDatabaseTask task = new TokenCacheUpdateDatabaseTask( playerData );
 				BukkitTask bTask = getPlugin().getServer().getScheduler().runTaskLaterAsynchronously( 
-						getPlugin(), task, (getCacheWriteDelay() / 50) );
+						getPlugin(), task, delay );
 				
 				// Store the BukkitTask in the playerData for possible future reference.
 				playerData.setBuckkitTask( bTask );
@@ -269,6 +279,8 @@ public class TokenCache {
 	private void submitAsyncLoadPlayer( TokenCachePlayerData playerData ) {
 		getStats().incrementLoadPlayers();
 		
+		journal( playerData, "submitAsyncLoadPlayer: ");
+		
 		TokenCacheLoadPlayerTask task = new TokenCacheLoadPlayerTask( playerData );
 
 		// Submit task to run right away:
@@ -287,6 +299,8 @@ public class TokenCache {
 		
 		if ( playerData != null ) {
 			getStats().incrementUnloadPlayers();
+			
+			journal( playerData, "submitAsyncUnloadPlayer: ");
 			
 			// Remove from the player cache:
 			removePlayerFromCache( playerData );
@@ -322,6 +336,7 @@ public class TokenCache {
 			getStats().incrementAddTokens();
 			TokenCachePlayerData playerData = getPlayer( player );
 			results = playerData.addTokens( tokens );
+			journal( playerData, "addTokens: ");
 			submitAsyncDatabaseUpdate( playerData );
 		}
 		else {
@@ -332,12 +347,27 @@ public class TokenCache {
 		return results;
 	}
 	
+	public void setTokens( Player player, int tokens ) {
+		if ( isEnabled() ) {
+			getStats().incrementSetTokens();
+			TokenCachePlayerData playerData = getPlayer( player );
+			playerData.setTokens( tokens );
+			journal( playerData, "setTokens: ");
+			submitAsyncDatabaseUpdate( playerData );
+		}
+		else {
+			// The cache is not enabled, so pass through directly to the database:
+			getCacheDatabase().setTokens( player, tokens );
+		}
+	}
+	
 	public int getTokens( Player player ) {
 		int tokens = 0;
 		
 		if ( isEnabled() ) {
 			getStats().incrementGetTokens();
 			TokenCachePlayerData playerData = getPlayer( player );
+			journal( playerData, "getTokens: ");
 			tokens = playerData.getTokens();
 		}
 		else {
@@ -346,19 +376,6 @@ public class TokenCache {
 		}
 		
 		return tokens;
-	}
-	
-	public void setTokens( Player player, int tokens ) {
-		if ( isEnabled() ) {
-			getStats().incrementSetTokens();
-			TokenCachePlayerData playerData = getPlayer( player );
-			playerData.setTokens( tokens );
-			submitAsyncDatabaseUpdate( playerData );
-		}
-		else {
-			// The cache is not enabled, so pass through directly to the database:
-			getCacheDatabase().setTokens( player, tokens );
-		}
 	}
 
 	public int removeTokens( Player player, int tokens ) {
@@ -374,6 +391,7 @@ public class TokenCache {
 		if ( isEnabled() ) {
 			getStats().incrementHasTokens();
 			TokenCachePlayerData playerData = getPlayer( player );
+			journal( playerData, "hasTokens: ");
 			results = playerData.hasTokens( tokens );
 		}
 		else {
