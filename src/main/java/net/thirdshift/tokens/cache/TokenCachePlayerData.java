@@ -224,7 +224,7 @@ public class TokenCachePlayerData {
 	 * the value in the database.
 	 * </p>
 	 * 
-	 * @param tokens
+	 * @param tokensDB
 	 * @return boolean indicating if the player was synchronized with the database
 	 */
 	protected boolean synchronizeFromDatabase( int tokensDB ) {

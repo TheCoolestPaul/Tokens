@@ -444,6 +444,7 @@ public class TokenCache {
 	{
 		if ( isJournal() && (
 				getJournalPlayer() == null || 
+				playerData != null &&
 				getJournalPlayer().equalsIgnoreCase( playerData.getPlayer().getName() ) )) {
 			log( message + (playerData != null ? playerData.toString() : "") );
 		}
@@ -452,6 +453,7 @@ public class TokenCache {
 	{
 		if ( isJournal() && (
 				getJournalPlayer() == null || 
+				player != null &&
 				getJournalPlayer().equalsIgnoreCase( player.getName() ) )) {
 			log( message + (player != null ? player.getName() : "") );
 		}
