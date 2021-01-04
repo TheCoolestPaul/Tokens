@@ -51,25 +51,19 @@ public class TokenCache {
 		
 		this.tasks = new HashMap<>();
 		
-//		this.usersDirty = new ArrayList<>();
-		
 		this.stats = new TokenCacheStats();
 
 	}
 	
 	public static TokenCache getInstance() {
-		if ( instance == null ) {
-			synchronized( TokenCache.class ) {
-				if ( instance == null ) {
-					instance = new TokenCache();
-				}
-			}
-		}
 		return instance;
 	}
 
-	public static void initialize( Tokens plugin ) {
-		getInstance().internalInititalize( plugin );
+	public synchronized static void initialize( Tokens plugin ) {
+		if ( instance == null ) {
+			instance = new TokenCache();
+			instance.internalInititalize( plugin );
+		}
 	}
 	
 	private void internalInititalize( Tokens plugin ) {
