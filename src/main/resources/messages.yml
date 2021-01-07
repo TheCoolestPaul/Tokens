@@ -13,6 +13,7 @@
 tokens:
   main: "&7You have &6%tokens% &7Tokens"
   others: "&e%target% &7has &6%tokens% &7Tokens"
+  console: "&7You cannot run this command from console."
   add:
     sender: "&7You added &6%tokens% &7Tokens to %target%&7's Tokens."
     receiver: "" # I left this blank so the player doesn't know who added the Tokens.
@@ -30,6 +31,26 @@ tokens:
     invalid-command:
       message: "&4Invalid command use."
       correction: "&7Command usage: %command_usage%"
+  cache:
+    menu:
+      help-help: "&7Displays this helpful cache text"
+      help-sync: "&7Synchronizes the cache with the database. Purge non-active players."
+      help-stats: "&7Token Cache stats - Displays collected stats"
+      help-stats-toggle: "&7Token Cache stats - Toggle on and off"
+      help-stats-clear: "&7Token Cache Stats - Clear & reset the stats. If off, it will not start the stats."
+      help-stats-dump: "&7Token Cache Stats Dump - Dumps the player cache and shows internal stats."
+      help-stats-journaling: "&7Token Cache Stats Journaling - Toggle on and off. Player name is optional."
+    sync:
+      start:
+        message: "&7Starting Token Cache database synchronization..."
+      completed:
+        message: "&7Finished synchronization: %d players in cache. Unloaded %d players. %d players synchronized. %d players were saved to DB."
+    stats:
+      toggled: "&7Token Cache stats toggled. enabled= &5%b"
+      cleared: "&7Token Cache stats have been cleared & reset."
+      journaling-enbled: "&Token Cache Journaling has been enabled."
+      journaling-player: "&Token Cache Journaling is activated on player: %s."
+      journaling-disabled: "&Token Cache Journaling has been disabled."
 redeem:
   mcmmo:
     redeemed: "&7You redeemed &6%tokens% &7Tokens for the skill &8%skill_name%"

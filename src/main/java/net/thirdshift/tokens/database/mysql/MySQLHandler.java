@@ -72,7 +72,7 @@ public class MySQLHandler {
     
     private void createTable() {
     	 String table ="CREATE TABLE IF NOT EXISTS tokens " +
-         		"(uuid VARCHAR(40) NOT NULL, num INT(9) NOT NULL, UNIQUE (uuid));";
+         		"(uuid VARCHAR(40) NOT NULL, num INT(11) NOT NULL, UNIQUE (uuid));";
          
          try ( PreparedStatement stmt = connection.prepareStatement(table); ) {
          	stmt.executeUpdate();
@@ -84,7 +84,7 @@ public class MySQLHandler {
          }
     }
 
-    public void stopSQLConnection() {
+    public void closeConnection() {
         try {
             if (connection!=null && !connection.isClosed()){
                 connection.close();

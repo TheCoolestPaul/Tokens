@@ -1,6 +1,7 @@
 package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
+import net.thirdshift.tokens.cache.TokenCache;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
 import net.thirdshift.tokens.commands.tokens.CommandTokens;
@@ -77,6 +78,8 @@ public final class Tokens extends JavaPlugin {
 
 		redeemCommandExecutor = new RedeemCommandExecutor(this);
 
+		TokenCache.initialize( this );
+		
 		new BStats(this, 5849);
 
 		this.workCommands();
@@ -125,10 +128,20 @@ public final class Tokens extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		
+		TokenCache.onDisable();
+		
 		keyHandler.saveKeyCooldown();
 		instance = null;
+		
+		// The database connections are shutdown in TokenCacheDatabase but
+		// providing final attempts here just to ensure they are shutdown to
+		// help prevent corruption.
 		if(tokensConfigHandler.isRunningMySQL()){
-			mysql.stopSQLConnection();//Cut off any loose bois
+			mysql.closeConnection();//Cut off any loose bois
+		}
+		else {
+			sqllite.closeConnection();
 		}
 	}
 
@@ -240,7 +253,7 @@ public final class Tokens extends JavaPlugin {
 		if(this.mysql==null) {
 			this.mysql = new MySQLHandler(this);
 		}else{
-			this.mysql.stopSQLConnection();
+			this.mysql.closeConnection();
 			this.getLogger().info("Closing old MySQL connection.");
 		}
 		this.mysql.updateSettings();

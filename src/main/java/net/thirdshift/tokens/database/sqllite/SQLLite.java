@@ -48,7 +48,9 @@ public class SQLLite extends Database{
 //    }
 
     @Override
-    protected void openConnection() {
+    protected boolean openConnection() {
+    	boolean results = false;
+    	
         File storageFolder = new File(getPlugin().getDataFolder(), "Storage");
         if (!storageFolder.exists()){
             if(storageFolder.mkdirs())
@@ -71,6 +73,7 @@ public class SQLLite extends Database{
         try {
             Class.forName("org.sqlite.JDBC");
             setConnection( DriverManager.getConnection("jdbc:sqlite:" + dataFolder) );
+            results = true;
         } 
         catch (SQLException ex) {
         	getPlugin().getLogger().log(Level.SEVERE,
@@ -81,13 +84,14 @@ public class SQLLite extends Database{
             		"SQLite openConnection: The SQLite JDBC Driver was not found. " +
             		"You need the SQLite JBDC library. Google it. Put it in /lib folder.");
         }
+        return results;
     }
     
     public void load() {
         try ( Statement s = getSQLConnection().createStatement(); ) {
             String sql = 
             		"CREATE TABLE IF NOT EXISTS tokens_table " +
-            		"(`player` varchar(32) NOT NULL,`tokens` int(11) NOT NULL, PRIMARY KEY (`player`));";
+            		"(`player` varchar(40) NOT NULL,`tokens` int(11) NOT NULL, PRIMARY KEY (`player`));";
             s.executeUpdate(sql);
         } 
         catch (SQLException e) {
