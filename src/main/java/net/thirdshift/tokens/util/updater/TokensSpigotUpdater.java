@@ -68,7 +68,7 @@ public class TokensSpigotUpdater {
         URLConnection con = getSpigotCheckURL().openConnection();
         try (
         		InputStreamReader streamReader = new InputStreamReader(con.getInputStream());
-        		BufferedReader buff = new BufferedReader(streamReader);
+        		BufferedReader buff = new BufferedReader(streamReader)
         		) {
         	
         	setLatestVersion( buff.readLine() );
@@ -98,9 +98,9 @@ public class TokensSpigotUpdater {
         	return true;
         }
         
-        getPlugin().getLogger().info( "Checking for updates:" +
-        			"  Current Version: " + svCurrentVersion.toString() +
-        			"  Available Version: " + svAvailableVersion.toString() );
+        //getPlugin().getLogger().info( "Checking for updates:" +
+        //			"  Current Version: " + svCurrentVersion.toString() +
+        //			"  Available Version: " + svAvailableVersion.toString() );
 
         int compare = svCurrentVersion.compareTo( svAvailableVersion );
         

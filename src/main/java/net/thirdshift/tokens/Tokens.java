@@ -138,7 +138,7 @@ public final class Tokens extends JavaPlugin {
 		// providing final attempts here just to ensure they are shutdown to
 		// help prevent corruption.
 		if(tokensConfigHandler.isRunningMySQL()){
-			mysql.closeConnection();//Cut off any loose bois
+			mysql.closeConnection();
 		}
 		else {
 			sqllite.closeConnection();
