@@ -88,12 +88,8 @@ public final class Tokens extends JavaPlugin {
 			if(tokensExpansion) {
 				this.getLogger().info("Successfully registered into PlaceholderAPI");
 			}else{
-				this.getLogger().warning("Couldn't register into PlaceholderAPI");
+				this.getLogger().warning("Couldn't register into PlaceholderAPI!");
 			}
-		}
-		if(Bukkit.getPluginManager().getPlugin("ShopGUIPlus")!=null){
-			tokenShopGUIPlus = new TokenShopGUIPlus(this);
-			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
 		}
 		this.reloadConfig();
 
@@ -104,6 +100,10 @@ public final class Tokens extends JavaPlugin {
 		if (task==-1){
 			getLogger().warning("Couldn't schedule an auto-update check!");
 		}
+	}
+
+	public void setTokenShopGUIPlus(TokenShopGUIPlus tokenShopGUIPlus) {
+		this.tokenShopGUIPlus = tokenShopGUIPlus;
 	}
 
 	public TokensConfigHandler getTokensConfigHandler() {
@@ -294,6 +294,7 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	private void checkUpdates(){
+		this.getLogger().info("Checking for an update");
 		try {
 			if (updater.checkForUpdates()) {
 				this.getLogger().info("An update was found! New version: " + updater.getLatestVersion() + " download link: " + updater.getResourceURL());
