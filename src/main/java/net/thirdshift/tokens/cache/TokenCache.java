@@ -62,11 +62,11 @@ public class TokenCache {
 	public synchronized static void initialize( Tokens plugin ) {
 		if ( instance == null ) {
 			instance = new TokenCache();
-			instance.internalInititalize( plugin );
+			instance.internalInitialize( plugin );
 		}
 	}
 	
-	private void internalInititalize( Tokens plugin ) {
+	private void internalInitialize(Tokens plugin ) {
 		
 		this.plugin = plugin;
 		

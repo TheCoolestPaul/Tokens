@@ -86,7 +86,7 @@ public class TokensSpigotUpdater {
         if ( !svCurrentVersion.isValid() ) {
         	getPlugin().getLogger().info("TokensSpigotUpdater.checkForUpdates: " +
         			"Current version has an invalid semantic version. " +
-        			"It is unknow if a newer version is available.");
+        			"It is unknown if a newer version is available.");
             return true;
         }
         
@@ -106,7 +106,7 @@ public class TokensSpigotUpdater {
         
         if( compare == 0 ) {
         	// Same version: 
-        	getPlugin().getLogger().info("Tokens is up todate." );
+        	getPlugin().getLogger().info("Tokens is up to date." );
             return false;
         }
         else if( compare > 0 ) {
