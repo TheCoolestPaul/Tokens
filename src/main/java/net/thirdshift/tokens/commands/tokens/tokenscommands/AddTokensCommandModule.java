@@ -11,9 +11,9 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddTokensModule extends CommandModule {
+public class AddTokensCommandModule extends CommandModule {
 
-	public AddTokensModule() {
+	public AddTokensCommandModule() {
 		super();
 		this.command="add";
 	}
@@ -30,16 +30,16 @@ public class AddTokensModule extends CommandModule {
 
 	@Override
 	public void onCommand(final CommandSender commandSender, final String[] args) {
-		if (commandSender instanceof Player){ // Console reigns supreme.
+		if (commandSender instanceof Player){ // Console doesn't need permissions
 			if (!commandSender.hasPermission("tokens.add"))
 				return;
 		}
 
-		if (args.length == 3) {
-			Player target = Bukkit.getPlayer(args[1]);
+		if (args.length == 2) {
+			Player target = Bukkit.getPlayer(args[0]);
 			if (target!=null){
 				try {
-					int num = Integer.parseInt(args[2]);
+					int num = Integer.parseInt(args[1]);
 					tokensHandler.addTokens(target, num);
 					if(!plugin.messageHandler.getMessage("tokens.add.sender").isEmpty()){
 						List<Object> objects = new ArrayList<>();
@@ -56,18 +56,18 @@ public class AddTokensModule extends CommandModule {
 						target.sendMessage(plugin.messageHandler.useMessage("tokens.add.receiver", objects));
 					}
 				} catch (NumberFormatException e){
-					commandSender.sendMessage(ChatColor.RED + args[2] + " is not a valid number!");
+					commandSender.sendMessage(ChatColor.RED + args[1] + " is not a valid number!");
 				}
 			} else {
 				if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
 					List<Object> objects = new ArrayList<>();
 					objects.add(new PlayerSender(commandSender));
-					objects.add(new PlayerTarget(args[1]));
+					objects.add(new PlayerTarget(args[0]));
 					commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
 				}
 			}
 		} else {
-			if(!plugin.messageHandler.getMessage("tokens.errors.invalid.commandcorrection").isEmpty()){
+			if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.correction").isEmpty()){
 				List<Object> objects = new ArrayList<>();
 				objects.add(new PlayerSender(commandSender));
 				objects.add(this.getCommandUsage());

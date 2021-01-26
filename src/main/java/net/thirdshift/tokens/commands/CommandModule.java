@@ -18,8 +18,16 @@ public abstract class CommandModule {
 		return this.command;
 	}
 
+	/**
+	 * Used to give a command module aliases.
+	 * @return Aliases for the command
+	 */
 	public abstract String[] getCommandAliases();
 
+	/**
+	 * This method is used to explain to the player how to use the command module.
+	 * @return String printed to the player's chat.
+	 */
 	public abstract String getCommandUsage();
 
 	/**
