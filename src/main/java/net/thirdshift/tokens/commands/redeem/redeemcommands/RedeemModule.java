@@ -2,10 +2,13 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 
+/**
+ * This class was made as an attempt to make adding plugin support easier
+ */
 public abstract class RedeemModule {
 	protected Tokens plugin;
 	protected TokensHandler tokensHandler;
@@ -24,8 +27,8 @@ public abstract class RedeemModule {
 
 	/**
 	 * This is ran when a player uses /redeem 'command'
-	 * @param player Target player
+	 * @param commandSender Target player
 	 * @param args Array of arguments sent with the command
 	 */
-	public abstract void redeem(final Player player, final ArrayList<String> args);
+	public abstract void onCommand(final CommandSender commandSender, final ArrayList<String> args);
 }

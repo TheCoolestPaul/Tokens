@@ -5,6 +5,7 @@ import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.util.EventUtils;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ public class McMMORedeemModule extends RedeemModule {
 	}
 
 	@Override
-	public void redeem(Player player, final ArrayList<String> args) {
+	public void onCommand(CommandSender commandSender, final ArrayList<String> args) {
+		Player player = (Player) commandSender;
 		List<Object> objects = new ArrayList<>();
 		if (args.size()!=2){
 			objects.add(new PlayerSender(player));

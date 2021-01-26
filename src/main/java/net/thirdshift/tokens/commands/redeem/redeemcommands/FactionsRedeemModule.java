@@ -4,6 +4,7 @@ import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ public class FactionsRedeemModule extends RedeemModule {
     }
 
     @Override
-    public void redeem(final Player player, final ArrayList<String> args) {
+    public void onCommand(final CommandSender commandSender, final ArrayList<String> args) {
+        Player player = (Player) commandSender;
         List<Object> objects = new ArrayList<>();
         if (args.size()!=1){
             objects.add(new PlayerSender(player));

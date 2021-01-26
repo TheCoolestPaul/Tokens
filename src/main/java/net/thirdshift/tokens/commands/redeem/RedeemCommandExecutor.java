@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class RedeemCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] args) {
         if(commandSender instanceof Player && commandSender.hasPermission("tokens.redeem")){
             if( plugin.getTokensConfigHandler().isRunningCombatLogX() && plugin.getTokensConfigHandler().getTokensCombatManager().isInCombat((Player) commandSender) ){
                 if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
@@ -63,12 +64,12 @@ public class RedeemCommandExecutor implements CommandExecutor {
                             actualArgs.add(arg);
                     }
                     if (com.equalsIgnoreCase(redeemModule.getCommand())){
-                        redeemModule.redeem((Player) commandSender, actualArgs);
+                        redeemModule.onCommand( commandSender, actualArgs);
                         return true;
                     }
                     for(String alias : redeemModule.getCommandAliases()){
                         if(com.equalsIgnoreCase(alias)){
-                            redeemModule.redeem((Player) commandSender, actualArgs);
+                            redeemModule.onCommand( commandSender, actualArgs);
                             return true;
                         }
                     }
