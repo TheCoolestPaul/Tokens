@@ -3,8 +3,9 @@ package net.thirdshift.tokens.commands.tokens;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
 import net.thirdshift.tokens.cache.TokenCache;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemCommandModule;
 import net.thirdshift.tokens.commands.tokens.tokenscommands.AddTokensModule;
+import net.thirdshift.tokens.commands.tokens.tokenscommands.TokensModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -17,16 +18,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-public class CommandTokens implements CommandExecutor {
+public class TokensCommandExecutor implements CommandExecutor {
 
     private final Tokens plugin;
+    private final HashMap<String, TokensModule> tokensModuleMap;
     private final TokensHandler tokensHandler;
     private final AddTokensModule addTokensModule;
 
-    public CommandTokens(Tokens instance){
+    public TokensCommandExecutor(Tokens instance){
         this.plugin=instance;
+        tokensModuleMap = new HashMap<>();
         tokensHandler=instance.getHandler();
         addTokensModule = new AddTokensModule();
     }
@@ -279,7 +283,7 @@ public class CommandTokens implements CommandExecutor {
         } else if (args[0].equalsIgnoreCase("buy") && plugin.getTokensConfigHandler().isVaultBuy()) {
             if(commandSender instanceof Player){
                 if(args.length==2){
-                    VaultRedeemModule.purchaseVault((Player) commandSender, Integer.parseInt(args[1]), plugin);
+                    VaultRedeemCommandModule.purchaseVault((Player) commandSender, Integer.parseInt(args[1]), plugin);
                 }else{
                     commandSender.sendMessage(ChatColor.RED+"Invalid command use! Your arguments were "+ Arrays.toString(args));
                     commandSender.sendMessage(ChatColor.GRAY+"Command usage: /tokens buy <tokens amount>");

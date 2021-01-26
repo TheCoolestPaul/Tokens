@@ -241,7 +241,7 @@ public final class Tokens extends JavaPlugin {
 	public void reloadConfig() {
 		super.reloadConfig();
 		tokensConfigHandler.reloadConfig();
-		redeemCommandExecutor.registerRedeemModule(new KeyRedeemCommandModule());
+		redeemCommandExecutor.registerModule(new KeyRedeemCommandModule());
 	}
 
 	public void doSQLLiteWork(){

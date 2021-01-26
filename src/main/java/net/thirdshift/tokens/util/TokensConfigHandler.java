@@ -96,7 +96,7 @@ public class TokensConfigHandler {
 			if (factionsPlug != null && factionsPlug.isEnabled()) {
 				hasFactions = true;
 				isRunningFactions = true;
-				plugin.getRedeemCommandExecutor().registerRedeemModule(new FactionsRedeemCommandModule());
+				plugin.getRedeemCommandExecutor().registerModule(new FactionsRedeemCommandModule());
 			} else if (factionsPlug == null || !factionsPlug.isEnabled()) {
 				plugin.getLogger().warning("Factions addon is enabled but Factions is not installed on the server!");
 				isRunningFactions = false;
@@ -110,7 +110,7 @@ public class TokensConfigHandler {
 			Plugin vaultPlug = Bukkit.getPluginManager().getPlugin("Vault");
 			if (vaultPlug != null && vaultPlug.isEnabled()) {
 				hasVault = true;
-				plugin.getRedeemCommandExecutor().registerRedeemModule(new VaultRedeemCommandModule());
+				plugin.getRedeemCommandExecutor().registerModule(new VaultRedeemCommandModule());
 				plugin.vaultIntegration();
 			} else if (vaultPlug == null || !vaultPlug.isEnabled()) {
 				isRunningVault = false;
@@ -142,7 +142,7 @@ public class TokensConfigHandler {
 			if (mcmmoPlug != null && mcmmoPlug.isEnabled()) {
 				hasMCMMO = true;
 				isRunningMCMMO = true;
-				plugin.getRedeemCommandExecutor().registerRedeemModule(new McMMORedeemCommandModule());
+				plugin.getRedeemCommandExecutor().registerModule(new McMMORedeemCommandModule());
 			} else if (mcmmoPlug == null || !mcmmoPlug.isEnabled()) {
 				isRunningMCMMO = false;
 				plugin.getLogger().warning("mcMMO addon is enabled but mcMMO is not installed on the server!");

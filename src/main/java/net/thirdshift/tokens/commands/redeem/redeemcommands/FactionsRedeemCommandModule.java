@@ -2,6 +2,7 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
+import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -10,14 +11,10 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactionsRedeemCommandModule extends RedeemCommandModule {
+public class FactionsRedeemCommandModule extends CommandModule {
     public FactionsRedeemCommandModule(){
         super();
-    }
-
-    @Override
-    public String getCommand() {
-        return "factions";
+        this.command = "factions";
     }
 
     @Override

@@ -2,6 +2,7 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -10,16 +11,16 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VaultRedeemCommandModule extends RedeemCommandModule {
+public class VaultRedeemCommandModule extends CommandModule {
 
-	@Override
-	public String getCommand() {
-		return "money";
+	public VaultRedeemCommandModule() {
+		super();
+		this.command = "money";
 	}
 
 	@Override
 	public String[] getCommandAliases() {
-		return new String[]{"vault", "cash"};
+		return new String[]{"vault", "cash", "eco"};
 	}
 
 	@Override
@@ -82,6 +83,7 @@ public class VaultRedeemCommandModule extends RedeemCommandModule {
 				plugin.getHandler().addTokens(player, toRedeem);
 			} else {
 				player.sendMessage(ChatColor.RED+"There was an error withdrawing money from your account");
+				player.sendMessage(ChatColor.RED+"The error was "+r.errorMessage);
 			}
 		} else {
 			player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.no-money", objects));

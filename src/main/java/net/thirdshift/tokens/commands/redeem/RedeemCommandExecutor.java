@@ -1,39 +1,22 @@
 package net.thirdshift.tokens.commands.redeem;
 
 import net.thirdshift.tokens.Tokens;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.RedeemCommandModule;
+import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class RedeemCommandExecutor implements CommandExecutor {
-    private final Tokens plugin;
-    private final HashMap<String, RedeemCommandModule> commandRedeemMap;
+public class RedeemCommandExecutor extends TokensCustomCommandExecutor {
 
-    public RedeemCommandExecutor(final Tokens plugin){
-        this.plugin=plugin;
-        commandRedeemMap = new HashMap<>();
-    }
-
-    public void registerRedeemModule(final RedeemCommandModule redeemCommandModule){
-        if (commandRedeemMap.get(redeemCommandModule.getCommand())!=null){
-            plugin.getLogger().info("A module already exists with command " + redeemCommandModule.getCommand());
-        } else {
-            commandRedeemMap.put(redeemCommandModule.getCommand(), redeemCommandModule);
-            plugin.getLogger().info("Added module "+ redeemCommandModule.getCommand());
-        }
-    }
-
-    public HashMap<String, RedeemCommandModule> getRedeemModules() {
-        return commandRedeemMap;
+    public RedeemCommandExecutor(Tokens plugin) {
+        super(plugin);
     }
 
     @Override
@@ -49,14 +32,14 @@ public class RedeemCommandExecutor implements CommandExecutor {
             }
             if (args.length == 0) {
                 StringBuilder addons = new StringBuilder();
-                for(RedeemCommandModule redeemCommandModule : commandRedeemMap.values()){
+                for(CommandModule redeemCommandModule : commandModules.values()){
                     addons.append(redeemCommandModule.getCommand());
                     addons.append(" ");
                 }
                 commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem < " + addons.toString() + ">");
                 return true;
             } else {
-                for(RedeemCommandModule redeemCommandModule : commandRedeemMap.values()){
+                for(CommandModule redeemCommandModule : commandModules.values()){
                     String com = args[0];
                     ArrayList<String> actualArgs = new ArrayList<>();
                     for (String arg : args){

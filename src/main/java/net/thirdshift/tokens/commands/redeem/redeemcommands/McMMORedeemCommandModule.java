@@ -3,6 +3,7 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.util.EventUtils;
+import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -11,11 +12,11 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class McMMORedeemCommandModule extends RedeemCommandModule {
+public class McMMORedeemCommandModule extends CommandModule {
 
-	@Override
-	public String getCommand() {
-		return "mcmmo";
+	public McMMORedeemCommandModule() {
+		super();
+		this.command = "mcmmo";
 	}
 
 	@Override

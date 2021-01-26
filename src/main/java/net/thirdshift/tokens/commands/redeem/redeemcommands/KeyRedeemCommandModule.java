@@ -1,5 +1,6 @@
 package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
+import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.keys.Key;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
@@ -10,10 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class KeyRedeemCommandModule extends RedeemCommandModule {
-	@Override
-	public String getCommand() {
-		return "key";
+public class KeyRedeemCommandModule extends CommandModule {
+
+	public KeyRedeemCommandModule() {
+		super();
+		this.command = "key";
 	}
 
 	@Override
