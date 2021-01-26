@@ -376,7 +376,7 @@ public class TokensCommandExecutor implements CommandExecutor {
 		else if ( args.length > 2 && args[1].equalsIgnoreCase("stats") && args[2].equalsIgnoreCase("journaling") ) {
 			TokenCache.getInstance().toggleJournal();
 			if ( TokenCache.getInstance().isJournal() ) {
-				commandSender.sendMessage( plugin.messageHandler.formatMessage("tokens.cache.stats.journaling-enbled",
+				commandSender.sendMessage( plugin.messageHandler.formatMessage("tokens.cache.stats.journaling-enabled",
 						TokenCache.getInstance().isJournal()) );
 				if ( args.length > 3 ) {
 					TokenCache.getInstance().setJournalPlayer( args[3] );
