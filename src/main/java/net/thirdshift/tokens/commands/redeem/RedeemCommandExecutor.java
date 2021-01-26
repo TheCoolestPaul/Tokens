@@ -43,6 +43,12 @@ public class RedeemCommandExecutor extends TokensCustomCommandExecutor {
                 String[] actualArgs = new String[args.length-1];
                 System.arraycopy(args, 1, actualArgs, 0, args.length - 1);
 
+                try {
+                    commandModules.get(commandName).onCommand(commandSender, actualArgs);
+                    return true;
+                } catch (NullPointerException ignored){
+                }
+
                 for(CommandModule redeemCommandModule : commandModules.values()){
                     if (commandName.equalsIgnoreCase(redeemCommandModule.getCommand())){
                         redeemCommandModule.onCommand( commandSender, actualArgs);
@@ -55,6 +61,7 @@ public class RedeemCommandExecutor extends TokensCustomCommandExecutor {
                         }
                     }
                 }
+
             }
         }
         return false;
