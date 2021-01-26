@@ -3,9 +3,9 @@ package net.thirdshift.tokens.commands.tokens;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
 import net.thirdshift.tokens.cache.TokenCache;
+import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemCommandModule;
 import net.thirdshift.tokens.commands.tokens.tokenscommands.AddTokensModule;
-import net.thirdshift.tokens.commands.tokens.tokenscommands.TokensModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -24,7 +24,7 @@ import java.util.List;
 public class TokensCommandExecutor implements CommandExecutor {
 
     private final Tokens plugin;
-    private final HashMap<String, TokensModule> tokensModuleMap;
+    private final HashMap<String, CommandModule> tokensModuleMap;
     private final TokensHandler tokensHandler;
     private final AddTokensModule addTokensModule;
 

@@ -1,5 +1,6 @@
 package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
+import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -10,16 +11,16 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddTokensModule extends TokensModule {
+public class AddTokensModule extends CommandModule {
 
-	@Override
-	public String getCommand() {
-		return "add";
+	public AddTokensModule() {
+		super();
+		this.command="add";
 	}
 
 	@Override
 	public String[] getCommandAliases() {
-		return new String[0];
+		return new String[]{"a"};
 	}
 
 	@Override

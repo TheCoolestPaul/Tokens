@@ -67,7 +67,7 @@ public final class Tokens extends JavaPlugin {
 		tokensConfigHandler = new TokensConfigHandler(this);
 
 		getServer().getPluginManager().registerEvents(tokensUpdateEventListener, this);
-		tokensHandler = new TokensHandler(this);
+		tokensHandler = new TokensHandler();
 		keyHandler = new KeyHandler(this);
 		messageHandler = new MessageHandler(this);
 
