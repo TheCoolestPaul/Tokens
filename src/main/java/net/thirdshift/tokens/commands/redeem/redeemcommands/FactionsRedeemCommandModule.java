@@ -54,7 +54,7 @@ public class FactionsRedeemCommandModule extends CommandModule {
             if(fPlayer != null ){
                 fPlayer.setPowerBoost(fPlayer.getPowerBoost() + (double)(toRedeem * plugin.getTokensConfigHandler().getTokenToFactionPower()));
                 objects.add(fPlayer);
-                tokensHandler.setTokens(player, tokensHandler.getTokens(player) - toRedeem);
+                tokensHandler.removeTokens(player, toRedeem);
                 player.sendMessage(plugin.messageHandler.useMessage("redeem.factions", objects));
             }else{
                 plugin.getLogger().severe("Couldn't get FPlayer for "+player.getName());

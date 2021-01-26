@@ -56,7 +56,7 @@ public class VaultRedeemCommandModule extends CommandModule {
 		if (plugin.getHandler().hasEnoughTokens(player, toRedeem)){
 			EconomyResponse r = plugin.getEconomy().depositPlayer(player, money);
 			if (r.transactionSuccess()) {
-				plugin.getHandler().setTokens(player, plugin.getHandler().getTokens(player) - toRedeem);
+				plugin.getHandler().removeTokens(player, toRedeem);
 				player.sendMessage(plugin.messageHandler.useMessage("redeem.vault.sell", objects));
 			} else {
 				player.sendMessage(String.format("An error occurred: %s", r.errorMessage));
