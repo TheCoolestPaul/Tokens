@@ -39,10 +39,11 @@ public class RedeemCommandExecutor extends TokensCustomCommandExecutor {
                 commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem < " + addons.toString() + ">");
                 return true;
             } else {
+                String commandName = args[0];
+                String[] actualArgs = new String[args.length-1];
+                System.arraycopy(args, 1, actualArgs, 0, args.length - 1);
+
                 for(CommandModule redeemCommandModule : commandModules.values()){
-                    String commandName = args[0];
-                    String[] actualArgs = new String[args.length-1];
-                    System.arraycopy(args, 1, actualArgs, 0, args.length - 1);
                     if (commandName.equalsIgnoreCase(redeemCommandModule.getCommand())){
                         redeemCommandModule.onCommand( commandSender, actualArgs);
                         return true;
