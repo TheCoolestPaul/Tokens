@@ -13,9 +13,11 @@ public class TokenCache {
 	public static final String TOKEN_CACHE_IS_ENABLED = "tokencache.is_enabled";
 	public static final String TOKEN_CACHE_WRITE_DELAY = "tokencache.write_delay";
 	public static final long TOKEN_CACHE_WRITE_DELAY_VALUE_MS = 10000; // 10 seconds
+	/* Notated out un-used code
 	public static final String TOKEN_CACHE_TIME_TO_LIVE = "tokencache.time_to_live";
 	public static final long TOKEN_CACHE_TIME_TO_LIVE_VALUE_MS = 30 * 60 * 1000; // 30 mins
-	
+	*/
+
 	private static TokenCache instance;
 	
 	private boolean enabled = false;
@@ -26,10 +28,10 @@ public class TokenCache {
 	private String journalPlayer;
 
 	
-	private Map<UUID, TokenCachePlayerData> players;
-	private TreeMap<String, TokenCachePlayerData> playerStrings;
+	private final Map<UUID, TokenCachePlayerData> players;
+	private final TreeMap<String, TokenCachePlayerData> playerStrings;
 	
-	private Map<BukkitTask, TokenCachePlayerData> tasks;
+	private final Map<BukkitTask, TokenCachePlayerData> tasks;
 	
 	private TokenCacheDatabase cacheDatabase;
 
@@ -206,10 +208,9 @@ public class TokenCache {
 			// Load the player's existing balance:
 			submitAsyncLoadPlayer( player );
 		}
-		TokenCachePlayerData playerData = getPlayers().get( player.getUniqueId() );
 
 		// journal( playerData, "getPlayer: Player returned: ");
-		return playerData;
+		return getPlayers().get( player.getUniqueId() );
 	}
 
 
@@ -306,6 +307,7 @@ public class TokenCache {
 	public void submitAsyncSynchronizePlayers() {
 		submitAsyncSynchronizePlayers( null );
 	}
+
 	public void submitAsyncSynchronizePlayers( CommandSender commandSender ) {
 		getStats().incrementSubmitSynchronizePlayers();
 		
