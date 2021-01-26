@@ -28,10 +28,10 @@ public class FactionsRedeemCommandModule extends CommandModule {
     }
 
     @Override
-    public void onCommand(final CommandSender commandSender, final ArrayList<String> args) {
+    public void onCommand(final CommandSender commandSender, final String[] args) {
         Player player = (Player) commandSender;
         List<Object> objects = new ArrayList<>();
-        if (args.size()!=1){
+        if (args.length!=1){
             objects.add(new PlayerSender(player));
             objects.add(getCommandUsage());
             player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
@@ -40,16 +40,16 @@ public class FactionsRedeemCommandModule extends CommandModule {
 
         int toRedeem;
         try {
-            toRedeem = Integer.parseInt(args.get(0));
+            toRedeem = Integer.parseInt(args[0]);
         }catch(NumberFormatException e){
-            player.sendMessage(ChatColor.RED +"Invalid command, "+args.get(0)+" is not a number!");
+            player.sendMessage(ChatColor.RED +"Invalid command, "+args[0]+" is not a number!");
             return;
         }
 
         objects.add(toRedeem);
         objects.add(new PlayerSender(player));
 
-        if(tokensHandler.hasTokens(player, toRedeem)){
+        if(tokensHandler.hasEnoughTokens(player, toRedeem)){
             FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
             if(fPlayer != null ){
                 fPlayer.setPowerBoost(fPlayer.getPowerBoost() + (double)(toRedeem * plugin.getTokensConfigHandler().getTokenToFactionPower()));

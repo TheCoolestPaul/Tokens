@@ -4,8 +4,6 @@ import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
 import org.bukkit.command.CommandSender;
 
-import java.util.ArrayList;
-
 public abstract class CommandModule {
 	protected Tokens plugin;
 	protected TokensHandler tokensHandler;
@@ -29,5 +27,5 @@ public abstract class CommandModule {
 	 * @param commandSender Target player
 	 * @param args Array of arguments sent with the command
 	 */
-	public abstract void onCommand(final CommandSender commandSender, final ArrayList<String> args);
+	public abstract void onCommand(final CommandSender commandSender, final String[] args);
 }

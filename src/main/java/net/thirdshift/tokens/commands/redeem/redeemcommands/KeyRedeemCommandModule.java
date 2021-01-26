@@ -29,17 +29,17 @@ public class KeyRedeemCommandModule extends CommandModule {
 	}
 
 	@Override
-	public void onCommand(CommandSender commandSender, ArrayList<String> args) {
+	public void onCommand(CommandSender commandSender, String[] args) {
 		Player player = (Player) commandSender;
 		List<Object> objects = new ArrayList<>();
-		if (args.size()!=1){
+		if (args.length!=1){
 			objects.add(new PlayerSender(player));
 			objects.add(getCommandUsage());
 			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
 			return;
 		}
 
-		String keyName = args.get(0);
+		String keyName = args[0];
 
 		if(plugin.keyHandler.isValidKey(keyName)){
 			if(plugin.keyHandler.getKey(keyName).enabled) {

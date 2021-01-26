@@ -40,18 +40,15 @@ public class RedeemCommandExecutor extends TokensCustomCommandExecutor {
                 return true;
             } else {
                 for(CommandModule redeemCommandModule : commandModules.values()){
-                    String com = args[0];
-                    ArrayList<String> actualArgs = new ArrayList<>();
-                    for (String arg : args){
-                        if(!arg.equalsIgnoreCase(com))
-                            actualArgs.add(arg);
-                    }
-                    if (com.equalsIgnoreCase(redeemCommandModule.getCommand())){
+                    String commandName = args[0];
+                    String[] actualArgs = new String[args.length-1];
+                    System.arraycopy(args, 1, actualArgs, 0, args.length - 1);
+                    if (commandName.equalsIgnoreCase(redeemCommandModule.getCommand())){
                         redeemCommandModule.onCommand( commandSender, actualArgs);
                         return true;
                     }
                     for(String alias : redeemCommandModule.getCommandAliases()){
-                        if(com.equalsIgnoreCase(alias)){
+                        if(commandName.equalsIgnoreCase(alias)){
                             redeemCommandModule.onCommand( commandSender, actualArgs);
                             return true;
                         }

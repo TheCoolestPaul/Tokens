@@ -30,40 +30,36 @@ public class McMMORedeemCommandModule extends CommandModule {
 	}
 
 	@Override
-	public void onCommand(CommandSender commandSender, final ArrayList<String> args) {
+	public void onCommand(CommandSender commandSender, final String[] args) {
 		Player player = (Player) commandSender;
 		List<Object> objects = new ArrayList<>();
-		if (args.size()!=2){
+		if (args.length!=2){
 			objects.add(new PlayerSender(player));
 			objects.add(getCommandUsage());
 			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
 			return;
 		}
 
-		String skillName = args.get(0);
+		String skillName = args[0];
 		int toRedeem;
 		try {
-			toRedeem = Integer.parseInt(args.get(1));
+			toRedeem = Integer.parseInt(args[1]);
 		}catch(NumberFormatException e){
-			player.sendMessage(ChatColor.RED +"Invalid command, "+args.get(1)+" is not a number!");
+			player.sendMessage(ChatColor.RED +"Invalid command, "+args[1]+" is not a number!");
 			return;
 		}
 
 		objects.add(toRedeem);
 		objects.add(player);
 
-		if (plugin.getHandler().hasTokens(player, toRedeem)) {
+		if (plugin.getHandler().hasEnoughTokens(player, toRedeem)) {
 			if (PrimarySkillType.getSkill(skillName) != null) {
-				if (plugin.getHandler().getTokens(player) >= toRedeem) {
-					PrimarySkillType skill = PrimarySkillType.getSkill(skillName);
-					McMMOPlayer senderMcMMO = EventUtils.getMcMMOPlayer(player);
-					objects.add(skill);
-					senderMcMMO.addLevels(skill, toRedeem * plugin.getTokensConfigHandler().getTokensToMCMMOLevels());
-					player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.redeemed", objects));
-					plugin.getHandler().setTokens(player, plugin.getHandler().getTokens(player) - toRedeem);
-				} else {
-					player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.not-enough", objects));
-				}
+				PrimarySkillType skill = PrimarySkillType.getSkill(skillName);
+				McMMOPlayer senderMcMMO = EventUtils.getMcMMOPlayer(player);
+				objects.add(skill);
+				senderMcMMO.addLevels(skill, toRedeem * plugin.getTokensConfigHandler().getTokensToMCMMOLevels());
+				player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.redeemed", objects));
+				plugin.getHandler().setTokens(player, plugin.getHandler().getTokens(player) - toRedeem);
 			} else {
 				List<String> skillList = PrimarySkillType.SKILL_NAMES;
 				objects.add(skillList);

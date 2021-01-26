@@ -29,10 +29,10 @@ public class VaultRedeemCommandModule extends CommandModule {
 	}
 
 	@Override
-	public void onCommand(CommandSender commandSender, ArrayList<String> args) {
+	public void onCommand(CommandSender commandSender, String[] args) {
 		Player player = (Player) commandSender;
 		List<Object> objects = new ArrayList<>();
-		if (args.size()!=1){
+		if (args.length!=1){
 			objects.add(new PlayerSender(player));
 			objects.add(getCommandUsage());
 			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
@@ -41,9 +41,9 @@ public class VaultRedeemCommandModule extends CommandModule {
 
 		int toRedeem;
 		try {
-			toRedeem = Integer.parseInt(args.get(0));
+			toRedeem = Integer.parseInt(args[0]);
 		} catch(NumberFormatException e){
-			player.sendMessage(ChatColor.RED +"Invalid command, " + args.get(0) + " is not a number!");
+			player.sendMessage(ChatColor.RED +"Invalid command, " + args[0] + " is not a number!");
 			return;
 		}
 
@@ -53,7 +53,7 @@ public class VaultRedeemCommandModule extends CommandModule {
 		objects.add(new PlayerSender(player));
 		objects.add(money);
 
-		if (plugin.getHandler().hasTokens(player, toRedeem)){
+		if (plugin.getHandler().hasEnoughTokens(player, toRedeem)){
 			EconomyResponse r = plugin.getEconomy().depositPlayer(player, money);
 			if (r.transactionSuccess()) {
 				plugin.getHandler().setTokens(player, plugin.getHandler().getTokens(player) - toRedeem);
