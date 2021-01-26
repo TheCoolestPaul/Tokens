@@ -4,6 +4,7 @@ import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
 import net.thirdshift.tokens.cache.TokenCache;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
+import net.thirdshift.tokens.commands.tokens.tokenscommands.AddTokensModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,14 +23,16 @@ public class CommandTokens implements CommandExecutor {
 
     private final Tokens plugin;
     private final TokensHandler tokensHandler;
+    private final AddTokensModule addTokensModule;
 
     public CommandTokens(Tokens instance){
         this.plugin=instance;
         tokensHandler=instance.getHandler();
+        addTokensModule = new AddTokensModule();
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] args) {
         if(args.length==0){
             if(commandSender instanceof Player){
                 if(plugin.messageHandler.getMessage("tokens.main").isEmpty()){
@@ -38,17 +42,15 @@ public class CommandTokens implements CommandExecutor {
                 objects.add(new PlayerSender((Player) commandSender));
                 objects.add(plugin.getHandler().getTokens((Player) commandSender));
                 commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.main", objects));
-                return true;
-            }
+			}
             else {
             	commandSender.sendMessage(plugin.messageHandler.formatMessage("tokens.console"));
             	displayTokenHelp( commandSender );
-            	return true;
-            }
-        }
+			}
+			return true;
+		}
         if(args[0].equalsIgnoreCase("add") ) {
         	commandAdd( commandSender, args );
-        	
             return true;
         }else if(args[0].equalsIgnoreCase("set")){
             if(args.length==3){
@@ -355,7 +357,7 @@ public class CommandTokens implements CommandExecutor {
 		    TokenCache.getInstance().submitAsyncSynchronizePlayers( commandSender );
 		}
 		else if ( args.length > 2 && args[1].equalsIgnoreCase("stats") && args[2].equalsIgnoreCase("toggle") ) {
-			TokenCache.getInstance().getStats().toggleEnabled();;
+			TokenCache.getInstance().getStats().toggleEnabled();
 			commandSender.sendMessage( plugin.messageHandler.formatMessage("tokens.cache.stats.toggled",
 					TokenCache.getInstance().getStats().isEnabled()) );
 		}
@@ -390,8 +392,8 @@ public class CommandTokens implements CommandExecutor {
 			commandSender.sendMessage( TokenCache.getInstance().getStats().displayStats() );
 		}
 		else {
-		    commandSender.sendMessage(ChatColor.GREEN + "===============[ " + ChatColor.GOLD + "Tokens Cache Help " +
-		    			ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + " ]===============");
+		    commandSender.sendMessage(ChatColor.GREEN + "==========[ " + ChatColor.GOLD + "Tokens Cache Help " +
+		    			ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + " ]==========");
 		    commandSender.sendMessage(ChatColor.AQUA + "/tokens cache help " + plugin.messageHandler.formatMessage("tokens.cache.menu.help-help"));
 		    commandSender.sendMessage(ChatColor.AQUA + "/tokens cache sync " + plugin.messageHandler.formatMessage("tokens.cache.menu.help-sync"));
 		    commandSender.sendMessage(ChatColor.AQUA + "/tokens cache stats " + plugin.messageHandler.formatMessage("tokens.cache.menu.help-stats"));
@@ -404,93 +406,8 @@ public class CommandTokens implements CommandExecutor {
 		return true;
 	}
 
-	private void commandAdd( CommandSender commandSender, String[] args )
-	{
-		if (commandSender instanceof Player) {
-		    if (commandSender.hasPermission("tokens.add")) {
-		        if( plugin.getTokensConfigHandler().isRunningCombatLogX() && 
-		        		plugin.getTokensConfigHandler().getTokensCombatManager().isInCombat(
-		        						(Player) commandSender) ){
-		            if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
-		                List<Object> objects = new ArrayList<>();
-		                objects.add(new PlayerSender((Player) commandSender));
-		                commandSender.sendMessage(plugin.messageHandler.useMessage("combatlogx.deny", objects));
-		            }
-		            return;
-		        }
-		        if (args.length == 3) {
-		            Player target = Bukkit.getPlayer(args[1]);
-		            if(target!=null) {
-		                int num = Integer.parseInt(args[2]);
-		                tokensHandler.addTokens(target, num);
-		                if(!plugin.messageHandler.getMessage("tokens.add.sender").isEmpty()){
-		                    List<Object> objects = new ArrayList<>();
-		                    objects.add(new PlayerSender((Player) commandSender));
-		                    objects.add(num);
-		                    objects.add(new PlayerTarget(target));
-		                    commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.add.sender", objects));
-		                }
-		                if(!plugin.messageHandler.getMessage("tokens.add.receiver").isEmpty()){
-		                    List<Object> objects = new ArrayList<>();
-		                    objects.add(new PlayerSender((Player) commandSender));
-		                    objects.add(num);
-		                    objects.add(new PlayerTarget(target));
-		                    target.sendMessage(plugin.messageHandler.useMessage("tokens.add.receiver", objects));
-		                }
-		            }else{
-		                if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
-		                    List<Object> objects = new ArrayList<>();
-		                    objects.add(new PlayerSender((Player)commandSender));
-		                    objects.add(new PlayerTarget(args[1]));
-		                    commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
-		                }
-		            }
-		        } else {
-		            if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.message").isEmpty()){
-		                List<Object> objects = new ArrayList<>();
-		                objects.add(new PlayerSender((Player)commandSender));
-		                objects.add(ChatColor.AQUA + "/tokens add <player name> <tokens amount>");
-		                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.message", objects));
-		            }
-		            if(!plugin.messageHandler.getMessage("tokens.errors.invalid.commandcorrection").isEmpty()){
-		                List<Object> objects = new ArrayList<>();
-		                objects.add(new PlayerSender((Player)commandSender));
-		                objects.add(ChatColor.AQUA + "/tokens add <player name> <tokens amount>");
-		                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
-		            }
-		        }
-		    }
-		} else {
-			Player target = args.length > 1 ? Bukkit.getPlayer(args[1]) : null;
-			if ( args.length > 2 && target != null ) {
-				int num = Integer.parseInt(args[2]);
-
-				tokensHandler.addTokens(target, num);
-				if(!plugin.messageHandler.getMessage("tokens.add.sender").isEmpty()){
-					List<Object> objects = new ArrayList<>();
-					objects.add(new PlayerSender(commandSender.getName()));
-					objects.add(num);
-					objects.add(new PlayerTarget(target));
-					commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.add.sender", objects));
-				}
-			}
-			else {
-				
-				if( target == null && args.length > 1 && !plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
-					List<Object> objects = new ArrayList<>();
-					objects.add(new PlayerSender(commandSender.getName()));
-					objects.add(new PlayerTarget(args[1]));
-					commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
-				}
-				else {
-					List<Object> objects = new ArrayList<>();
-		            //objects.add(new PlayerSender((Player)commandSender));
-		            objects.add(ChatColor.AQUA + "/tokens add <player name> <tokens amount>");
-		            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
-
-				}
-			}
-		}
+	private void commandAdd( CommandSender commandSender, String[] args ) {
+		addTokensModule.onCommand(commandSender, args);
 	}
     
     private void displayTokenHelp( CommandSender commandSender ) {
@@ -506,7 +423,6 @@ public class CommandTokens implements CommandExecutor {
         
         commandSender.sendMessage(ChatColor.AQUA + "/tokens give <player name> <tokens amount>" + ChatColor.GRAY + " Gives your tokens to another player");
         if(commandSender.hasPermission("tokens.remove") || isConsole) {
-        	
         	commandSender.sendMessage(ChatColor.AQUA + "/tokens remove <player name> <tokens amount>" + ChatColor.GRAY + " Remove tokens from a player");
         }
         
