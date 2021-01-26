@@ -1,7 +1,6 @@
 package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
@@ -65,28 +64,5 @@ public class VaultRedeemCommandModule extends CommandModule {
 			player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.not-enough", objects));
 		}
 
-	}
-
-	// TODO: Deal with this method properly.
-	public static void purchaseVault(Player player, int toRedeem, Tokens plugin){
-		double price = plugin.getTokensConfigHandler().getVaultBuyPrice();
-		double plyMoney = plugin.getEconomy().getBalance(player);
-		double total = (double)toRedeem * price;
-		List<Object> objects = new ArrayList<>();
-		objects.add(total);
-		objects.add(toRedeem);
-		objects.add(new PlayerSender(player));
-		if (total <= plyMoney) {
-			EconomyResponse r = plugin.getEconomy().withdrawPlayer(player, total);
-			if (r.transactionSuccess()) {
-				player.sendMessage(plugin.messageHandler.useMessage("redeem.vault.buy", objects));
-				plugin.getHandler().addTokens(player, toRedeem);
-			} else {
-				player.sendMessage(ChatColor.RED+"There was an error withdrawing money from your account");
-				player.sendMessage(ChatColor.RED+"The error was "+r.errorMessage);
-			}
-		} else {
-			player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.no-money", objects));
-		}
 	}
 }
