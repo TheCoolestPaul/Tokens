@@ -1,6 +1,4 @@
-import org.apache.tools.ant.filters.ReplaceTokens
 import java.text.SimpleDateFormat
-import java.util.Date
 
 apply plugin: 'java'
 
@@ -9,7 +7,7 @@ group = 'net.thirdshift'
  
 println """
 ==========================================================================
-You are building the Token plugin 
+You are building the Tokens plugin https://github.com/TheCoolestPaul/Tokens
   Version:    ${project.version} 
   Build time: ${getCurrentTimestamp()}
 
@@ -83,7 +81,7 @@ processResources {
     }
 }
 
-def getCurrentTimestamp() {
-  SimpleDateFormat df = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss")
+static def getCurrentTimestamp() {
+  SimpleDateFormat df = new SimpleDateFormat ("HH:mm:ss MM-dd-yyyy")
   return df.format (new Date())
 }
