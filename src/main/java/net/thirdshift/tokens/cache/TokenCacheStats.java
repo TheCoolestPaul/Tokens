@@ -163,7 +163,7 @@ public class TokenCacheStats {
 			}
 		}
 	}
-	public void incrementRemveTokens() {
+	public void incrementRemoveTokens() {
 		if ( enabled ) {
 			synchronized ( lock9 ) {
 				removeTokens++;

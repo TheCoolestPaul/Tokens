@@ -367,7 +367,7 @@ public class TokenCache {
 	}
 
 	public int removeTokens( Player player, int tokens ) {
-		getStats().incrementRemveTokens();
+		getStats().incrementRemoveTokens();
 		
 		return addTokens( player, -1 * tokens );
 	}
