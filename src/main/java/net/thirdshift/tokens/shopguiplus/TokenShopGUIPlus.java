@@ -38,6 +38,6 @@ public class TokenShopGUIPlus extends EconomyProvider {
 
 	@Override
 	public boolean has(Player player, double amount) {
-		return tokensHandler.hasTokens(player, (int) amount);
+		return tokensHandler.hasEnoughTokens(player, (int) amount);
 	}
 }
