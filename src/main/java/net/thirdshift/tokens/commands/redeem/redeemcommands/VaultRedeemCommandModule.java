@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VaultRedeemModule extends RedeemModule {
+public class VaultRedeemCommandModule extends RedeemCommandModule {
 
 	@Override
 	public String getCommand() {

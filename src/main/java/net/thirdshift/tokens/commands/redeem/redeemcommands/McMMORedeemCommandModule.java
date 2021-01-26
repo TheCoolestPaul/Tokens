@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class McMMORedeemModule extends RedeemModule {
+public class McMMORedeemCommandModule extends RedeemCommandModule {
 
 	@Override
 	public String getCommand() {

@@ -9,12 +9,12 @@ import java.util.ArrayList;
 /**
  * This class was made as an attempt to make adding plugin support easier
  */
-public abstract class RedeemModule {
+public abstract class RedeemCommandModule {
 	protected Tokens plugin;
 	protected TokensHandler tokensHandler;
 	protected String command;
 
-	public RedeemModule() {
+	public RedeemCommandModule() {
 		plugin = Tokens.getInstance();
 		tokensHandler = plugin.getHandler();
 	}

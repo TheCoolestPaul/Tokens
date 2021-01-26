@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactionsRedeemModule extends RedeemModule {
-    public FactionsRedeemModule(){
+public class FactionsRedeemCommandModule extends RedeemCommandModule {
+    public FactionsRedeemCommandModule(){
         super();
     }
 

@@ -3,8 +3,8 @@ package net.thirdshift.tokens;
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.cache.TokenCache;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
-import net.thirdshift.tokens.commands.tokens.CommandTokens;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemCommandModule;
+import net.thirdshift.tokens.commands.tokens.TokensCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
 import net.thirdshift.tokens.commands.tokens.TabTokens;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
@@ -146,7 +146,7 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	public void workCommands(){
-		tokensCommand.setExecutor(new CommandTokens(this));
+		tokensCommand.setExecutor(new TokensCommandExecutor(this));
 		redeemCommand.setExecutor(redeemCommandExecutor);
 
 		tokensCommand.setTabCompleter(new TabTokens(this));
@@ -241,7 +241,7 @@ public final class Tokens extends JavaPlugin {
 	public void reloadConfig() {
 		super.reloadConfig();
 		tokensConfigHandler.reloadConfig();
-		redeemCommandExecutor.registerRedeemModule(new KeyRedeemModule());
+		redeemCommandExecutor.registerRedeemModule(new KeyRedeemCommandModule());
 	}
 
 	public void doSQLLiteWork(){

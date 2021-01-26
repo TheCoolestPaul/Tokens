@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class KeyRedeemModule extends RedeemModule {
+public class KeyRedeemCommandModule extends RedeemCommandModule {
 	@Override
 	public String getCommand() {
 		return "key";

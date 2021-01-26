@@ -2,7 +2,7 @@ package net.thirdshift.tokens.commands.redeem;
 
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import net.thirdshift.tokens.Tokens;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.RedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.RedeemCommandModule;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -27,8 +27,8 @@ public class TabRedeem implements TabCompleter {
         List<String> ret = new ArrayList<>();// Ret the closest of all of them
 
         if(args.length==1){
-            for(RedeemModule redeemModule :  redeemCommandExecutor.getRedeemModules().values()){
-                completions.add(redeemModule.getCommand());
+            for(RedeemCommandModule redeemCommandModule :  redeemCommandExecutor.getRedeemModules().values()){
+                completions.add(redeemCommandModule.getCommand());
             }
             StringUtil.copyPartialMatches(args[0], completions, ret);
         }else if(args.length==2){

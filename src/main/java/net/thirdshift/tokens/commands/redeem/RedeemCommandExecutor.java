@@ -1,7 +1,7 @@
 package net.thirdshift.tokens.commands.redeem;
 
 import net.thirdshift.tokens.Tokens;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.RedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.RedeemCommandModule;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -16,23 +16,23 @@ import java.util.List;
 
 public class RedeemCommandExecutor implements CommandExecutor {
     private final Tokens plugin;
-    private final HashMap<String, RedeemModule> commandRedeemMap;
+    private final HashMap<String, RedeemCommandModule> commandRedeemMap;
 
     public RedeemCommandExecutor(final Tokens plugin){
         this.plugin=plugin;
         commandRedeemMap = new HashMap<>();
     }
 
-    public void registerRedeemModule(final RedeemModule redeemModule){
-        if (commandRedeemMap.get(redeemModule.getCommand())!=null){
-            plugin.getLogger().info("A module already exists with command " + redeemModule.getCommand());
+    public void registerRedeemModule(final RedeemCommandModule redeemCommandModule){
+        if (commandRedeemMap.get(redeemCommandModule.getCommand())!=null){
+            plugin.getLogger().info("A module already exists with command " + redeemCommandModule.getCommand());
         } else {
-            commandRedeemMap.put(redeemModule.getCommand(), redeemModule);
-            plugin.getLogger().info("Added module "+ redeemModule.getCommand());
+            commandRedeemMap.put(redeemCommandModule.getCommand(), redeemCommandModule);
+            plugin.getLogger().info("Added module "+ redeemCommandModule.getCommand());
         }
     }
 
-    public HashMap<String, RedeemModule> getRedeemModules() {
+    public HashMap<String, RedeemCommandModule> getRedeemModules() {
         return commandRedeemMap;
     }
 
@@ -49,27 +49,27 @@ public class RedeemCommandExecutor implements CommandExecutor {
             }
             if (args.length == 0) {
                 StringBuilder addons = new StringBuilder();
-                for(RedeemModule redeemModule : commandRedeemMap.values()){
-                    addons.append(redeemModule.getCommand());
+                for(RedeemCommandModule redeemCommandModule : commandRedeemMap.values()){
+                    addons.append(redeemCommandModule.getCommand());
                     addons.append(" ");
                 }
                 commandSender.sendMessage(ChatColor.GRAY+"Command usage: /redeem < " + addons.toString() + ">");
                 return true;
             } else {
-                for(RedeemModule redeemModule : commandRedeemMap.values()){
+                for(RedeemCommandModule redeemCommandModule : commandRedeemMap.values()){
                     String com = args[0];
                     ArrayList<String> actualArgs = new ArrayList<>();
                     for (String arg : args){
                         if(!arg.equalsIgnoreCase(com))
                             actualArgs.add(arg);
                     }
-                    if (com.equalsIgnoreCase(redeemModule.getCommand())){
-                        redeemModule.onCommand( commandSender, actualArgs);
+                    if (com.equalsIgnoreCase(redeemCommandModule.getCommand())){
+                        redeemCommandModule.onCommand( commandSender, actualArgs);
                         return true;
                     }
-                    for(String alias : redeemModule.getCommandAliases()){
+                    for(String alias : redeemCommandModule.getCommandAliases()){
                         if(com.equalsIgnoreCase(alias)){
-                            redeemModule.onCommand( commandSender, actualArgs);
+                            redeemCommandModule.onCommand( commandSender, actualArgs);
                             return true;
                         }
                     }
