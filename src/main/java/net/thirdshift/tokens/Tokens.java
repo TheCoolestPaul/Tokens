@@ -14,7 +14,7 @@ import net.thirdshift.tokens.messages.MessageHandler;
 import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensConfigHandler;
-import net.thirdshift.tokens.util.TokensEventListener;
+import net.thirdshift.tokens.util.TokensUpdateEventListener;
 import net.thirdshift.tokens.util.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;
 
@@ -40,7 +40,7 @@ public final class Tokens extends JavaPlugin {
 
 	public static Economy vaultEcon;
 
-	private final TokensEventListener tokensEventListener = new TokensEventListener(this);
+	private final TokensUpdateEventListener tokensUpdateEventListener = new TokensUpdateEventListener(this);
 	private final TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 	private FileConfiguration keyConfig = null;
 	private File keyFile = null;
@@ -66,7 +66,7 @@ public final class Tokens extends JavaPlugin {
 		this.saveDefaultConfig();
 		tokensConfigHandler = new TokensConfigHandler(this);
 
-		getServer().getPluginManager().registerEvents(tokensEventListener, this);
+		getServer().getPluginManager().registerEvents(tokensUpdateEventListener, this);
 		tokensHandler = new TokensHandler(this);
 		keyHandler = new KeyHandler(this);
 		messageHandler = new MessageHandler(this);
@@ -110,8 +110,8 @@ public final class Tokens extends JavaPlugin {
 		return tokensConfigHandler;
 	}
 
-	public TokensEventListener getTokensEventListener() {
-		return tokensEventListener;
+	public TokensUpdateEventListener getTokensEventListener() {
+		return tokensUpdateEventListener;
 	}
 
 	public static Tokens getInstance(){

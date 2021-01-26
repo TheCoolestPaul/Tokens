@@ -8,7 +8,7 @@ import java.net.URLConnection;
 
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.semver.BluesSemanticVersionData;
-import net.thirdshift.tokens.util.TokensEventListener;
+import net.thirdshift.tokens.util.TokensUpdateEventListener;
 
 public class TokensSpigotUpdater {
 	
@@ -115,7 +115,7 @@ public class TokensSpigotUpdater {
             return false;
         }
         else {
-        	TokensEventListener teListener = getPlugin().getTokensEventListener();
+        	TokensUpdateEventListener teListener = getPlugin().getTokensEventListener();
         	
             if ( !teListener.isOutdated() ){
             	teListener.setOutdated(true);
