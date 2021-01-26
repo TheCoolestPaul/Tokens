@@ -71,8 +71,7 @@ public class TokenCachePlayerData {
 	 * This is just to hold on to the BukkitTask when the database update is submitted.
 	 */
 	private BukkitTask bukkitTask;
-	
-	
+
 	
 	public TokenCachePlayerData( Player player ) {
 		super();
@@ -83,14 +82,14 @@ public class TokenCachePlayerData {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append( getPlayer().getName() ).append( " [tokens= " ).append( getTokens() )
 				.append( " (uncommitted= " ).append( getValueUncommitted() )
 				.append( isAsyncDatabaseUpdateSubmitted() ? " *UpdateSubmitted*" : "" )
 				.append( " db= " ).append( valueDB )
 				.append( " transition= " ).append( valueTransition )
 				.append( " )]  " );
-		
+
 		return sb.toString();
 	}
 	
@@ -172,7 +171,7 @@ public class TokenCachePlayerData {
 		boolean results = false;
 		
 		synchronized ( lock ) {
-			results = ( tokens > getTokens());
+			results = ( tokens <= getTokens());
 		}
 		
 		return results;

@@ -1,20 +1,12 @@
 package net.thirdshift.tokens.cache;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.UUID;
-
+import net.thirdshift.tokens.Tokens;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-import net.thirdshift.tokens.Tokens;
+import java.util.*;
 
 public class TokenCache {
 	
@@ -356,7 +348,7 @@ public class TokenCache {
 	}
 	
 	public int getTokens( Player player ) {
-		int tokens = 0;
+		int tokens;
 		
 		if ( isEnabled() ) {
 			getStats().incrementGetTokens();
@@ -366,7 +358,7 @@ public class TokenCache {
 		}
 		else {
 			// The cache is not enabled, so pass through directly to the database:
-			getCacheDatabase().getTokens( player );
+			tokens = getCacheDatabase().getTokens( player );
 		}
 		
 		return tokens;
@@ -380,7 +372,7 @@ public class TokenCache {
 	
 	
 	public boolean hasTokens( Player player, int tokens ) {
-		boolean results = false;
+		boolean results;
 		
 		if ( isEnabled() ) {
 			getStats().incrementHasTokens();
