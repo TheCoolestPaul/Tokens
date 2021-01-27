@@ -4,10 +4,7 @@ import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
 import net.thirdshift.tokens.cache.TokenCache;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
-import net.thirdshift.tokens.commands.tokens.tokenscommands.AddTokensCommandModule;
-import net.thirdshift.tokens.commands.tokens.tokenscommands.BuyTokensCommandModule;
-import net.thirdshift.tokens.commands.tokens.tokenscommands.GiveTokensCommandModule;
-import net.thirdshift.tokens.commands.tokens.tokenscommands.ReloadTokensCommandModule;
+import net.thirdshift.tokens.commands.tokens.tokenscommands.*;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -29,6 +26,7 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
     private final ReloadTokensCommandModule reloadTokensCommandModule;
     private final GiveTokensCommandModule giveTokensCommandModule;
     private final BuyTokensCommandModule buyTokensCommandModule;
+    private final SetTokensCommandModule setTokensCommandModule;
 
     public TokensCommandExecutor(Tokens instance){
         super(instance);
@@ -37,6 +35,7 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
         reloadTokensCommandModule = new ReloadTokensCommandModule();
         giveTokensCommandModule = new GiveTokensCommandModule();
         buyTokensCommandModule = new BuyTokensCommandModule();
+        setTokensCommandModule = new SetTokensCommandModule();
     }
 
     @Override
@@ -69,7 +68,7 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
         if(args[0].equalsIgnoreCase("add") ) {
 			String[] actualArgs = new String[args.length-1];
 			System.arraycopy(args, 1, actualArgs, 0, args.length - 1);
-        	commandAdd( commandSender, actualArgs );
+			addTokensCommandModule.onCommand(commandSender, actualArgs);
             return true;
         } else if (args[0].equalsIgnoreCase("reload")){
         	String[] actualArgs = new String[args.length-1];
@@ -77,6 +76,9 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
             reloadTokensCommandModule.onCommand(commandSender, actualArgs);
             return true;
         } else if(args[0].equalsIgnoreCase("set")){
+			String[] actualArgs = new String[args.length-1];
+			System.arraycopy(args, 1, actualArgs, 0, args.length - 1);
+			setTokensCommandModule.onCommand(commandSender, actualArgs);
             return true;
         }else if (args[0].equalsIgnoreCase("remove")){
             if(commandSender instanceof Player){
@@ -287,10 +289,6 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
 
 		}
 		return true;
-	}
-
-	private void commandAdd( CommandSender commandSender, String[] args ) {
-		addTokensCommandModule.onCommand(commandSender, args);
 	}
     
     private void displayTokenHelp( CommandSender commandSender ) {
