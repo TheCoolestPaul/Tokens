@@ -29,6 +29,9 @@ public class FactionsRedeemCommandModule extends CommandModule {
 
     @Override
     public void onCommand(final CommandSender commandSender, final String[] args) {
+        if ( !(commandSender instanceof Player) || !commandSender.hasPermission("tokens.redeem.factions"))
+            return;
+
         Player player = (Player) commandSender;
         List<Object> objects = new ArrayList<>();
         if (args.length!=1){

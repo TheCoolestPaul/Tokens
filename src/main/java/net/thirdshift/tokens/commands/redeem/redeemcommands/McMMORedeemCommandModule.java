@@ -31,6 +31,9 @@ public class McMMORedeemCommandModule extends CommandModule {
 
 	@Override
 	public void onCommand(CommandSender commandSender, final String[] args) {
+		if ( !(commandSender instanceof Player) || !commandSender.hasPermission("tokens.redeem.mcmmo"))
+			return;
+
 		Player player = (Player) commandSender;
 		List<Object> objects = new ArrayList<>();
 		if (args.length!=2){

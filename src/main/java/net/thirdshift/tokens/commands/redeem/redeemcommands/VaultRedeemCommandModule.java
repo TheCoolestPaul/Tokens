@@ -29,6 +29,9 @@ public class VaultRedeemCommandModule extends CommandModule {
 
 	@Override
 	public void onCommand(CommandSender commandSender, String[] args) {
+		if ( !(commandSender instanceof Player) || !commandSender.hasPermission("tokens.redeem.sell"))
+			return;
+
 		Player player = (Player) commandSender;
 		List<Object> objects = new ArrayList<>();
 		if (args.length!=1){

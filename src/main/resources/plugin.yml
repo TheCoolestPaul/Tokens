@@ -22,6 +22,18 @@ permissions:
   tokens.redeem:
     default: true
     description: Required to use /redeem
+  tokens.redeem.mcmmo:
+    default: true
+    description: Required to redeem tokens for McMMO levels
+  tokens.redeem.factions:
+    default: true
+    description: Required to redeem tokens for Faction power
+  tokens.redeem.key:
+    default: true
+    description: Required to use keys
+  tokens.redeem.sell:
+    default: true
+    description: Required to sell Tokens for Vault currency
   tokens.buy:
     default: true
     description: Requred to use /tokens buy (token amount)
