@@ -30,7 +30,7 @@ public class GiveTokensCommandModule extends CommandModule {
 
 	@Override
 	public void onCommand(CommandSender commandSender, String[] args) {
-		if(commandSender instanceof Player){
+		if(commandSender instanceof Player && commandSender.hasPermission("tokens.give")){
 			if(args.length==2){
 				int toGive = Integer.parseInt(args[1]);
 				if(tokensHandler.getTokens((Player) commandSender) >= toGive) {

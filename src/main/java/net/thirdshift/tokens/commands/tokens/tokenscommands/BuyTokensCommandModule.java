@@ -30,7 +30,7 @@ public class BuyTokensCommandModule extends CommandModule {
 
 	@Override
 	public void onCommand(CommandSender commandSender, String[] args) {
-		if(commandSender instanceof Player){
+		if(commandSender instanceof Player && commandSender.hasPermission("tokens.buy")){
 			if(args.length==1){
 				int toRedeem;
 				try {

@@ -22,6 +22,9 @@ permissions:
   tokens.redeem:
     default: true
     description: Required to use /redeem
+  tokens.buy:
+    default: true
+    description: Requred to use /tokens buy (token amount)
   tokens.give:
     default: true
     description: Required to use /tokens give (target player) (token amount)
