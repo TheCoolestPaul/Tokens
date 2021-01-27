@@ -27,6 +27,7 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
     private final GiveTokensCommandModule giveTokensCommandModule;
     private final BuyTokensCommandModule buyTokensCommandModule;
     private final SetTokensCommandModule setTokensCommandModule;
+    private final RemoveTokensCommandModule removeTokensCommandModule;
 
     public TokensCommandExecutor(Tokens instance){
         super(instance);
@@ -36,6 +37,7 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
         giveTokensCommandModule = new GiveTokensCommandModule();
         buyTokensCommandModule = new BuyTokensCommandModule();
         setTokensCommandModule = new SetTokensCommandModule();
+        removeTokensCommandModule = new RemoveTokensCommandModule();
     }
 
     @Override
@@ -81,85 +83,9 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
 			setTokensCommandModule.onCommand(commandSender, actualArgs);
             return true;
         }else if (args[0].equalsIgnoreCase("remove")){
-            if(commandSender instanceof Player){
-                if(commandSender.hasPermission("tokens.remove")){
-                    if(args.length==3){
-                        Player target = Bukkit.getPlayer(args[1]);
-                        if(target!=null){
-                            int num = Integer.parseInt(args[2]);
-                            plugin.getHandler().removeTokens(target, num);
-                            List<Object> objects = new ArrayList<>();
-                            objects.add(new PlayerSender(commandSender));
-                            objects.add(new PlayerTarget(target));
-                            objects.add(num);
-                            if(!plugin.messageHandler.getMessage("tokens.remove.sender").isEmpty()){
-                                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.remove.sender", objects));
-                            }
-                            if(!plugin.messageHandler.getMessage("tokens.remove.receiver").isEmpty()){
-                                target.sendMessage(plugin.messageHandler.useMessage("tokens.remove.receiver", objects));
-                            }
-                        }else{
-                            if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
-                                List<Object> objects = new ArrayList<>();
-                                objects.add(new PlayerSender(commandSender));
-                                objects.add(new PlayerTarget(args[1]));
-                                commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
-                            }
-                        }
-                    }else{
-                        if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.message").isEmpty()){
-                            List<Object> objects = new ArrayList<>();
-                            objects.add(new PlayerSender(commandSender));
-                            objects.add("/tokens remove <player name> <tokens amount>");
-                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.message", objects));
-                        }
-                        if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.correction").isEmpty()){
-                            List<Object> objects = new ArrayList<>();
-                            objects.add(new PlayerSender(commandSender));
-                            objects.add("/tokens remove <player name> <tokens amount>");
-                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
-                        }
-                    }
-                }else return false;
-            }else{
-                if(args.length==3){
-                    Player target = Bukkit.getPlayer(args[1]);
-                    if(target!=null){
-                        int num = Integer.parseInt(args[2]);
-                        plugin.getHandler().removeTokens(target, num);
-                        List<Object> objects = new ArrayList<>();
-                        objects.add(num);
-                        objects.add(new PlayerSender(commandSender));
-                        objects.add(new PlayerTarget(target));
-                        if(!plugin.messageHandler.getMessage("tokens.set.sender").isEmpty()) {
-                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
-                        }
-                        if(plugin.messageHandler.getMessage("tokens.set.receiver").isEmpty()){
-                            target.sendMessage(plugin.messageHandler.useMessage("tokens.set.receiver", objects));
-                        }
-                    }else{
-                        if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
-                            List<Object> objects = new ArrayList<>();
-                            objects.add(new PlayerSender(commandSender.getName()));
-                            objects.add(new PlayerTarget(args[1]));
-                            commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
-                        }
-                    }
-                }else{
-                    if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.message").isEmpty()){
-                        List<Object> objects = new ArrayList<>();
-                        objects.add(new PlayerSender(commandSender));
-                        objects.add("/tokens remove <player name> <tokens amount>");
-                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.message", objects));
-                    }
-                    if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.correction").isEmpty()){
-                        List<Object> objects = new ArrayList<>();
-                        objects.add(new PlayerSender(commandSender));
-                        objects.add("/tokens remove <player name> <tokens amount>");
-                        commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
-                    }
-                }
-            }
+			String[] actualArgs = new String[args.length-1];
+			System.arraycopy(args, 1, actualArgs, 0, args.length - 1);
+            removeTokensCommandModule.onCommand(commandSender, actualArgs);
             return true;
         }else if(args[0].equalsIgnoreCase("give")) {
 			String[] actualArgs = new String[args.length-1];
