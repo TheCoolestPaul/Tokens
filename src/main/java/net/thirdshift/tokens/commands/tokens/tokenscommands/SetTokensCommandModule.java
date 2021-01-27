@@ -28,53 +28,39 @@ public class SetTokensCommandModule extends CommandModule {
 
 	@Override
 	public void onCommand(CommandSender commandSender, String[] args) {
+		if (commandSender instanceof Player){ // Console doesn't need permissions
+			if (!commandSender.hasPermission("tokens.set"))
+				return;
+		}
+
 		if(args.length==2){
-			if(commandSender instanceof Player){
-				if(commandSender.hasPermission("tokens.set")){
-					Player target = Bukkit.getPlayer(args[0]);
-					if(target!=null){
-						int num = Integer.parseInt(args[1]);
-						tokensHandler.setTokens(target, num);
-						List<Object> objects = new ArrayList<>();
-						objects.add(num);
-						objects.add(new PlayerSender(commandSender));
-						objects.add(new PlayerTarget(target));
-						if (!plugin.messageHandler.useMessage("tokens.set.sender", objects).isEmpty())
-							commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
-						if (!plugin.messageHandler.useMessage("tokens.set.receiver", objects).isEmpty())
-							target.sendMessage(plugin.messageHandler.useMessage("tokens.set.receiver", objects));
-					}else{
-						if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
-							List<Object> objects = new ArrayList<>();
-							objects.add(new PlayerSender(commandSender));
-							objects.add(new PlayerTarget(args[0]));
-							commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
-						}
-					}
+			Player target = Bukkit.getPlayer(args[0]);
+			if(target!=null){
+				int num;
+				try {
+					num = Integer.parseInt(args[1]);
+				} catch (NumberFormatException e){
+					commandSender.sendMessage(args[1]+" is not a valid number!");
+					return;
 				}
-			}else{
-				Player target = Bukkit.getPlayer(args[0]);
-				if(target!=null){
-					int num = Integer.parseInt(args[1]);
-					tokensHandler.setTokens(target, num);
+				tokensHandler.setTokens(target, num);
+				List<Object> objects = new ArrayList<>();
+				objects.add(num);
+				objects.add(new PlayerSender(commandSender));
+				objects.add(new PlayerTarget(target));
+				if (!plugin.messageHandler.useMessage("tokens.set.sender", objects).isEmpty())
+					commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
+				if (!plugin.messageHandler.useMessage("tokens.set.receiver", objects).isEmpty())
+					target.sendMessage(plugin.messageHandler.useMessage("tokens.set.receiver", objects));
+			} else {
+				if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
 					List<Object> objects = new ArrayList<>();
-					objects.add(num);
-					objects.add(new PlayerSender("Console"));
-					objects.add(new PlayerTarget(target));
-					if (!plugin.messageHandler.useMessage("tokens.set.sender", objects).isEmpty())
-						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", objects));
-					if (!plugin.messageHandler.useMessage("tokens.set.receiver", objects).isEmpty())
-						target.sendMessage(plugin.messageHandler.useMessage("tokens.set.receiver", objects));
-				}else{
-					if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
-						List<Object> objects = new ArrayList<>();
-						objects.add(new PlayerSender(commandSender.getName()));
-						objects.add(new PlayerTarget(args[0]));
-						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
-					}
+					objects.add(new PlayerSender(commandSender));
+					objects.add(new PlayerTarget(args[0]));
+					commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
 				}
 			}
-		}else{
+		} else {
 			if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.message").isEmpty()){
 				List<Object> objects = new ArrayList<>();
 				objects.add(new PlayerSender(commandSender));
