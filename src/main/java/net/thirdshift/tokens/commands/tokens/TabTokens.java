@@ -42,7 +42,8 @@ public class TabTokens implements TabCompleter {
                 completions.addAll(playerNames);
             }
             StringUtil.copyPartialMatches(args[0], completions, ret);
-        }else if(args.length==2){
+
+        }else if(args.length==2){ // For ease of use these commands tab-correct to players
             if(args[0].equalsIgnoreCase("give"))
                 return StringUtil.copyPartialMatches(args[1], PlayerListUtil.playerListUtil((Player) sender, false), ret);
             if(args[0].equalsIgnoreCase("add") && sender.hasPermission("tokens.add"))
