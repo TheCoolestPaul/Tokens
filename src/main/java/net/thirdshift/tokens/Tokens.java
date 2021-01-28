@@ -2,11 +2,13 @@ package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.cache.TokenCache;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemCommandModule;
 import net.thirdshift.tokens.commands.tokens.TokensCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
 import net.thirdshift.tokens.commands.tokens.TabTokens;
+import net.thirdshift.tokens.commands.tokens.tokenscommands.*;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.keys.KeyHandler;
@@ -54,7 +56,9 @@ public final class Tokens extends JavaPlugin {
 	private PluginCommand redeemCommand;
 	private TokensHandler tokensHandler;
 	private TokenShopGUIPlus tokenShopGUIPlus;
+
 	private RedeemCommandExecutor redeemCommandExecutor;
+	private TokensCommandExecutor tokensCommandExecutor;
 
 	@Override
 	public void onLoad() {
@@ -77,6 +81,7 @@ public final class Tokens extends JavaPlugin {
 		redeemCommand = this.getCommand("redeem");
 
 		redeemCommandExecutor = new RedeemCommandExecutor(this);
+		tokensCommandExecutor = new TokensCommandExecutor(this);
 
 		TokenCache.initialize( this );
 		
@@ -146,11 +151,22 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	public void workCommands(){
-		tokensCommand.setExecutor(new TokensCommandExecutor(this));
+		tokensCommand.setExecutor(tokensCommandExecutor);
+		addTokensCommandsModules(tokensCommandExecutor);
 		redeemCommand.setExecutor(redeemCommandExecutor);
 
 		tokensCommand.setTabCompleter(new TabTokens(this));
 		redeemCommand.setTabCompleter(new TabRedeem(this));
+	}
+
+	public void addTokensCommandsModules(TokensCustomCommandExecutor executor){
+		executor.registerModule(new AddTokensCommandModule());
+		executor.registerModule(new BuyTokensCommandModule());
+		executor.registerModule(new GiveTokensCommandModule());
+		executor.registerModule(new HelpTokensCommandModule());
+		executor.registerModule(new ReloadTokensCommandModule());
+		executor.registerModule(new RemoveTokensCommandModule());
+		executor.registerModule(new SetTokensCommandModule());
 	}
 
 	public void reloadKeys() {
@@ -305,6 +321,14 @@ public final class Tokens extends JavaPlugin {
 			this.getLogger().warning("Could not check for updates! Stacktrace:");
 			var2.printStackTrace();
 		}
+	}
+
+	public TokensHandler getTokensHandler() {
+		return tokensHandler;
+	}
+
+	public TokensCommandExecutor getTokensCommandExecutor() {
+		return tokensCommandExecutor;
 	}
 
 	public RedeemCommandExecutor getRedeemCommandExecutor() {

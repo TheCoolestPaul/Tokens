@@ -15,7 +15,7 @@ import java.util.List;
 
 public class RedeemCommandExecutor extends TokensCustomCommandExecutor {
 
-    public RedeemCommandExecutor(Tokens plugin) {
+    public RedeemCommandExecutor(final Tokens plugin) {
         super(plugin);
     }
 

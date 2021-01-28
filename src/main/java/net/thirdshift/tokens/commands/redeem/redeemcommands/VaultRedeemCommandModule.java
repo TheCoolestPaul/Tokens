@@ -18,6 +18,11 @@ public class VaultRedeemCommandModule extends CommandModule {
 	}
 
 	@Override
+	public String getPermission() {
+		return "tokens.redeem.sell";
+	}
+
+	@Override
 	public String[] getCommandAliases() {
 		return new String[]{"vault", "cash", "eco"};
 	}

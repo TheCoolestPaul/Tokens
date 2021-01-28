@@ -19,6 +19,11 @@ public class KeyRedeemCommandModule extends CommandModule {
 	}
 
 	@Override
+	public String getPermission() {
+		return "tokens.redeem.key";
+	}
+
+	@Override
 	public String[] getCommandAliases() {
 		return new String[]{"k"};
 	}

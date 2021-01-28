@@ -34,6 +34,9 @@ permissions:
   tokens.redeem.sell:
     default: true
     description: Required to sell Tokens for Vault currency
+  tokens.cache:
+    default: false
+    description: Required to edit cache settings
   tokens.buy:
     default: true
     description: Requred to use /tokens buy (token amount)

@@ -17,6 +17,11 @@ public class SetTokensCommandModule extends CommandModule {
 	}
 
 	@Override
+	public String getPermission() {
+		return "tokens.set";
+	}
+
+	@Override
 	public String[] getCommandAliases() {
 		return new String[]{"s"};
 	}

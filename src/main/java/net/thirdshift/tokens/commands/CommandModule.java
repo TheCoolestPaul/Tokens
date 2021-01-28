@@ -14,6 +14,8 @@ public abstract class CommandModule {
 		tokensHandler = plugin.getHandler();
 	}
 
+	public abstract String getPermission();
+
 	public String getCommand(){
 		return this.command;
 	}

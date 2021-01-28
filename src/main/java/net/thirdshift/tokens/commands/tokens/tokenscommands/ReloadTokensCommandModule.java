@@ -13,6 +13,11 @@ public class ReloadTokensCommandModule extends CommandModule {
 	}
 
 	@Override
+	public String getPermission() {
+		return "tokens.reload";
+	}
+
+	@Override
 	public String[] getCommandAliases() {
 		return new String[0];
 	}

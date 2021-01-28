@@ -19,6 +19,11 @@ public class BuyTokensCommandModule extends CommandModule {
 	}
 
 	@Override
+	public String getPermission() {
+		return "tokens.buy";
+	}
+
+	@Override
 	public String[] getCommandAliases() {
 		return new String[]{"b"};
 	}

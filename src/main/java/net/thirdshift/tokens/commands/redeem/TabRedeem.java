@@ -14,12 +14,12 @@ import java.util.List;
 
 public class TabRedeem implements TabCompleter {
 
-    final Tokens plugin;
-    final RedeemCommandExecutor redeemCommandExecutor;
+    private final Tokens plugin;
+    private final RedeemCommandExecutor commandExecutor;
 
-    public TabRedeem(Tokens instance){
-        this.plugin=instance;
-        redeemCommandExecutor = instance.getRedeemCommandExecutor();
+    public TabRedeem(final Tokens plugin){
+        this.plugin=plugin;
+        commandExecutor = plugin.getRedeemCommandExecutor();
     }
 
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
@@ -27,8 +27,9 @@ public class TabRedeem implements TabCompleter {
         List<String> ret = new ArrayList<>();// Ret the closest of all of them
 
         if(args.length==1){
-            for(CommandModule redeemCommandModule :  redeemCommandExecutor.getCommandModules().values()){
-                completions.add(redeemCommandModule.getCommand());
+            for(CommandModule redeemCommandModule :  commandExecutor.getCommandModules().values()){
+                if (redeemCommandModule.getPermission() == null || sender.hasPermission(redeemCommandModule.getPermission()))
+                    completions.add(redeemCommandModule.getCommand());
             }
             StringUtil.copyPartialMatches(args[0], completions, ret);
         }else if(args.length==2){

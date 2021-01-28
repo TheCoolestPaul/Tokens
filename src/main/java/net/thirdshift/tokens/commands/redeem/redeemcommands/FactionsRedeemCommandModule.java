@@ -18,6 +18,11 @@ public class FactionsRedeemCommandModule extends CommandModule {
     }
 
     @Override
+    public String getPermission() {
+        return "tokens.redeem.factions";
+    }
+
+    @Override
     public String[] getCommandAliases() {
         return new String[]{"faction", "f"};
     }

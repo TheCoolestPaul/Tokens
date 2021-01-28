@@ -20,6 +20,11 @@ public class McMMORedeemCommandModule extends CommandModule {
 	}
 
 	@Override
+	public String getPermission() {
+		return "tokens.redeem.mcmmo";
+	}
+
+	@Override
 	public String[] getCommandAliases() {
 		return new String[0];
 	}

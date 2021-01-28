@@ -19,6 +19,11 @@ public class GiveTokensCommandModule extends CommandModule {
 	}
 
 	@Override
+	public String getPermission() {
+		return "tokens.give";
+	}
+
+	@Override
 	public String[] getCommandAliases() {
 		return new String[]{"g"};
 	}
@@ -32,15 +37,23 @@ public class GiveTokensCommandModule extends CommandModule {
 	public void onCommand(CommandSender commandSender, String[] args) {
 		if(commandSender instanceof Player && commandSender.hasPermission("tokens.give")){
 			if(args.length==2){
-				int toGive = Integer.parseInt(args[1]);
-				if(tokensHandler.getTokens((Player) commandSender) >= toGive) {
-					Player target = Bukkit.getPlayer(args[1]);
+				int toGive;
+				try {
+					toGive = Integer.parseInt(args[1]);
+				} catch (NumberFormatException e){
+					commandSender.sendMessage(args[1]+" isn't a valid number!");
+					return;
+				}
+				if(tokensHandler.hasEnoughTokens((Player) commandSender, toGive)) {
+					Player target = Bukkit.getPlayer(args[0]);
 					if (target != null) {
 						if(target.equals(commandSender)){
 							commandSender.sendMessage(ChatColor.RED+"You can't give tokens to yourself.");
+							return;
 						}
 						if(toGive <= 0 ){
 							commandSender.sendMessage(ChatColor.RED+"You can't do that.");
+							return;
 						}
 						plugin.getHandler().removeTokens((Player) commandSender, toGive);
 						plugin.getHandler().addTokens(target, toGive);

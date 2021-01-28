@@ -18,6 +18,11 @@ public class RemoveTokensCommandModule extends CommandModule {
 	}
 
 	@Override
+	public String getPermission() {
+		return "tokens.remove";
+	}
+
+	@Override
 	public String[] getCommandAliases() {
 		return new String[]{"r"};
 	}
