@@ -8,6 +8,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
+/**
+ * This class provides smooth connections between
+ * Tokens' CommandModule and Bukkit's CommandExecutor
+ *
+ * Only "master-commands" use this, like "/tokens" and "/redeem"
+ */
 public abstract class TokensCustomCommandExecutor implements CommandExecutor {
 
 	protected HashMap<String, CommandModule> commandModules;

@@ -52,7 +52,7 @@ public class TokensHandler {
     }
 
     /**
-     * Check if a player has enough tokens. Mostly used for redeeming things.
+     * Checks if a player has enough tokens. Mostly used for redeeming things.
      * @param player Target player
      * @param tokensIn Tokens to check for
      * @return True if player has enough tokens, false player does not have enough tokens

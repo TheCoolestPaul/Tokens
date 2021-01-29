@@ -4,6 +4,12 @@ import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
 import org.bukkit.command.CommandSender;
 
+/**
+ * This class is used to add sub-commands to Tokens' commands
+ *
+ * Currently there are two "master commands" "/tokens" and "/redeem"
+ *
+ */
 public abstract class CommandModule {
 	protected Tokens plugin;
 	protected TokensHandler tokensHandler;
@@ -14,14 +20,23 @@ public abstract class CommandModule {
 		tokensHandler = plugin.getHandler();
 	}
 
+	/**
+	 * Used to give sub-commands permissions
+	 * set to null if no permissions
+	 * @return permission name
+	 */
 	public abstract String getPermission();
 
+	/**
+	 * Used to get the "main" sub command, no aliases.
+	 * @return The subcommand
+	 */
 	public String getCommand(){
 		return this.command;
 	}
 
 	/**
-	 * Used to give a command module aliases.
+	 * Used to give a sub command aliases.
 	 * @return Aliases for the command
 	 */
 	public abstract String[] getCommandAliases();
