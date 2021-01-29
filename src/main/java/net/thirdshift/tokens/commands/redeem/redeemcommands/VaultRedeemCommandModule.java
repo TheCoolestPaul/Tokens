@@ -2,6 +2,7 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,14 +13,19 @@ import java.util.List;
 
 public class VaultRedeemCommandModule extends CommandModule {
 
-	public VaultRedeemCommandModule() {
-		super();
+	public VaultRedeemCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command = "money";
 	}
 
 	@Override
 	public String getPermission() {
 		return "tokens.redeem.sell";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Turns your Tokens into money";
 	}
 
 	@Override

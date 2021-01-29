@@ -26,10 +26,10 @@ public abstract class TokensCustomCommandExecutor implements CommandExecutor {
 
 	public void registerModule(CommandModule commandModule) {
 		if (commandModules.get(commandModule.getCommand())!=null){
-			plugin.getLogger().warning("A module already exists with command " + commandModule.getCommand());
+			plugin.getLogger().info("Updating the " + commandModule.getCommand() + " module.");
 		} else {
 			commandModules.put(commandModule.getCommand(), commandModule);
-			plugin.getLogger().info("Added command module "+ commandModule.getCommand());
+			plugin.getLogger().info("Added module " + commandModule.getCommand());
 		}
 	}
 

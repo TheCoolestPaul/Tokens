@@ -2,6 +2,7 @@ package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -14,13 +15,19 @@ import java.util.List;
 
 public class BuyTokensCommandModule extends CommandModule {
 
-	public BuyTokensCommandModule() {
+	public BuyTokensCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command="buy";
 	}
 
 	@Override
 	public String getPermission() {
 		return "tokens.buy";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Buy Tokens for money.";
 	}
 
 	@Override

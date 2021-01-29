@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -13,13 +14,19 @@ import java.util.List;
 
 public class RemoveTokensCommandModule extends CommandModule {
 
-	public RemoveTokensCommandModule() {
+	public RemoveTokensCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command = "remove";
 	}
 
 	@Override
 	public String getPermission() {
 		return "tokens.remove";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Removes Tokens from a player's balance.";
 	}
 
 	@Override

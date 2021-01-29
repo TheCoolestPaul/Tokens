@@ -4,6 +4,7 @@ import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.util.EventUtils;
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -14,14 +15,19 @@ import java.util.List;
 
 public class McMMORedeemCommandModule extends CommandModule {
 
-	public McMMORedeemCommandModule() {
-		super();
+	public McMMORedeemCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command = "mcmmo";
 	}
 
 	@Override
 	public String getPermission() {
 		return "tokens.redeem.mcmmo";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Gives you a level in a skill";
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.keys.Key;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
@@ -13,14 +14,19 @@ import java.util.concurrent.TimeUnit;
 
 public class KeyRedeemCommandModule extends CommandModule {
 
-	public KeyRedeemCommandModule() {
-		super();
+	public KeyRedeemCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command = "key";
 	}
 
 	@Override
 	public String getPermission() {
 		return "tokens.redeem.key";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Used to redeem Tokens";
 	}
 
 	@Override

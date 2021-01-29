@@ -1,19 +1,26 @@
 package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class HelpTokensCommandModule extends CommandModule {
 
-	public HelpTokensCommandModule() {
+	public HelpTokensCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command = "help";
 	}
 
 	@Override
 	public String getPermission() {
 		return null;
+	}
+
+	@Override
+	public String getDescription() {
+		return "Displays this helpful message.";
 	}
 
 	@Override
@@ -34,16 +41,23 @@ public class HelpTokensCommandModule extends CommandModule {
 				ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + " ]===============");
 		commandSender.sendMessage(ChatColor.AQUA + "/tokens help " + ChatColor.GRAY + " Displays this helpful text");
 		commandSender.sendMessage(ChatColor.AQUA + "/tokens" + ChatColor.GRAY + " Displays your number of tokens");
-		if (commandSender.hasPermission("tokens.add") || isConsole) {
-			commandSender.sendMessage(ChatColor.AQUA + "/tokens add <player name> <tokens amount>" + ChatColor.GRAY + " Adds tokens to a player");
+
+		for (CommandModule module : parentExecutor.getCommandModules().values()){
+			if ( module.getPermission() == null || commandSender.hasPermission(module.getPermission()) || isConsole) {
+				commandSender.sendMessage(module.getHelpText());
+			}
 		}
 
-		commandSender.sendMessage(ChatColor.AQUA + "/tokens give <player name> <tokens amount>" + ChatColor.GRAY + " Gives your tokens to another player");
-		if(commandSender.hasPermission("tokens.remove") || isConsole) {
-			commandSender.sendMessage(ChatColor.AQUA + "/tokens remove <player name> <tokens amount>" + ChatColor.GRAY + " Remove tokens from a player");
-		}
+		//if (commandSender.hasPermission("tokens.add") || isConsole) {
+		//	commandSender.sendMessage(ChatColor.AQUA + "/tokens add <player name> <tokens amount>" + ChatColor.GRAY + " Adds tokens to a player");
+		//}
+		//
+		//commandSender.sendMessage(ChatColor.AQUA + "/tokens give <player name> <tokens amount>" + ChatColor.GRAY + " Gives your tokens to another player");
+		//if(commandSender.hasPermission("tokens.remove") || isConsole) {
+		//	commandSender.sendMessage(ChatColor.AQUA + "/tokens remove <player name> <tokens amount>" + ChatColor.GRAY + " Remove tokens from a player");
+		//}
 
-		commandSender.sendMessage(ChatColor.AQUA + "/redeem" + ChatColor.GRAY + " Displays help using the redeem command");
+		commandSender.sendMessage(ChatColor.AQUA + "/redeem" + ChatColor.GRAY + " Displays help for using the redeem commands");
 		if(commandSender.hasPermission("tokens.cache") || isConsole) {
 			commandSender.sendMessage(ChatColor.AQUA + "/tokens cache " + ChatColor.GRAY + " Displays the token cache sub-commands");
 		}

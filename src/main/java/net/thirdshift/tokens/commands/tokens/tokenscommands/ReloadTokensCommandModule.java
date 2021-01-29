@@ -2,19 +2,26 @@ package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.thirdshift.tokens.cache.TokenCache;
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class ReloadTokensCommandModule extends CommandModule {
 
-	public ReloadTokensCommandModule() {
+	public ReloadTokensCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command="reload";
 	}
 
 	@Override
 	public String getPermission() {
 		return "tokens.reload";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Reloads the Tokens plugin.";
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,14 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FactionsRedeemCommandModule extends CommandModule {
-    public FactionsRedeemCommandModule(){
-        super();
+    public FactionsRedeemCommandModule(final TokensCustomCommandExecutor executor){
+        super(executor);
         this.command = "factions";
     }
 
     @Override
     public String getPermission() {
         return "tokens.redeem.factions";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Gives you a power increase";
     }
 
     @Override

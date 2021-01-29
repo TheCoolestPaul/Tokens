@@ -2,6 +2,7 @@ package net.thirdshift.tokens.commands;
 
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -14,10 +15,12 @@ public abstract class CommandModule {
 	protected Tokens plugin;
 	protected TokensHandler tokensHandler;
 	protected String command;
+	protected TokensCustomCommandExecutor parentExecutor;
 
-	public CommandModule() {
+	public CommandModule(final TokensCustomCommandExecutor executor) {
 		plugin = Tokens.getInstance();
 		tokensHandler = plugin.getHandler();
+		this.parentExecutor = executor;
 	}
 
 	/**
@@ -26,6 +29,17 @@ public abstract class CommandModule {
 	 * @return permission name
 	 */
 	public abstract String getPermission();
+
+	public abstract String getDescription();
+
+	/**
+	 * Used to inform users about commands
+	 * @return The text printed to the commandSender's chat
+	 */
+	public String getHelpText(){
+		return ChatColor.AQUA + getCommandUsage() +
+				" " + ChatColor.GRAY + getDescription();
+	}
 
 	/**
 	 * Used to get the "main" sub command, no aliases.

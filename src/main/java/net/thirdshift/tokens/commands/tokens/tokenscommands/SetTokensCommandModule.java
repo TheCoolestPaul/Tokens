@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -12,13 +13,19 @@ import java.util.List;
 
 public class SetTokensCommandModule extends CommandModule {
 
-	public SetTokensCommandModule() {
+	public SetTokensCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command="set";
 	}
 
 	@Override
 	public String getPermission() {
 		return "tokens.set";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Sets a player's Tokens balance.";
 	}
 
 	@Override

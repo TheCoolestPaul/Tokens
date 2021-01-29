@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -14,13 +15,19 @@ import java.util.List;
 
 public class GiveTokensCommandModule extends CommandModule {
 
-	public GiveTokensCommandModule() {
+	public GiveTokensCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command="give";
 	}
 
 	@Override
 	public String getPermission() {
 		return "tokens.give";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Give your Tokens to another player";
 	}
 
 	@Override

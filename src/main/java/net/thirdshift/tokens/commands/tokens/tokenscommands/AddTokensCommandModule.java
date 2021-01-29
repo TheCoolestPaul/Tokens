@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import net.thirdshift.tokens.messages.messageData.PlayerTarget;
 import org.bukkit.Bukkit;
@@ -13,14 +14,19 @@ import java.util.List;
 
 public class AddTokensCommandModule extends CommandModule {
 
-	public AddTokensCommandModule() {
-		super();
+	public AddTokensCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
 		this.command="add";
 	}
 
 	@Override
 	public String getPermission() {
 		return "tokens.add";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Adds Tokens to a player's balance";
 	}
 
 	@Override

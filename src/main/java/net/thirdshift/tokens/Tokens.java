@@ -160,13 +160,13 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	public void addTokensCommandsModules(TokensCustomCommandExecutor executor){
-		executor.registerModule( new AddTokensCommandModule() );
-		executor.registerModule( new BuyTokensCommandModule() );
-		executor.registerModule( new GiveTokensCommandModule() );
-		executor.registerModule( new HelpTokensCommandModule() );
-		executor.registerModule( new ReloadTokensCommandModule() );
-		executor.registerModule( new RemoveTokensCommandModule() );
-		executor.registerModule( new SetTokensCommandModule() );
+		executor.registerModule( new AddTokensCommandModule(executor) );
+		executor.registerModule( new BuyTokensCommandModule(executor) );
+		executor.registerModule( new GiveTokensCommandModule(executor) );
+		executor.registerModule( new HelpTokensCommandModule(executor) );
+		executor.registerModule( new ReloadTokensCommandModule(executor) );
+		executor.registerModule( new RemoveTokensCommandModule(executor) );
+		executor.registerModule( new SetTokensCommandModule(executor) );
 	}
 
 	public void reloadKeys() {
@@ -257,7 +257,7 @@ public final class Tokens extends JavaPlugin {
 	public void reloadConfig() {
 		super.reloadConfig();
 		tokensConfigHandler.reloadConfig();
-		redeemCommandExecutor.registerModule(new KeyRedeemCommandModule());
+		redeemCommandExecutor.registerModule(new KeyRedeemCommandModule(redeemCommandExecutor));
 	}
 
 	public void doSQLLiteWork(){
@@ -321,10 +321,6 @@ public final class Tokens extends JavaPlugin {
 			this.getLogger().warning("Could not check for updates! Stacktrace:");
 			var2.printStackTrace();
 		}
-	}
-
-	public TokensHandler getTokensHandler() {
-		return tokensHandler;
 	}
 
 	public TokensCommandExecutor getTokensCommandExecutor() {
