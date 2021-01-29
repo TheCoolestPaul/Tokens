@@ -2,11 +2,13 @@ package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.cache.TokenCache;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
-import net.thirdshift.tokens.commands.tokens.CommandTokens;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemCommandModule;
+import net.thirdshift.tokens.commands.tokens.TokensCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
 import net.thirdshift.tokens.commands.tokens.TabTokens;
+import net.thirdshift.tokens.commands.tokens.tokenscommands.*;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.keys.KeyHandler;
@@ -14,7 +16,7 @@ import net.thirdshift.tokens.messages.MessageHandler;
 import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensConfigHandler;
-import net.thirdshift.tokens.util.TokensEventListener;
+import net.thirdshift.tokens.util.TokensUpdateEventListener;
 import net.thirdshift.tokens.util.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;
 
@@ -40,7 +42,7 @@ public final class Tokens extends JavaPlugin {
 
 	public static Economy vaultEcon;
 
-	private final TokensEventListener tokensEventListener = new TokensEventListener(this);
+	private final TokensUpdateEventListener tokensUpdateEventListener = new TokensUpdateEventListener(this);
 	private final TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 	private FileConfiguration keyConfig = null;
 	private File keyFile = null;
@@ -54,7 +56,9 @@ public final class Tokens extends JavaPlugin {
 	private PluginCommand redeemCommand;
 	private TokensHandler tokensHandler;
 	private TokenShopGUIPlus tokenShopGUIPlus;
+
 	private RedeemCommandExecutor redeemCommandExecutor;
+	private TokensCommandExecutor tokensCommandExecutor;
 
 	@Override
 	public void onLoad() {
@@ -66,8 +70,8 @@ public final class Tokens extends JavaPlugin {
 		this.saveDefaultConfig();
 		tokensConfigHandler = new TokensConfigHandler(this);
 
-		getServer().getPluginManager().registerEvents(tokensEventListener, this);
-		tokensHandler = new TokensHandler(this);
+		getServer().getPluginManager().registerEvents(tokensUpdateEventListener, this);
+		tokensHandler = new TokensHandler();
 		keyHandler = new KeyHandler(this);
 		messageHandler = new MessageHandler(this);
 
@@ -77,6 +81,7 @@ public final class Tokens extends JavaPlugin {
 		redeemCommand = this.getCommand("redeem");
 
 		redeemCommandExecutor = new RedeemCommandExecutor(this);
+		tokensCommandExecutor = new TokensCommandExecutor(this);
 
 		TokenCache.initialize( this );
 		
@@ -88,12 +93,8 @@ public final class Tokens extends JavaPlugin {
 			if(tokensExpansion) {
 				this.getLogger().info("Successfully registered into PlaceholderAPI");
 			}else{
-				this.getLogger().warning("Couldn't register into PlaceholderAPI");
+				this.getLogger().warning("Couldn't register into PlaceholderAPI!");
 			}
-		}
-		if(Bukkit.getPluginManager().getPlugin("ShopGUIPlus")!=null){
-			tokenShopGUIPlus = new TokenShopGUIPlus(this);
-			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
 		}
 		this.reloadConfig();
 
@@ -106,12 +107,16 @@ public final class Tokens extends JavaPlugin {
 		}
 	}
 
+	public void setTokenShopGUIPlus(TokenShopGUIPlus tokenShopGUIPlus) {
+		this.tokenShopGUIPlus = tokenShopGUIPlus;
+	}
+
 	public TokensConfigHandler getTokensConfigHandler() {
 		return tokensConfigHandler;
 	}
 
-	public TokensEventListener getTokensEventListener() {
-		return tokensEventListener;
+	public TokensUpdateEventListener getTokensEventListener() {
+		return tokensUpdateEventListener;
 	}
 
 	public static Tokens getInstance(){
@@ -138,7 +143,7 @@ public final class Tokens extends JavaPlugin {
 		// providing final attempts here just to ensure they are shutdown to
 		// help prevent corruption.
 		if(tokensConfigHandler.isRunningMySQL()){
-			mysql.closeConnection();//Cut off any loose bois
+			mysql.closeConnection();
 		}
 		else {
 			sqllite.closeConnection();
@@ -146,11 +151,25 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	public void workCommands(){
-		tokensCommand.setExecutor(new CommandTokens(this));
+		tokensCommand.setExecutor(tokensCommandExecutor);
+		addTokensCommandsModules(tokensCommandExecutor);
 		redeemCommand.setExecutor(redeemCommandExecutor);
 
 		tokensCommand.setTabCompleter(new TabTokens(this));
 		redeemCommand.setTabCompleter(new TabRedeem(this));
+	}
+
+	public void addTokensCommandsModules(TokensCustomCommandExecutor executor){
+		executor.registerModule( new AddTokensCommandModule(executor) );
+
+		if (this.getTokensConfigHandler().isVaultBuy())
+			executor.registerModule( new BuyTokensCommandModule(executor) );
+
+		executor.registerModule( new GiveTokensCommandModule(executor) );
+		executor.registerModule( new HelpTokensCommandModule(executor) );
+		executor.registerModule( new ReloadTokensCommandModule(executor) );
+		executor.registerModule( new RemoveTokensCommandModule(executor) );
+		executor.registerModule( new SetTokensCommandModule(executor) );
 	}
 
 	public void reloadKeys() {
@@ -241,7 +260,7 @@ public final class Tokens extends JavaPlugin {
 	public void reloadConfig() {
 		super.reloadConfig();
 		tokensConfigHandler.reloadConfig();
-		redeemCommandExecutor.registerRedeemModule(new KeyRedeemModule());
+		redeemCommandExecutor.registerModule(new KeyRedeemCommandModule(redeemCommandExecutor));
 	}
 
 	public void doSQLLiteWork(){
@@ -294,6 +313,7 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	private void checkUpdates(){
+		this.getLogger().info("Checking for an update");
 		try {
 			if (updater.checkForUpdates()) {
 				this.getLogger().info("An update was found! New version: " + updater.getLatestVersion() + " download link: " + updater.getResourceURL());
@@ -304,6 +324,10 @@ public final class Tokens extends JavaPlugin {
 			this.getLogger().warning("Could not check for updates! Stacktrace:");
 			var2.printStackTrace();
 		}
+	}
+
+	public TokensCommandExecutor getTokensCommandExecutor() {
+		return tokensCommandExecutor;
 	}
 
 	public RedeemCommandExecutor getRedeemCommandExecutor() {

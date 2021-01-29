@@ -2,21 +2,30 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
+import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactionsRedeemModule extends RedeemModule {
-    public FactionsRedeemModule(){
-        super();
+public class FactionsRedeemCommandModule extends CommandModule {
+    public FactionsRedeemCommandModule(final TokensCustomCommandExecutor executor){
+        super(executor);
+        this.command = "factions";
     }
 
     @Override
-    public String getCommand() {
-        return "factions";
+    public String getPermission() {
+        return "tokens.redeem.factions";
+    }
+
+    @Override
+    public String getDescription() {
+        return "Gives you a power increase";
     }
 
     @Override
@@ -30,9 +39,13 @@ public class FactionsRedeemModule extends RedeemModule {
     }
 
     @Override
-    public void redeem(final Player player, final ArrayList<String> args) {
+    public void onCommand(final CommandSender commandSender, final String[] args) {
+        if ( !(commandSender instanceof Player) || !commandSender.hasPermission("tokens.redeem.factions"))
+            return;
+
+        Player player = (Player) commandSender;
         List<Object> objects = new ArrayList<>();
-        if (args.size()!=1){
+        if (args.length!=1){
             objects.add(new PlayerSender(player));
             objects.add(getCommandUsage());
             player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
@@ -41,21 +54,21 @@ public class FactionsRedeemModule extends RedeemModule {
 
         int toRedeem;
         try {
-            toRedeem = Integer.parseInt(args.get(0));
+            toRedeem = Integer.parseInt(args[0]);
         }catch(NumberFormatException e){
-            player.sendMessage(ChatColor.RED +"Invalid command, "+args.get(0)+" is not a number!");
+            player.sendMessage(ChatColor.RED +"Invalid command, "+args[0]+" is not a number!");
             return;
         }
 
         objects.add(toRedeem);
         objects.add(new PlayerSender(player));
 
-        if(tokensHandler.hasTokens(player, toRedeem)){
+        if(tokensHandler.hasEnoughTokens(player, toRedeem)){
             FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
             if(fPlayer != null ){
                 fPlayer.setPowerBoost(fPlayer.getPowerBoost() + (double)(toRedeem * plugin.getTokensConfigHandler().getTokenToFactionPower()));
                 objects.add(fPlayer);
-                tokensHandler.setTokens(player, tokensHandler.getTokens(player) - toRedeem);
+                tokensHandler.removeTokens(player, toRedeem);
                 player.sendMessage(plugin.messageHandler.useMessage("redeem.factions", objects));
             }else{
                 plugin.getLogger().severe("Couldn't get FPlayer for "+player.getName());

@@ -8,12 +8,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class TokensEventListener implements Listener {
+public class TokensUpdateEventListener implements Listener {
 	private String updateURL;
 	private boolean outdated;
 	private final Tokens plugin;
 
-	public TokensEventListener(final Tokens plugin) {
+	public TokensUpdateEventListener(final Tokens plugin) {
 		this.plugin=plugin;
 		this.outdated = false;
 	}

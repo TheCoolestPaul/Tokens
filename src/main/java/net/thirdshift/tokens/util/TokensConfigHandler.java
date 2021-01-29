@@ -2,9 +2,10 @@ package net.thirdshift.tokens.util;
 
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.combatlogx.TokensCombatManager;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemModule;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemCommandModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemCommandModule;
+import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemCommandModule;
+import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -37,6 +38,8 @@ public class TokensConfigHandler {
 	private double vaultBuyPrice;
 	private double vaultSellPrice;
 
+	private boolean shopGUIPlus = false;
+
 	private final Tokens plugin;
 
 	public TokensConfigHandler(final Tokens plugin){
@@ -61,8 +64,11 @@ public class TokensConfigHandler {
 		combatLogXEnabled = plugin.getConfig().getBoolean("CombatLogX.Enabled");
 
 		// mcmmo related config options
-		this.mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled");
-		this.tokensToMCMMOLevels = plugin.getConfig().getInt("mcMMO.Tokens-To-Levels");
+		mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled");
+		tokensToMCMMOLevels = plugin.getConfig().getInt("mcMMO.Tokens-To-Levels");
+
+		// ShopGUIPlus
+		shopGUIPlus = plugin.getConfig().getBoolean("ShopGUIPlus.Enabled");
 
 		// MySQL Check
 		if (mySQLEnabled) {
@@ -90,7 +96,7 @@ public class TokensConfigHandler {
 			if (factionsPlug != null && factionsPlug.isEnabled()) {
 				hasFactions = true;
 				isRunningFactions = true;
-				plugin.getRedeemCommandExecutor().registerRedeemModule(new FactionsRedeemModule());
+				plugin.getRedeemCommandExecutor().registerModule(new FactionsRedeemCommandModule(plugin.getRedeemCommandExecutor()));
 			} else if (factionsPlug == null || !factionsPlug.isEnabled()) {
 				plugin.getLogger().warning("Factions addon is enabled but Factions is not installed on the server!");
 				isRunningFactions = false;
@@ -104,7 +110,7 @@ public class TokensConfigHandler {
 			Plugin vaultPlug = Bukkit.getPluginManager().getPlugin("Vault");
 			if (vaultPlug != null && vaultPlug.isEnabled()) {
 				hasVault = true;
-				plugin.getRedeemCommandExecutor().registerRedeemModule(new VaultRedeemModule());
+				plugin.getRedeemCommandExecutor().registerModule(new VaultRedeemCommandModule(plugin.getRedeemCommandExecutor()));
 				plugin.vaultIntegration();
 			} else if (vaultPlug == null || !vaultPlug.isEnabled()) {
 				isRunningVault = false;
@@ -136,7 +142,7 @@ public class TokensConfigHandler {
 			if (mcmmoPlug != null && mcmmoPlug.isEnabled()) {
 				hasMCMMO = true;
 				isRunningMCMMO = true;
-				plugin.getRedeemCommandExecutor().registerRedeemModule(new McMMORedeemModule());
+				plugin.getRedeemCommandExecutor().registerModule(new McMMORedeemCommandModule(plugin.getRedeemCommandExecutor()));
 			} else if (mcmmoPlug == null || !mcmmoPlug.isEnabled()) {
 				isRunningMCMMO = false;
 				plugin.getLogger().warning("mcMMO addon is enabled but mcMMO is not installed on the server!");
@@ -145,10 +151,27 @@ public class TokensConfigHandler {
 			isRunningMCMMO = false;
 		}
 
+		// ShopGUIPlus Check
+		if (shopGUIPlus){
+			Plugin shopPlugin = Bukkit.getPluginManager().getPlugin("ShopGUIPlus");
+			if( shopPlugin != null && shopPlugin.isEnabled() ){
+				plugin.setTokenShopGUIPlus( new TokenShopGUIPlus(plugin) );
+				plugin.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
+			}
+		}
+
 		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
 		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled) {
 			plugin.getLogger().warning("You don't have any supported plugins enabled.");
 		}
+	}
+
+	public boolean isShopGUIPlus() {
+		return shopGUIPlus;
+	}
+
+	public void setShopGUIPlus(boolean shopGUIPlus) {
+		this.shopGUIPlus = shopGUIPlus;
 	}
 
 	public boolean isRunningMySQL(){

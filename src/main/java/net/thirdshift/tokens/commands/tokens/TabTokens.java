@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.commands.tokens;
 
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.util.PlayerListUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -8,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,30 +17,23 @@ import java.util.List;
 
 public class TabTokens implements TabCompleter {
 
-    Tokens plugin;
+    private final TokensCommandExecutor commandExecutor;
 
-    public TabTokens(Tokens instance){
-        this.plugin=instance;
+    public TabTokens(final Tokens plugin){
+        commandExecutor= plugin.getTokensCommandExecutor();
     }
 
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args){
-        List<String> completions = new ArrayList<>();
-        List<String> ret = new ArrayList<>();
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args){
+        List<String> completions = new ArrayList<>(); // All possible completions
+        List<String> ret = new ArrayList<>();// Ret the closest of all of them
+
         if(args.length==1){
-            completions.add("give");
-            completions.add("help");
 
-            if(plugin.getTokensConfigHandler().isVaultSell() && plugin.getTokensConfigHandler().isRunningVault())
-                completions.add("buy");
-
-            if(sender.hasPermission("tokens.add"))
-                completions.add("add");
-            if(sender.hasPermission("tokens.set"))
-                completions.add("set");
-            if(sender.hasPermission("tokens.remove"))
-                completions.add("remove");
-            if(sender.hasPermission("tokens.reload"))
-                completions.add("reload");
+            for(CommandModule redeemCommandModule :  commandExecutor.getCommandModules().values()){
+                if (redeemCommandModule.getPermission() == null || sender.hasPermission(redeemCommandModule.getPermission()))
+                    completions.add(redeemCommandModule.getCommand());
+            }
+            StringUtil.copyPartialMatches(args[0], completions, ret);
 
             if(sender.hasPermission("tokens.others")){
                 Collection<? extends Player> players = Bukkit.getOnlinePlayers();
@@ -47,7 +42,8 @@ public class TabTokens implements TabCompleter {
                 completions.addAll(playerNames);
             }
             StringUtil.copyPartialMatches(args[0], completions, ret);
-        }else if(args.length==2){
+
+        }else if(args.length==2){ // For ease of use these commands tab-correct to players
             if(args[0].equalsIgnoreCase("give"))
                 return StringUtil.copyPartialMatches(args[1], PlayerListUtil.playerListUtil((Player) sender, false), ret);
             if(args[0].equalsIgnoreCase("add") && sender.hasPermission("tokens.add"))

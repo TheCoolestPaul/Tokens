@@ -1,18 +1,32 @@
 package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
+import net.thirdshift.tokens.commands.CommandModule;
+import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.keys.Key;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class KeyRedeemModule extends RedeemModule {
+public class KeyRedeemCommandModule extends CommandModule {
+
+	public KeyRedeemCommandModule(final TokensCustomCommandExecutor executor) {
+		super(executor);
+		this.command = "key";
+	}
+
 	@Override
-	public String getCommand() {
-		return "key";
+	public String getPermission() {
+		return "tokens.redeem.key";
+	}
+
+	@Override
+	public String getDescription() {
+		return "Used to redeem Tokens";
 	}
 
 	@Override
@@ -26,16 +40,20 @@ public class KeyRedeemModule extends RedeemModule {
 	}
 
 	@Override
-	public void redeem(Player player, ArrayList<String> args) {
+	public void onCommand(CommandSender commandSender, String[] args) {
+		if ( !(commandSender instanceof Player) || !commandSender.hasPermission("tokens.redeem.key"))
+			return;
+
+		Player player = (Player) commandSender;
 		List<Object> objects = new ArrayList<>();
-		if (args.size()!=1){
+		if (args.length!=1){
 			objects.add(new PlayerSender(player));
 			objects.add(getCommandUsage());
 			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
 			return;
 		}
 
-		String keyName = args.get(0);
+		String keyName = args[0];
 
 		if(plugin.keyHandler.isValidKey(keyName)){
 			if(plugin.keyHandler.getKey(keyName).enabled) {

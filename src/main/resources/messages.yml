@@ -48,7 +48,7 @@ tokens:
     stats:
       toggled: "&7Token Cache stats toggled. enabled= &5%b"
       cleared: "&7Token Cache stats have been cleared & reset."
-      journaling-enbled: "&Token Cache Journaling has been enabled."
+      journaling-enabled: "&Token Cache Journaling has been enabled."
       journaling-player: "&Token Cache Journaling is activated on player: %s."
       journaling-disabled: "&Token Cache Journaling has been disabled."
 redeem:

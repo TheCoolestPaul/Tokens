@@ -83,7 +83,7 @@ public class BluesSemanticVersionData
 	//	Pattern r = Pattern.compile(pattern);
 		Matcher m = ( semVerStr == null ? null : r.matcher(semVerStr) );
 		
-		this.valid = ( semVerStr == null ? false : m.find() );
+		this.valid = (semVerStr != null && m.find());
 		
 		if ( isValid() ) {
 			this.major = parseInt(m, GroupNames.major);

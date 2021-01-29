@@ -1,29 +1,23 @@
 package net.thirdshift.tokens.cache;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.UUID;
-
+import net.thirdshift.tokens.Tokens;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-import net.thirdshift.tokens.Tokens;
+import java.util.*;
 
 public class TokenCache {
 	
 	public static final String TOKEN_CACHE_IS_ENABLED = "tokencache.is_enabled";
 	public static final String TOKEN_CACHE_WRITE_DELAY = "tokencache.write_delay";
 	public static final long TOKEN_CACHE_WRITE_DELAY_VALUE_MS = 10000; // 10 seconds
+	/* Notated out un-used code
 	public static final String TOKEN_CACHE_TIME_TO_LIVE = "tokencache.time_to_live";
 	public static final long TOKEN_CACHE_TIME_TO_LIVE_VALUE_MS = 30 * 60 * 1000; // 30 mins
-	
+	*/
+
 	private static TokenCache instance;
 	
 	private boolean enabled = false;
@@ -34,10 +28,10 @@ public class TokenCache {
 	private String journalPlayer;
 
 	
-	private Map<UUID, TokenCachePlayerData> players;
-	private TreeMap<String, TokenCachePlayerData> playerStrings;
+	private final Map<UUID, TokenCachePlayerData> players;
+	private final TreeMap<String, TokenCachePlayerData> playerStrings;
 	
-	private Map<BukkitTask, TokenCachePlayerData> tasks;
+	private final Map<BukkitTask, TokenCachePlayerData> tasks;
 	
 	private TokenCacheDatabase cacheDatabase;
 
@@ -62,11 +56,11 @@ public class TokenCache {
 	public synchronized static void initialize( Tokens plugin ) {
 		if ( instance == null ) {
 			instance = new TokenCache();
-			instance.internalInititalize( plugin );
+			instance.internalInitialize( plugin );
 		}
 	}
 	
-	private void internalInititalize( Tokens plugin ) {
+	private void internalInitialize(Tokens plugin ) {
 		
 		this.plugin = plugin;
 		
@@ -214,10 +208,9 @@ public class TokenCache {
 			// Load the player's existing balance:
 			submitAsyncLoadPlayer( player );
 		}
-		TokenCachePlayerData playerData = getPlayers().get( player.getUniqueId() );
 
 		// journal( playerData, "getPlayer: Player returned: ");
-		return playerData;
+		return getPlayers().get( player.getUniqueId() );
 	}
 
 
@@ -314,6 +307,7 @@ public class TokenCache {
 	public void submitAsyncSynchronizePlayers() {
 		submitAsyncSynchronizePlayers( null );
 	}
+
 	public void submitAsyncSynchronizePlayers( CommandSender commandSender ) {
 		getStats().incrementSubmitSynchronizePlayers();
 		
@@ -356,7 +350,7 @@ public class TokenCache {
 	}
 	
 	public int getTokens( Player player ) {
-		int tokens = 0;
+		int tokens;
 		
 		if ( isEnabled() ) {
 			getStats().incrementGetTokens();
@@ -366,21 +360,21 @@ public class TokenCache {
 		}
 		else {
 			// The cache is not enabled, so pass through directly to the database:
-			getCacheDatabase().getTokens( player );
+			tokens = getCacheDatabase().getTokens( player );
 		}
 		
 		return tokens;
 	}
 
 	public int removeTokens( Player player, int tokens ) {
-		getStats().incrementRemveTokens();
+		getStats().incrementRemoveTokens();
 		
 		return addTokens( player, -1 * tokens );
 	}
 	
 	
 	public boolean hasTokens( Player player, int tokens ) {
-		boolean results = false;
+		boolean results;
 		
 		if ( isEnabled() ) {
 			getStats().incrementHasTokens();

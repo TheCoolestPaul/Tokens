@@ -1,6 +1,4 @@
-import org.apache.tools.ant.filters.ReplaceTokens
 import java.text.SimpleDateFormat
-import java.util.Date
 
 apply plugin: 'java'
 
@@ -9,7 +7,7 @@ group = 'net.thirdshift'
  
 println """
 ==========================================================================
-You are building the Token plugin 
+You are building the Tokens plugin https://github.com/TheCoolestPaul/Tokens
   Version:    ${project.version} 
   Build time: ${getCurrentTimestamp()}
 
@@ -60,15 +58,15 @@ repositories {
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot:1.16.1-R0.1-SNAPSHOT"
-    compileOnly "net.milkbowl.vault:VaultAPI:1.7"
-    compileOnly "me.clip:placeholderapi:2.10.8"
-    compileOnly "com.gmail.nossr50.mcMMO:mcMMO:2.1.161"
-    compileOnly "com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT"
+    compileOnly "org.spigotmc:spigot:$spigotVersion"
+    compileOnly "net.milkbowl.vault:VaultAPI:$vaultVersion"
+    compileOnly "me.clip:placeholderapi:$placeholderVersion"
+    compileOnly "com.gmail.nossr50.mcMMO:mcMMO:$mcmmoVersion"
+    compileOnly "com.SirBlobman.combatlogx:CombatLogX-API:$combatlogxVersion"
 
-    compileOnly "com.massivecraft:Factions:1.6.9.5-U0.5.13"
+    compileOnly "com.massivecraft:Factions:$factionsVersion"
 
-    compileOnly "com.github.brcdev-minecraft:shopgui-api:1.5.0"
+    compileOnly "com.github.brcdev-minecraft:shopgui-api:$shopguiplusVersion"
     
     testCompile 'junit:junit:4.12'
 }
@@ -83,7 +81,7 @@ processResources {
     }
 }
 
-def getCurrentTimestamp() {
-  SimpleDateFormat df = new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss")
+static def getCurrentTimestamp() {
+  SimpleDateFormat df = new SimpleDateFormat ("HH:mm:ss MM-dd-yyyy")
   return df.format (new Date())
 }

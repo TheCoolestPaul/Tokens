@@ -8,7 +8,7 @@ import java.net.URLConnection;
 
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.semver.BluesSemanticVersionData;
-import net.thirdshift.tokens.util.TokensEventListener;
+import net.thirdshift.tokens.util.TokensUpdateEventListener;
 
 public class TokensSpigotUpdater {
 	
@@ -68,7 +68,7 @@ public class TokensSpigotUpdater {
         URLConnection con = getSpigotCheckURL().openConnection();
         try (
         		InputStreamReader streamReader = new InputStreamReader(con.getInputStream());
-        		BufferedReader buff = new BufferedReader(streamReader);
+        		BufferedReader buff = new BufferedReader(streamReader)
         		) {
         	
         	setLatestVersion( buff.readLine() );
@@ -86,7 +86,7 @@ public class TokensSpigotUpdater {
         if ( !svCurrentVersion.isValid() ) {
         	getPlugin().getLogger().info("TokensSpigotUpdater.checkForUpdates: " +
         			"Current version has an invalid semantic version. " +
-        			"It is unknow if a newer version is available.");
+        			"It is unknown if a newer version is available.");
             return true;
         }
         
@@ -98,15 +98,15 @@ public class TokensSpigotUpdater {
         	return true;
         }
         
-        getPlugin().getLogger().info( "Checking for updates:" +
-        			"  Current Version: " + svCurrentVersion.toString() +
-        			"  Available Version: " + svAvailableVersion.toString() );
+        //getPlugin().getLogger().info( "Checking for updates:" +
+        //			"  Current Version: " + svCurrentVersion.toString() +
+        //			"  Available Version: " + svAvailableVersion.toString() );
 
         int compare = svCurrentVersion.compareTo( svAvailableVersion );
         
         if( compare == 0 ) {
         	// Same version: 
-        	getPlugin().getLogger().info("Tokens is up todate." );
+        	getPlugin().getLogger().info("Tokens is up to date." );
             return false;
         }
         else if( compare > 0 ) {
@@ -115,7 +115,7 @@ public class TokensSpigotUpdater {
             return false;
         }
         else {
-        	TokensEventListener teListener = getPlugin().getTokensEventListener();
+        	TokensUpdateEventListener teListener = getPlugin().getTokensEventListener();
         	
             if ( !teListener.isOutdated() ){
             	teListener.setOutdated(true);

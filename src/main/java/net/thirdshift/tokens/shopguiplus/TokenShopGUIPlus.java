@@ -6,6 +6,10 @@ import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
 import org.bukkit.entity.Player;
 
+/**
+ * This class is a wrapper to integrate ShopGUIPlus
+ * functionality into Tokens' very own TokensHandler class
+ */
 public class TokenShopGUIPlus extends EconomyProvider {
 
 	private final TokensHandler tokensHandler;
@@ -38,6 +42,6 @@ public class TokenShopGUIPlus extends EconomyProvider {
 
 	@Override
 	public boolean has(Player player, double amount) {
-		return tokensHandler.hasTokens(player, (int) amount);
+		return tokensHandler.hasEnoughTokens(player, (int) amount);
 	}
 }

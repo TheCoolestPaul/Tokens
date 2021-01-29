@@ -4,28 +4,16 @@ import org.bukkit.entity.Player;
 
 import net.thirdshift.tokens.cache.TokenCache;
 
-//import java.util.HashMap;
-//import java.util.Map;
-//import java.util.UUID;
-
-/*
-TODO: Make this more efficient
-via HashMap, limit read/writes from
-MySQL or SQLLite.
+/**
+ *
+ * @Changes v3.9.9
+ * This class acts more like an interface between
+ * direct cache contact than actually managing DB connections.
+ *
+ * For more direct DB communications see
+ * [the cache class]{@link net.thirdshift.tokens.cache.TokenCache}
  */
-
 public class TokensHandler {
-
-//    private final Tokens plugin;
-//    private final TokensConfigHandler configHandler;
-    //private Map<UUID, Integer> playerBalances;
-    
-    public TokensHandler(final Tokens instance){
-//        this.plugin=instance;
-//        configHandler = instance.getTokensConfigHandler();
-        //playerBalances = new HashMap<>();
-        
-    }
 
     /**
      * Adds Tokens to a current player's balance
@@ -34,39 +22,24 @@ public class TokensHandler {
      */
     public void addTokens(Player player, int tokensIn){
     	TokenCache.getInstance().addTokens( player, tokensIn );
-//        if(configHandler.isRunningMySQL()){
-//            plugin.getMySQL().addTokens(player, tokensIn);
-//        } else {
-//            plugin.getSqllite().addTokens(player, tokensIn );
-//        }
     }
 
     /**
-     * Check a player's balance of tokens.
+     * Get the Token balance of a player
      * @param player Target player
-     * @return Current balance of Player's tokens
+     * @return Current Token balance of player
      */
     public int getTokens(Player player){
     	return TokenCache.getInstance().getTokens( player );
-//        if(configHandler.isRunningMySQL()){
-//            return plugin.getMySQL().getTokens(player);
-//        }else {
-//            return plugin.getSqllite().getTokens(player);
-//        }
     }
 
     /**
-     * Sets a player's balance of tokens
+     * Sets a player's balance of Tokens
      * @param player Target player
      * @param tokensIn Tokens to set
      */
     public void setTokens(Player player, int tokensIn){
     	TokenCache.getInstance().setTokens( player, tokensIn );
-//        if(configHandler.isRunningMySQL()){
-//            plugin.getMySQL().setTokens(player, tokensIn);
-//        }else {
-//            plugin.getSqllite().setTokens(player, tokensIn);
-//        }
     }
 
     /**
@@ -76,22 +49,16 @@ public class TokensHandler {
      */
     public void removeTokens(Player player, int tokensIn){
     	TokenCache.getInstance().removeTokens( player, tokensIn );
-//        if(configHandler.isRunningMySQL()){
-//            plugin.getMySQL().removeTokens(player, tokensIn);
-//        }else {
-//            plugin.getSqllite().setTokens( player, (plugin.getSqllite().getTokens(player) - tokensIn) );
-//        }
     }
 
     /**
-     * Used to see if a player has enough Tokens
+     * Checks if a player has enough tokens. Mostly used for redeeming things.
      * @param player Target player
      * @param tokensIn Tokens to check for
-     * @return True if player has tokens, false player does not have enough tokens
+     * @return True if player has enough tokens, false player does not have enough tokens
      */
-    public boolean hasTokens(Player player, int tokensIn){
+    public boolean hasEnoughTokens(Player player, int tokensIn){
     	return TokenCache.getInstance().hasTokens( player, tokensIn );
-//        return getTokens(player) >= tokensIn;
     }
 
 }
