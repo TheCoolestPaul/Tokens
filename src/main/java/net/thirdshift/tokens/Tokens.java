@@ -160,13 +160,13 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	public void addTokensCommandsModules(TokensCustomCommandExecutor executor){
-		executor.registerModule(new AddTokensCommandModule());
-		executor.registerModule(new BuyTokensCommandModule());
-		executor.registerModule(new GiveTokensCommandModule());
-		executor.registerModule(new HelpTokensCommandModule());
-		executor.registerModule(new ReloadTokensCommandModule());
-		executor.registerModule(new RemoveTokensCommandModule());
-		executor.registerModule(new SetTokensCommandModule());
+		executor.registerModule( new AddTokensCommandModule() );
+		executor.registerModule( new BuyTokensCommandModule() );
+		executor.registerModule( new GiveTokensCommandModule() );
+		executor.registerModule( new HelpTokensCommandModule() );
+		executor.registerModule( new ReloadTokensCommandModule() );
+		executor.registerModule( new RemoveTokensCommandModule() );
+		executor.registerModule( new SetTokensCommandModule() );
 	}
 
 	public void reloadKeys() {
