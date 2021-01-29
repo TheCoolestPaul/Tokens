@@ -71,35 +71,27 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
 					}
 				}
 			}
-			System.out.println("got out of the loop");
 
 			// If none of our modules have taken the command, run token player lookup
-			if (actualArgs.length == 1) {
-				System.out.println("made it this far");
-				Player target = Bukkit.getPlayer(actualArgs[0]);
-				if (commandSender.hasPermission("tokens.others") || !(commandSender instanceof Player)) {
-					System.out.println("made it further");
-					if (target != null) {
-						if (!plugin.messageHandler.getMessage("tokens.others").isEmpty()) {
-							List<Object> objects = new ArrayList<>();
-							objects.add(new PlayerTarget(target));
-							objects.add(new PlayerSender(commandSender));
-							objects.add(tokensHandler.getTokens(target));
-							commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.others", objects));
-						}
-					} else {
-						if (!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()) {
-							List<Object> objects = new ArrayList<>();
-							objects.add(new PlayerSender(commandSender));
-							objects.add(new PlayerTarget(actualArgs[0]));
-							commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
-						}
+			if (commandSender.hasPermission("tokens.others") || !(commandSender instanceof Player)) {
+				Player target = Bukkit.getPlayer(args[0]);
+				if (target != null) {
+					if (!plugin.messageHandler.getMessage("tokens.others").isEmpty()) {
+						List<Object> objects = new ArrayList<>();
+						objects.add(new PlayerTarget(target));
+						objects.add(new PlayerSender(commandSender));
+						objects.add(tokensHandler.getTokens(target));
+						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.others", objects));
 					}
-					return true;
 				} else {
-					System.out.println("we died here");
-					return false;
+					if (!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()) {
+						List<Object> objects = new ArrayList<>();
+						objects.add(new PlayerSender(commandSender));
+						objects.add(new PlayerTarget(args[0]));
+						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+					}
 				}
+				return true;
 			}
 		}
 

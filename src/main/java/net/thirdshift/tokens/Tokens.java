@@ -161,7 +161,10 @@ public final class Tokens extends JavaPlugin {
 
 	public void addTokensCommandsModules(TokensCustomCommandExecutor executor){
 		executor.registerModule( new AddTokensCommandModule(executor) );
-		executor.registerModule( new BuyTokensCommandModule(executor) );
+
+		if (this.getTokensConfigHandler().isVaultBuy())
+			executor.registerModule( new BuyTokensCommandModule(executor) );
+
 		executor.registerModule( new GiveTokensCommandModule(executor) );
 		executor.registerModule( new HelpTokensCommandModule(executor) );
 		executor.registerModule( new ReloadTokensCommandModule(executor) );
