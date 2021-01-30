@@ -84,7 +84,7 @@ public final class Tokens extends JavaPlugin {
 		tokensCommandExecutor = new TokensCommandExecutor(this);
 
 		TokenCache.initialize( this );
-		
+
 		new BStats(this, 5849);
 
 		this.workCommands();
@@ -99,11 +99,13 @@ public final class Tokens extends JavaPlugin {
 		this.reloadConfig();
 
 		// Auto-check updates related code
-		Runnable runnable = this::checkUpdates;
-		// Initial check for updates, then schedule a repeating check once every 4 hours (14400 Seconds)
-		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 20 * 14400);
-		if (task==-1){
-			getLogger().warning("Couldn't schedule an auto-update check!");
+		if (getTokensConfigHandler().isUpdateCheck()) {
+			Runnable runnable = this::checkUpdates;
+			// Initial check for updates, then schedule a repeating check once every 4 hours (14400 Seconds)
+			final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 20 * ((long) getTokensConfigHandler().getHoursToCheck() * 60 * 60));
+			if (task == -1) {
+				getLogger().warning("Couldn't schedule an auto-update check!");
+			}
 		}
 	}
 
@@ -133,12 +135,12 @@ public final class Tokens extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		
+
 		TokenCache.onDisable();
-		
+
 		keyHandler.saveKeyCooldown();
 		instance = null;
-		
+
 		// The database connections are shutdown in TokenCacheDatabase but
 		// providing final attempts here just to ensure they are shutdown to
 		// help prevent corruption.
