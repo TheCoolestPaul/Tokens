@@ -51,8 +51,8 @@ Factions:
 #
 ###
 VaultEco:
-  Enabled: fals
-e  Buy-Tokens: false
+  Enabled: false
+  Buy-Tokens: false
   Buy-Price: 1000
   Sell-Tokens: true
   Sell-Price: 1000
