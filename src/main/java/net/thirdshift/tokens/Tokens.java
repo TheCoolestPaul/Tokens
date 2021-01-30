@@ -101,7 +101,6 @@ public final class Tokens extends JavaPlugin {
 		// Auto-check updates related code
 		if (getTokensConfigHandler().isUpdateCheck()) {
 			Runnable runnable = this::checkUpdates;
-			// Initial check for updates, then schedule a repeating check once every 4 hours (14400 Seconds)
 			final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 20 * ((long) getTokensConfigHandler().getHoursToCheck() * 60 * 60));
 			if (task == -1) {
 				getLogger().severe("Couldn't schedule an auto-update check.");
