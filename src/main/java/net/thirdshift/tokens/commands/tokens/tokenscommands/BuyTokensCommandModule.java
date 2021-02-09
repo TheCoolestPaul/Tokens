@@ -17,7 +17,6 @@ public class BuyTokensCommandModule extends CommandModule {
 
 	public BuyTokensCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command="buy";
 	}
 
 	@Override
@@ -28,6 +27,11 @@ public class BuyTokensCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Buy Tokens for money.";
+	}
+
+	@Override
+	public String getCommand() {
+		return "buy";
 	}
 
 	@Override

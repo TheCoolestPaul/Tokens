@@ -14,7 +14,6 @@ import org.bukkit.command.CommandSender;
 public abstract class CommandModule {
 	protected Tokens plugin;
 	protected TokensHandler tokensHandler;
-	protected String command;
 	protected TokensCustomCommandExecutor parentExecutor;
 
 	public CommandModule(final TokensCustomCommandExecutor executor) {
@@ -45,9 +44,7 @@ public abstract class CommandModule {
 	 * Used to get the "main" sub command, no aliases.
 	 * @return The subcommand
 	 */
-	public String getCommand(){
-		return this.command;
-	}
+	public abstract String getCommand();
 
 	/**
 	 * Used to give a sub command aliases.

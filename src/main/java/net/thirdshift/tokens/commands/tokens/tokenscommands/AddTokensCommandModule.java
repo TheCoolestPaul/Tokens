@@ -16,7 +16,6 @@ public class AddTokensCommandModule extends CommandModule {
 
 	public AddTokensCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command="add";
 	}
 
 	@Override
@@ -27,6 +26,11 @@ public class AddTokensCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Adds Tokens to a player's balance";
+	}
+
+	@Override
+	public String getCommand() {
+		return "add";
 	}
 
 	@Override

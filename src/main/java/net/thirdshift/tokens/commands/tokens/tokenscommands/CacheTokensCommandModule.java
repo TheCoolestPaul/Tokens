@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 public class CacheTokensCommandModule extends CommandModule {
 	public CacheTokensCommandModule(TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command="cache";
 	}
 
 	@Override
@@ -20,6 +19,11 @@ public class CacheTokensCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Used to edit cache settings";
+	}
+
+	@Override
+	public String getCommand() {
+		return "cache";
 	}
 
 	@Override
@@ -72,7 +76,7 @@ public class CacheTokensCommandModule extends CommandModule {
 
 		} else if ( args.length == 1 && args[0].equalsIgnoreCase("stats") ) {
 			commandSender.sendMessage( TokenCache.getInstance().getStats().displayStats() );
-			
+
 		} else {
 			commandSender.sendMessage(ChatColor.GREEN + "==========[ " + ChatColor.GOLD + "Tokens Cache Help " +
 					ChatColor.BLUE + plugin.getDescription().getVersion() + ChatColor.GREEN + " ]==========");

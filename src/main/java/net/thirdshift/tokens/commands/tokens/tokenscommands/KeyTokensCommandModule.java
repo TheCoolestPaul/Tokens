@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 public class KeyTokensCommandModule extends CommandModule {
 	public KeyTokensCommandModule(TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command = "key";
 	}
 
 	@Override
@@ -26,6 +25,11 @@ public class KeyTokensCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Used to earn Tokens";
+	}
+
+	@Override
+	public String getCommand() {
+		return "key";
 	}
 
 	@Override

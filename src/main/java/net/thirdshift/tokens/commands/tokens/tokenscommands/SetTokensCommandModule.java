@@ -15,7 +15,6 @@ public class SetTokensCommandModule extends CommandModule {
 
 	public SetTokensCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command="set";
 	}
 
 	@Override
@@ -26,6 +25,11 @@ public class SetTokensCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Sets a player's Tokens balance.";
+	}
+
+	@Override
+	public String getCommand() {
+		return "set";
 	}
 
 	@Override

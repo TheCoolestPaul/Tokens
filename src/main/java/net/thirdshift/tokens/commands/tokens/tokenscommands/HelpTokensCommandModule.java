@@ -10,7 +10,6 @@ public class HelpTokensCommandModule extends CommandModule {
 
 	public HelpTokensCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command = "help";
 	}
 
 	@Override
@@ -21,6 +20,11 @@ public class HelpTokensCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Displays this helpful message.";
+	}
+
+	@Override
+	public String getCommand() {
+		return "help";
 	}
 
 	@Override
@@ -47,15 +51,6 @@ public class HelpTokensCommandModule extends CommandModule {
 				commandSender.sendMessage(module.getHelpText());
 			}
 		}
-
-		//if (commandSender.hasPermission("tokens.add") || isConsole) {
-		//	commandSender.sendMessage(ChatColor.AQUA + "/tokens add <player name> <tokens amount>" + ChatColor.GRAY + " Adds tokens to a player");
-		//}
-		//
-		//commandSender.sendMessage(ChatColor.AQUA + "/tokens give <player name> <tokens amount>" + ChatColor.GRAY + " Gives your tokens to another player");
-		//if(commandSender.hasPermission("tokens.remove") || isConsole) {
-		//	commandSender.sendMessage(ChatColor.AQUA + "/tokens remove <player name> <tokens amount>" + ChatColor.GRAY + " Remove tokens from a player");
-		//}
 
 		commandSender.sendMessage(ChatColor.AQUA + "/redeem" + ChatColor.GRAY + " Displays help for using the redeem commands");
 		if(commandSender.hasPermission("tokens.cache") || isConsole) {

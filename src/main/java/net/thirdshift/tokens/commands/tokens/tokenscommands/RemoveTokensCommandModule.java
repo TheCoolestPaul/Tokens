@@ -16,7 +16,6 @@ public class RemoveTokensCommandModule extends CommandModule {
 
 	public RemoveTokensCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command = "remove";
 	}
 
 	@Override
@@ -27,6 +26,11 @@ public class RemoveTokensCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Removes Tokens from a player's balance.";
+	}
+
+	@Override
+	public String getCommand() {
+		return "remove";
 	}
 
 	@Override

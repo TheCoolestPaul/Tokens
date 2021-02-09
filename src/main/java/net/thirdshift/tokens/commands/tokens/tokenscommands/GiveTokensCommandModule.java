@@ -17,7 +17,6 @@ public class GiveTokensCommandModule extends CommandModule {
 
 	public GiveTokensCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command="give";
 	}
 
 	@Override
@@ -28,6 +27,11 @@ public class GiveTokensCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Give your Tokens to another player";
+	}
+
+	@Override
+	public String getCommand() {
+		return "give";
 	}
 
 	@Override
