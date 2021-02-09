@@ -53,8 +53,5 @@ public class HelpTokensCommandModule extends CommandModule {
 		}
 
 		commandSender.sendMessage(ChatColor.AQUA + "/redeem" + ChatColor.GRAY + " Displays help for using the redeem commands");
-		if(commandSender.hasPermission("tokens.cache") || isConsole) {
-			commandSender.sendMessage(ChatColor.AQUA + "/tokens cache " + ChatColor.GRAY + " Displays the token cache sub-commands");
-		}
 	}
 }
