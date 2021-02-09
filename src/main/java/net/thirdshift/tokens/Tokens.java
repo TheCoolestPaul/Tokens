@@ -175,6 +175,7 @@ public final class Tokens extends JavaPlugin {
 		executor.registerModule( new ReloadTokensCommandModule(executor) );
 		executor.registerModule( new RemoveTokensCommandModule(executor) );
 		executor.registerModule( new SetTokensCommandModule(executor) );
+		executor.registerModule( new CacheTokensCommandModule(executor) );
 	}
 
 	public void reloadKeys() {
