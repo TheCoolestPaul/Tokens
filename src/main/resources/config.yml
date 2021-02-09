@@ -53,7 +53,7 @@ Factions:
 VaultEco:
   Enabled: false
   Buy-Tokens: false
-  Buy-Price: 1500
+  Buy-Price: 1000
   Sell-Tokens: true
   Sell-Price: 1000
 
@@ -64,3 +64,12 @@ VaultEco:
 ###
 ShopGUIPlus:
   Enabled: false
+
+#
+# Settings for update checks
+# Enabled: (true/false) Will the plugin check for updates
+# Interval: (any number) Hours between checking for updates
+###
+UpdateCheck:
+  Enabled: true
+  Interval: 5

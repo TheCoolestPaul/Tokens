@@ -38,6 +38,9 @@ public class TokensConfigHandler {
 	private double vaultBuyPrice;
 	private double vaultSellPrice;
 
+	private boolean updateCheck = false;
+	private int hoursToCheck = 5;
+
 	private boolean shopGUIPlus = false;
 
 	private final Tokens plugin;
@@ -50,25 +53,29 @@ public class TokensConfigHandler {
 		this.mySQLEnabled = plugin.getConfig().getBoolean("MySQL.Enabled");
 
 		// vault related config options
-		vaultEnabled = plugin.getConfig().getBoolean("VaultEco.Enabled");
-		vaultBuy = plugin.getConfig().getBoolean("VaultEco.Buy-Tokens");
-		vaultBuyPrice = plugin.getConfig().getDouble("VaultEco.Buy-Price");
-		vaultSell = plugin.getConfig().getBoolean("VaultEco.Sell-Tokens");
-		vaultSellPrice = plugin.getConfig().getDouble("VaultEco.Sell-Price");
+		vaultEnabled = plugin.getConfig().getBoolean("VaultEco.Enabled", false);
+		vaultBuy = plugin.getConfig().getBoolean("VaultEco.Buy-Tokens", false);
+		vaultBuyPrice = plugin.getConfig().getDouble("VaultEco.Buy-Price", 1000);
+		vaultSell = plugin.getConfig().getBoolean("VaultEco.Sell-Tokens", false);
+		vaultSellPrice = plugin.getConfig().getDouble("VaultEco.Sell-Price", 1000);
 
 		// factions related config options
-		factionsEnabled = plugin.getConfig().getBoolean("Factions.Enabled");
-		tokenToFactionPower = plugin.getConfig().getInt("Factions.Tokens-To-Power");
+		factionsEnabled = plugin.getConfig().getBoolean("Factions.Enabled", false);
+		tokenToFactionPower = plugin.getConfig().getInt("Factions.Tokens-To-Power", 1);
 
 		// combatlogx related config options
-		combatLogXEnabled = plugin.getConfig().getBoolean("CombatLogX.Enabled");
+		combatLogXEnabled = plugin.getConfig().getBoolean("CombatLogX.Enabled", false);
 
 		// mcmmo related config options
-		mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled");
-		tokensToMCMMOLevels = plugin.getConfig().getInt("mcMMO.Tokens-To-Levels");
+		mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled", false);
+		tokensToMCMMOLevels = plugin.getConfig().getInt("mcMMO.Tokens-To-Levels", 1);
 
 		// ShopGUIPlus
-		shopGUIPlus = plugin.getConfig().getBoolean("ShopGUIPlus.Enabled");
+		shopGUIPlus = plugin.getConfig().getBoolean("ShopGUIPlus.Enabled", false);
+
+		// Update-check
+		updateCheck = plugin.getConfig().getBoolean("UpdateCheck.Enabled", true);
+		hoursToCheck = plugin.getConfig().getInt("UpdateCheck.Interval", 5);
 
 		// MySQL Check
 		if (mySQLEnabled) {
@@ -164,6 +171,22 @@ public class TokensConfigHandler {
 		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled) {
 			plugin.getLogger().warning("You don't have any supported plugins enabled.");
 		}
+	}
+
+	public boolean isUpdateCheck() {
+		return updateCheck;
+	}
+
+	public void setUpdateCheck(boolean updateCheck) {
+		this.updateCheck = updateCheck;
+	}
+
+	public int getHoursToCheck() {
+		return hoursToCheck;
+	}
+
+	public void setHoursToCheck(int hoursToCheck) {
+		this.hoursToCheck = hoursToCheck;
 	}
 
 	public boolean isShopGUIPlus() {
