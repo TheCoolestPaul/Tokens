@@ -57,14 +57,14 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
 			} catch (NullPointerException ignored){
 			}
 
-			for(CommandModule redeemCommandModule : commandModules.values()){
-				if (commandName.equalsIgnoreCase(redeemCommandModule.getCommand())){
-					redeemCommandModule.onCommand( commandSender, actualArgs);
+			for(CommandModule commandModule : commandModules.values()){
+				if (commandName.equalsIgnoreCase(commandModule.getCommand())){
+					commandModule.onCommand( commandSender, actualArgs);
 					return true;
 				}
-				for(String alias : redeemCommandModule.getCommandAliases()){
+				for(String alias : commandModule.getCommandAliases()){
 					if(commandName.equalsIgnoreCase(alias)){
-						redeemCommandModule.onCommand( commandSender, actualArgs);
+						commandModule.onCommand( commandSender, actualArgs);
 						return true;
 					}
 				}
