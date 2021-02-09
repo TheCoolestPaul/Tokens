@@ -28,7 +28,7 @@ permissions:
   tokens.redeem.factions:
     default: true
     description: Required to redeem tokens for Faction power
-  tokens.redeem.key:
+  tokens.key:
     default: true
     description: Required to use keys
   tokens.redeem.sell:

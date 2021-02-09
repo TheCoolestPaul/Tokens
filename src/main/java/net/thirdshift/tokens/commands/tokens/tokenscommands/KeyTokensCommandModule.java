@@ -1,4 +1,4 @@
-package net.thirdshift.tokens.commands.redeem.redeemcommands;
+package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
@@ -12,21 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class KeyRedeemCommandModule extends CommandModule {
-
-	public KeyRedeemCommandModule(final TokensCustomCommandExecutor executor) {
+public class KeyTokensCommandModule extends CommandModule {
+	public KeyTokensCommandModule(TokensCustomCommandExecutor executor) {
 		super(executor);
 		this.command = "key";
 	}
 
 	@Override
 	public String getPermission() {
-		return "tokens.redeem.key";
+		return "tokens.key";
 	}
 
 	@Override
 	public String getDescription() {
-		return "Used to redeem Tokens";
+		return "Used to earn Tokens";
 	}
 
 	@Override
@@ -36,13 +35,13 @@ public class KeyRedeemCommandModule extends CommandModule {
 
 	@Override
 	public String getCommandUsage() {
-		return "/redeem key <key>";
+		return "/tokens key <special key>";
 	}
 
 	@Override
 	public void onCommand(CommandSender commandSender, String[] args) {
 		if ( !(commandSender instanceof Player) || !commandSender.hasPermission("tokens.redeem.key"))
-			return;
+			return; // Sorry but no keys for console.
 
 		Player player = (Player) commandSender;
 		List<Object> objects = new ArrayList<>();
