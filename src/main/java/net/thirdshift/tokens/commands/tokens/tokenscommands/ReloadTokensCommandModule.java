@@ -11,7 +11,6 @@ public class ReloadTokensCommandModule extends CommandModule {
 
 	public ReloadTokensCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command="reload";
 	}
 
 	@Override
@@ -22,6 +21,11 @@ public class ReloadTokensCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Reloads the Tokens plugin.";
+	}
+
+	@Override
+	public String getCommand() {
+		return "reload";
 	}
 
 	@Override

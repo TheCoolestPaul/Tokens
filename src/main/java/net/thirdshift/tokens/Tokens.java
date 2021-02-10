@@ -4,10 +4,9 @@ import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.cache.TokenCache;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
-import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemCommandModule;
-import net.thirdshift.tokens.commands.tokens.TokensCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
 import net.thirdshift.tokens.commands.tokens.TabTokens;
+import net.thirdshift.tokens.commands.tokens.TokensCommandExecutor;
 import net.thirdshift.tokens.commands.tokens.tokenscommands.*;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
@@ -16,10 +15,9 @@ import net.thirdshift.tokens.messages.MessageHandler;
 import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import net.thirdshift.tokens.util.BStats;
 import net.thirdshift.tokens.util.TokensConfigHandler;
-import net.thirdshift.tokens.util.TokensUpdateEventListener;
 import net.thirdshift.tokens.util.TokensPAPIExpansion;
+import net.thirdshift.tokens.util.TokensUpdateEventListener;
 import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,7 +25,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -170,9 +171,11 @@ public final class Tokens extends JavaPlugin {
 
 		executor.registerModule( new GiveTokensCommandModule(executor) );
 		executor.registerModule( new HelpTokensCommandModule(executor) );
+		executor.registerModule( new KeyTokensCommandModule(executor) );
 		executor.registerModule( new ReloadTokensCommandModule(executor) );
 		executor.registerModule( new RemoveTokensCommandModule(executor) );
 		executor.registerModule( new SetTokensCommandModule(executor) );
+		executor.registerModule( new CacheTokensCommandModule(executor) );
 	}
 
 	public void reloadKeys() {
@@ -263,7 +266,6 @@ public final class Tokens extends JavaPlugin {
 	public void reloadConfig() {
 		super.reloadConfig();
 		tokensConfigHandler.reloadConfig();
-		redeemCommandExecutor.registerModule(new KeyRedeemCommandModule(redeemCommandExecutor));
 	}
 
 	public void doSQLLiteWork(){

@@ -17,7 +17,6 @@ public class McMMORedeemCommandModule extends CommandModule {
 
 	public McMMORedeemCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command = "mcmmo";
 	}
 
 	@Override
@@ -28,6 +27,11 @@ public class McMMORedeemCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Gives you a level in a skill";
+	}
+
+	@Override
+	public String getCommand() {
+		return "mcmmo";
 	}
 
 	@Override

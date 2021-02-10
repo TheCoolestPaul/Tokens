@@ -15,7 +15,6 @@ public class VaultRedeemCommandModule extends CommandModule {
 
 	public VaultRedeemCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.command = "money";
 	}
 
 	@Override
@@ -26,6 +25,11 @@ public class VaultRedeemCommandModule extends CommandModule {
 	@Override
 	public String getDescription() {
 		return "Turns your Tokens into money";
+	}
+
+	@Override
+	public String getCommand() {
+		return "vault";
 	}
 
 	@Override

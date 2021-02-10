@@ -15,7 +15,6 @@ import java.util.List;
 public class FactionsRedeemCommandModule extends CommandModule {
     public FactionsRedeemCommandModule(final TokensCustomCommandExecutor executor){
         super(executor);
-        this.command = "factions";
     }
 
     @Override
@@ -26,6 +25,11 @@ public class FactionsRedeemCommandModule extends CommandModule {
     @Override
     public String getDescription() {
         return "Gives you a power increase";
+    }
+
+    @Override
+    public String getCommand() {
+        return "factions";
     }
 
     @Override
