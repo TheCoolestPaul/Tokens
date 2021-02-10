@@ -45,8 +45,9 @@ public class RemoveTokensCommandModule extends CommandModule {
 
 	@Override
 	public void onCommand(CommandSender commandSender, String[] args) {
-		if (!(commandSender instanceof Player) && !commandSender.hasPermission("tokens.remove"))
+		if ( commandSender instanceof Player && !commandSender.hasPermission("tokens.remove"))
 			return;
+
 		if(args.length==2){
 			Player target = Bukkit.getPlayer(args[0]);
 			if(target!=null){
