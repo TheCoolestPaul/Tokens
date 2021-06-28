@@ -58,15 +58,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot:$spigotVersion"
-    compileOnly "net.milkbowl.vault:VaultAPI:$vaultVersion"
-    compileOnly "me.clip:placeholderapi:$placeholderVersion"
-    compileOnly "com.gmail.nossr50.mcMMO:mcMMO:$mcmmoVersion"
-    compileOnly "com.SirBlobman.combatlogx:CombatLogX-API:$combatlogxVersion"
-
-    compileOnly "com.massivecraft:Factions:$factionsVersion"
-
-    compileOnly "com.github.brcdev-minecraft:shopgui-api:$shopguiplusVersion"
+    implementation "org.spigotmc:spigot:$spigotVersion"
+    implementation "net.milkbowl.vault:VaultAPI:$vaultVersion"
+    implementation "me.clip:placeholderapi:$placeholderVersion"
+    implementation "com.gmail.nossr50.mcMMO:mcMMO:$mcmmoVersion"
+    implementation "com.SirBlobman.combatlogx:CombatLogX-API:$combatlogxVersion"
+    implementation "com.massivecraft:Factions:$factionsVersion"
+    implementation "com.github.brcdev-minecraft:shopgui-api:$shopguiplusVersion"
     
     testCompile 'junit:junit:4.12'
 }
