@@ -171,7 +171,7 @@ public class TokensConfigHandler {
 		}
 
 		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
-		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled) {
+		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled && !shopGUIPlus) {
 			plugin.getLogger().warning("You don't have any supported plugins enabled.");
 		}
 	}
