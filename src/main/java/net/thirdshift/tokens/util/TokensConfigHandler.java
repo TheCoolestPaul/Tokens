@@ -1,6 +1,5 @@
 package net.thirdshift.tokens.util;
 
-import net.brcdev.shopgui.ShopGuiPlusApi;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemCommandModule;
@@ -170,9 +169,7 @@ public class TokensConfigHandler {
 		if (shopGUIPlus){
 			Plugin shopPlugin = Bukkit.getPluginManager().getPlugin("ShopGUIPlus");
 			if( shopPlugin != null && shopPlugin.isEnabled() ){
-				TokenShopGUIPlus tokenShop = new TokenShopGUIPlus(plugin);
-				ShopGuiPlusApi.registerEconomyProvider(tokenShop);
-				plugin.setTokenShopGUIPlus(tokenShop);
+				new TokenShopGUIPlus(plugin.getHandler());
 				plugin.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
 			}
 		}
