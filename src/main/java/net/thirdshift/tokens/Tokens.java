@@ -305,7 +305,7 @@ public final class Tokens extends JavaPlugin {
 		return true;
 	}
 
-	public SQLLite getSqllite() {
+	public SQLLite getSQLite() {
 		return sqllite;
 	}
 
