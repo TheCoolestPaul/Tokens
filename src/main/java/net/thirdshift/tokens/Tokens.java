@@ -111,10 +111,6 @@ public final class Tokens extends JavaPlugin {
 		}
 	}
 
-	public void setTokenShopGUIPlus(TokenShopGUIPlus tokenShopGUIPlus) {
-		this.tokenShopGUIPlus = tokenShopGUIPlus;
-	}
-
 	public TokensConfigHandler getTokensConfigHandler() {
 		return tokensConfigHandler;
 	}
