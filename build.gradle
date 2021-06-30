@@ -65,7 +65,8 @@ dependencies {
     implementation "com.SirBlobman.combatlogx:CombatLogX-API:$combatlogxVersion"
     implementation "com.massivecraft:Factions:$factionsVersion"
     implementation "com.github.brcdev-minecraft:shopgui-api:$shopguiplusVersion"
-    
+    implementation "com.github.Blackixx:BossShopPro:b8ebbfc58c" // From JitPack.io
+
     testCompile 'junit:junit:4.12'
 }
 

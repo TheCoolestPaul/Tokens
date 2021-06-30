@@ -2,6 +2,7 @@ name: Tokens
 version: ${version}
 main: net.thirdshift.tokens.Tokens
 website: https://www.spigotmc.org/resources/tokens-multi-plugin-support-mysql-support.71941/
+loadbefore: [BossShopPro]
 softdepend: [Factions, mcMMO, Vault, CombatLogX, PlaceholderAPI, ShopGUIPlus]
 api-version: 1.14
 authors: [TheCoolestPaul]
