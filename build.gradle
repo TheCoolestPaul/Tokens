@@ -65,8 +65,9 @@ dependencies {
     implementation "com.SirBlobman.combatlogx:CombatLogX-API:$combatlogxVersion"
     implementation "com.massivecraft:Factions:$factionsVersion"
     implementation "com.github.brcdev-minecraft:shopgui-api:$shopguiplusVersion"
-    
-    testCompile 'junit:junit:4.12'
+    implementation "com.github.okx-code:Rankup3:master" // Pulls from jitpack.io
+
+    testCompile "junit:junit:4.12"
 }
 
 processResources {

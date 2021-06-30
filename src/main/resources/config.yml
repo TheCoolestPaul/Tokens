@@ -66,6 +66,12 @@ ShopGUIPlus:
   Enabled: false
 
 #
+# Settings for RankUp3
+# Enabled: (true/false) Is support enabled?
+###
+Rankup:
+  Enabled: false
+#
 # Settings for update checks
 # Enabled: (true/false) Will the plugin check for updates
 # Interval: (any number) Hours between checking for updates

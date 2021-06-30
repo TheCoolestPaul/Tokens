@@ -6,9 +6,12 @@ import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemCommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemCommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemCommandModule;
+import net.thirdshift.tokens.rankup.TokenRequirement;
 import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
+import sh.okx.rankup.Rankup;
 
 public class TokensConfigHandler {
 	private boolean mySQLEnabled = false;
@@ -43,6 +46,7 @@ public class TokensConfigHandler {
 	private int hoursToCheck = 5;
 
 	private boolean shopGUIPlus = false;
+	private boolean rankup = false;
 
 	private final Tokens plugin;
 
@@ -74,13 +78,16 @@ public class TokensConfigHandler {
 		// ShopGUIPlus
 		shopGUIPlus = plugin.getConfig().getBoolean("ShopGUIPlus.Enabled", false);
 
+		// RankUp3
+		rankup = plugin.getConfig().getBoolean("Rankup.Enabled", false);
+
 		// Update-check
 		updateCheck = plugin.getConfig().getBoolean("UpdateCheck.Enabled", true);
 		hoursToCheck = plugin.getConfig().getInt("UpdateCheck.Interval", 5);
 
 		// MySQL Check
 		if (mySQLEnabled) {
-			if(plugin.getSqllite()!=null){
+			if(plugin.getSQLite()!=null){
 				plugin.nullSQLLite();
 			}
 			sqlliteEnabled = false;
@@ -170,8 +177,17 @@ public class TokensConfigHandler {
 			}
 		}
 
+		// RankUp3 Check
+		if (rankup){
+			Rankup rankUpPlugin = JavaPlugin.getPlugin(sh.okx.rankup.Rankup.class);
+			if (rankUpPlugin.isEnabled()){
+				rankUpPlugin.getRequirements().addRequirement(new TokenRequirement(plugin.getHandler(), rankUpPlugin));
+				plugin.getLogger().info("Successfully hooked into RankUp3");
+			}
+		}
+
 		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
-		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled && !shopGUIPlus) {
+		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled && !shopGUIPlus && !rankup) {
 			plugin.getLogger().warning("You don't have any supported plugins enabled.");
 		}
 	}

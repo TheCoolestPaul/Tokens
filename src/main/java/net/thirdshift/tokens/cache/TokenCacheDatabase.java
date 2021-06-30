@@ -32,7 +32,7 @@ public class TokenCacheDatabase {
             return getPlugin().getMySQL().getTokens(player);
         }
         else {
-            return getPlugin().getSqllite().getTokens(player);
+            return getPlugin().getSQLite().getTokens(player);
         }
     }
 
@@ -46,7 +46,7 @@ public class TokenCacheDatabase {
         	getPlugin().getMySQL().addTokens(player, tokensIn);
         } 
         else {
-        	getPlugin().getSqllite().addTokens(player, tokensIn );
+        	getPlugin().getSQLite().addTokens(player, tokensIn );
         }
     }
     
@@ -62,7 +62,7 @@ public class TokenCacheDatabase {
     		getPlugin().getMySQL().setTokens(player, tokensIn);
     	} 
     	else {
-    		getPlugin().getSqllite().setTokens(player, tokensIn );
+    		getPlugin().getSQLite().setTokens(player, tokensIn );
     	}
     }
 
@@ -72,7 +72,7 @@ public class TokenCacheDatabase {
     		getPlugin().getMySQL().closeConnection();
     	} 
     	else {
-    		getPlugin().getSqllite().closeConnection();
+    		getPlugin().getSQLite().closeConnection();
     	}
 		
 	}
