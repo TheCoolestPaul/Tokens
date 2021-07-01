@@ -5,12 +5,10 @@ import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemCommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemCommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemCommandModule;
-import net.thirdshift.tokens.rankup.TokenRequirement;
+import net.thirdshift.tokens.rankup.TokenRankup;
 import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
-import sh.okx.rankup.Rankup;
 
 public class TokensConfigHandler {
 	private boolean mySQLEnabled = false;
@@ -176,9 +174,9 @@ public class TokensConfigHandler {
 
 		// RankUp3 Check
 		if (rankup){
-			Rankup rankUpPlugin = JavaPlugin.getPlugin(sh.okx.rankup.Rankup.class);
-			if (rankUpPlugin.isEnabled()){
-				rankUpPlugin.getRequirements().addRequirement(new TokenRequirement(plugin.getHandler(), rankUpPlugin));
+			Plugin rankUpPlugin = Bukkit.getPluginManager().getPlugin("Rankup");
+			if (rankUpPlugin != null && rankUpPlugin.isEnabled()){
+				new TokenRankup(plugin.getHandler(), rankUpPlugin);
 				plugin.getLogger().info("Successfully hooked into RankUp3");
 			}
 		}
