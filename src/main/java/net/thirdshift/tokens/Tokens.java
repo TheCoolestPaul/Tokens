@@ -1,6 +1,7 @@
 package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
+import net.thirdshift.tokens.bshop.TokensBossShop;
 import net.thirdshift.tokens.cache.TokenCache;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
@@ -57,6 +58,7 @@ public final class Tokens extends JavaPlugin {
 	private PluginCommand redeemCommand;
 	private TokensHandler tokensHandler;
 	private TokenShopGUIPlus tokenShopGUIPlus;
+	private TokensBossShop tokensBossShop;
 
 	private RedeemCommandExecutor redeemCommandExecutor;
 	private TokensCommandExecutor tokensCommandExecutor;
@@ -125,6 +127,14 @@ public final class Tokens extends JavaPlugin {
 
 	public TokenShopGUIPlus getTokenShopGUIPlus() {
 		return tokenShopGUIPlus;
+	}
+
+	public TokensBossShop getTokensBossShop() {
+		return tokensBossShop;
+	}
+
+	public void setTokensBossShop(TokensBossShop tokensBossShop) {
+		this.tokensBossShop = tokensBossShop;
 	}
 
 	public TokensHandler getHandler() {

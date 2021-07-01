@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.util;
 
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.bshop.TokensBossShop;
 import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemCommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemCommandModule;
@@ -42,6 +43,7 @@ public class TokensConfigHandler {
 	private int hoursToCheck = 5;
 
 	private boolean shopGUIPlus = false;
+	private boolean bossShopPro = false;
 
 	private final Tokens plugin;
 
@@ -72,6 +74,9 @@ public class TokensConfigHandler {
 
 		// ShopGUIPlus
 		shopGUIPlus = plugin.getConfig().getBoolean("ShopGUIPlus.Enabled", false);
+
+		// BossShopPro
+		bossShopPro = plugin.getConfig().getBoolean("BossShopPro.Enabled", false);
 
 		// Update-check
 		updateCheck = plugin.getConfig().getBoolean("UpdateCheck.Enabled", true);
@@ -164,6 +169,15 @@ public class TokensConfigHandler {
 			if( shopPlugin != null && shopPlugin.isEnabled() ){
 				new TokenShopGUIPlus(plugin.getHandler());
 				plugin.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
+			}
+		}
+
+		// BossShopPro Check
+		if (bossShopPro) {
+			Plugin bossShop = Bukkit.getPluginManager().getPlugin("BossShopPro");
+			if (bossShop != null) {
+				plugin.setTokensBossShop(new TokensBossShop(plugin.getHandler()));
+				plugin.getLogger().info("Successfully hooked into BossShopPro");
 			}
 		}
 

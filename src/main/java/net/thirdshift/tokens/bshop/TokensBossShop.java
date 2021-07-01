@@ -10,9 +10,11 @@ public class TokensBossShop extends BSPointsPlugin {
     public TokensBossShop(TokensHandler handler){
         this();
         this.handler = handler;
+        this.register();
     }
+
     private TokensBossShop() {
-        super("Tokens","TOKENS", "tokens");
+        super("Tokens", "TOKENS", "tokens");
     }
 
     @Override
@@ -42,4 +44,5 @@ public class TokensBossShop extends BSPointsPlugin {
     public boolean usesDoubleValues() {
         return false;
     }
+
 }
