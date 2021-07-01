@@ -79,7 +79,7 @@ public class McMMORedeemCommandModule extends CommandModule {
 				player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.redeemed", objects));
 				plugin.getHandler().removeTokens(player, toRedeem);
 			} else {
-				List<String> skillList = PrimarySkillType.SKILL_NAMES;
+				PrimarySkillType[] skillList = PrimarySkillType.values();
 				objects.add(skillList);
 				player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.invalid-skill", objects));
 			}
