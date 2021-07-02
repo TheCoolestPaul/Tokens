@@ -58,14 +58,6 @@ VaultEco:
   Sell-Price: 1000
 
 #
-# Settings for ShopGUIPlus compatibility
-# Enabled: (true/false) Is support enabled?
-#
-###
-ShopGUIPlus:
-  Enabled: false
-
-#
 # Settings for update checks
 # Enabled: (true/false) Will the plugin check for updates
 # Interval: (any number) Hours between checking for updates

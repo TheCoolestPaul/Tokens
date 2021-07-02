@@ -2,6 +2,7 @@ package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.cache.TokenCache;
+import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
@@ -13,9 +14,9 @@ import net.thirdshift.tokens.database.sqllite.SQLLite;
 import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.messages.MessageHandler;
 import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
-import net.thirdshift.tokens.util.BStats;
+import net.thirdshift.tokens.util.Metrics;
 import net.thirdshift.tokens.util.TokensConfigHandler;
-import net.thirdshift.tokens.util.TokensPAPIExpansion;
+import net.thirdshift.tokens.papi.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.TokensUpdateEventListener;
 import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;
 import org.bukkit.Bukkit;
@@ -38,6 +39,8 @@ public final class Tokens extends JavaPlugin {
 
 	private TokensConfigHandler tokensConfigHandler;
 
+	private Metrics tokensMetrics;
+
 	private MySQLHandler mysql;
 	private SQLLite sqllite;
 
@@ -56,6 +59,8 @@ public final class Tokens extends JavaPlugin {
 	private PluginCommand tokensCommand;
 	private PluginCommand redeemCommand;
 	private TokensHandler tokensHandler;
+
+	private TokensCombatManager tokensCombatManager;
 	private TokenShopGUIPlus tokenShopGUIPlus;
 
 	private RedeemCommandExecutor redeemCommandExecutor;
@@ -86,7 +91,7 @@ public final class Tokens extends JavaPlugin {
 
 		TokenCache.initialize( this );
 
-		new BStats(this, 5849);
+		tokensMetrics = new Metrics(this, 5849);
 
 		this.workCommands();
 		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
@@ -115,6 +120,14 @@ public final class Tokens extends JavaPlugin {
 		return tokensConfigHandler;
 	}
 
+	public Metrics getTokensMetrics() {
+		return tokensMetrics;
+	}
+
+	public void setTokensMetrics(Metrics tokensMetrics) {
+		this.tokensMetrics = tokensMetrics;
+	}
+
 	public TokensUpdateEventListener getTokensEventListener() {
 		return tokensUpdateEventListener;
 	}
@@ -125,6 +138,18 @@ public final class Tokens extends JavaPlugin {
 
 	public TokenShopGUIPlus getTokenShopGUIPlus() {
 		return tokenShopGUIPlus;
+	}
+
+	public void setTokenShopGUIPlus(TokenShopGUIPlus tokenShopGUIPlus) {
+		this.tokenShopGUIPlus = tokenShopGUIPlus;
+	}
+
+	public TokensCombatManager getTokensCombatManager() {
+		return tokensCombatManager;
+	}
+
+	public void setTokensCombatManager(TokensCombatManager tokensCombatManager) {
+		this.tokensCombatManager = tokensCombatManager;
 	}
 
 	public TokensHandler getHandler() {
@@ -274,10 +299,10 @@ public final class Tokens extends JavaPlugin {
 			this.mysql = new MySQLHandler(this);
 		}else{
 			this.mysql.closeConnection();
-			this.getLogger().info("Closing old MySQL connection.");
+			this.getLogger().fine("Closing old MySQL connection.");
 		}
 		this.mysql.updateSettings();
-		this.getLogger().info("Updated MySQL connection.");
+		this.getLogger().fine("Updated MySQL connection.");
 		this.mysql.startSQLConnection();
 	}
 

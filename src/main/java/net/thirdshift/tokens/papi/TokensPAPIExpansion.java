@@ -1,8 +1,9 @@
-package net.thirdshift.tokens.util;
+package net.thirdshift.tokens.papi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
@@ -15,6 +16,11 @@ public class TokensPAPIExpansion extends PlaceholderExpansion {
 
     @Override
     public boolean persist(){
+        return true;
+    }
+
+    @Override
+    public boolean canRegister(){
         return true;
     }
 
@@ -33,25 +39,26 @@ public class TokensPAPIExpansion extends PlaceholderExpansion {
         return plugin.getDescription().getVersion();
     }
 
-    @Override
-    public boolean canRegister(){
-        return true;
+    private String request(Player player, String params){
+        if (player==null)
+            return null;
+
+        if(params.equalsIgnoreCase("getTokens")){
+            return Integer.toString(plugin.getHandler().getTokens(player.getPlayer()));
+        }else if(params.equalsIgnoreCase("getTokensFormatted")){
+            DecimalFormat formatter = new DecimalFormat("#,###");
+            return formatter.format(plugin.getHandler().getTokens(player.getPlayer()));
+        }
+        return null;
     }
 
     @Override
     public String onRequest(OfflinePlayer player, @NotNull String params) {
-        if(player==null){
-            return null;
-        }
-
-        if(params.equals("getTokens")){
-            return Integer.toString(plugin.getHandler().getTokens(player.getPlayer()));
-        }else if(params.equals("getTokensFormatted")){
-            DecimalFormat formatter = new DecimalFormat("#,###");
-            return formatter.format(plugin.getHandler().getTokens(player.getPlayer()));
-        }
-
-        return null;
+       return request(player.getPlayer(), params);
     }
 
+    @Override
+    public String onPlaceholderRequest(Player player, @NotNull String params) {
+        return request(player, params);
+    }
 }

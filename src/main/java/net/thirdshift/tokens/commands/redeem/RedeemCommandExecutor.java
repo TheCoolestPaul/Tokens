@@ -22,7 +22,7 @@ public class RedeemCommandExecutor extends TokensCustomCommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] args) {
         if(commandSender instanceof Player && commandSender.hasPermission("tokens.redeem")){
-            if( plugin.getTokensConfigHandler().isRunningCombatLogX() && plugin.getTokensConfigHandler().getTokensCombatManager().isInCombat((Player) commandSender) ){
+            if( plugin.getTokensCombatManager() != null && plugin.getTokensCombatManager().isInCombat( (Player) commandSender) ){
                 if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
                     List<Object> objects = new ArrayList<>();
                     objects.add(new PlayerSender((Player) commandSender));
