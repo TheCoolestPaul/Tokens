@@ -75,12 +75,9 @@ public class TokensConfigHandler {
 		// ShopGUIPlus
 		shopGUIPlus = plugin.getConfig().getBoolean("ShopGUIPlus.Enabled", false);
 
-		// RankUp3
-		rankup = plugin.getConfig().getBoolean("Rankup.Enabled", false);
-
 		// Update-check
-		updateCheck = plugin.getConfig().getBoolean("UpdateCheck.Enabled", true);
-		hoursToCheck = plugin.getConfig().getInt("UpdateCheck.Interval", 5);
+		setUpdateCheck(plugin.getConfig().getBoolean("UpdateCheck.Enabled", true));
+		setHoursToCheck(plugin.getConfig().getInt("UpdateCheck.Interval", 5));
 
 		// MySQL Check
 		if (mySQLEnabled) {
@@ -173,12 +170,11 @@ public class TokensConfigHandler {
 		}
 
 		// RankUp3 Check
-		if (rankup){
-			Plugin rankUpPlugin = Bukkit.getPluginManager().getPlugin("Rankup");
-			if (rankUpPlugin != null && rankUpPlugin.isEnabled()){
-				new TokenRankup(plugin.getHandler(), rankUpPlugin);
-				plugin.getLogger().info("Successfully hooked into RankUp3");
-			}
+		Plugin rankUpPlugin = Bukkit.getPluginManager().getPlugin("Rankup");
+		if (rankUpPlugin != null && rankUpPlugin.isEnabled()){
+			new TokenRankup(plugin);
+			rankup = true;
+			plugin.getLogger().info("Waiting to hook into RankUp.");
 		}
 
 		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3

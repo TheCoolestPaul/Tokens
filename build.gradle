@@ -3,7 +3,6 @@ import java.text.SimpleDateFormat
 apply plugin: 'java'
 
 group = 'net.thirdshift'
-
  
 println """
 ==========================================================================
@@ -14,7 +13,6 @@ You are building the Tokens plugin https://github.com/TheCoolestPaul/Tokens
 Output files are located in [project]/build/libs/Tokens-${project.version}.jar
 ==========================================================================
 """
-
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
