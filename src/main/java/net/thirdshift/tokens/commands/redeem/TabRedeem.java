@@ -34,8 +34,9 @@ public class TabRedeem implements TabCompleter {
             StringUtil.copyPartialMatches(args[0], completions, ret);
         }else if(args.length==2){
             if(args[0].equalsIgnoreCase("mcmmo") && plugin.getTokensConfigHandler().isRunningMCMMO()){
-                List<String> skillList = PrimarySkillType.SKILL_NAMES;
-                completions.addAll(skillList);
+                for (PrimarySkillType skill: PrimarySkillType.values()) {
+                    completions.add(skill.toString());
+                }
             }
             StringUtil.copyPartialMatches(args[1], completions, ret);
         }

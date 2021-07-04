@@ -2,10 +2,13 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 
 import com.gmail.nossr50.datatypes.player.McMMOPlayer;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
+import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.util.EventUtils;
+import com.gmail.nossr50.util.skills.SkillTools;
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.messages.messageData.PlayerSender;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,8 +18,14 @@ import java.util.List;
 
 public class McMMORedeemCommandModule extends CommandModule {
 
+	private final mcMMO mcmmo;
+	private final SkillTools skillTools;
+
 	public McMMORedeemCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
+		this.mcmmo = (mcMMO) Bukkit.getPluginManager().getPlugin("mcMMO");
+		assert mcmmo != null;
+		this.skillTools = mcmmo.getSkillTools();
 	}
 
 	@Override
@@ -71,15 +80,18 @@ public class McMMORedeemCommandModule extends CommandModule {
 		objects.add(player);
 
 		if (plugin.getHandler().hasEnoughTokens(player, toRedeem)) {
-			if (PrimarySkillType.getSkill(skillName) != null) {
-				PrimarySkillType skill = PrimarySkillType.getSkill(skillName);
+			if (skillTools.matchSkill(skillName) != null) {
+				PrimarySkillType skill = skillTools.matchSkill(skillName);
+				if (SkillTools.isChildSkill(skill)) {
+					return;
+				}
 				McMMOPlayer senderMcMMO = EventUtils.getMcMMOPlayer(player);
 				objects.add(skill);
 				senderMcMMO.addLevels(skill, toRedeem * plugin.getTokensConfigHandler().getTokensToMCMMOLevels());
 				player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.redeemed", objects));
 				plugin.getHandler().removeTokens(player, toRedeem);
 			} else {
-				List<String> skillList = PrimarySkillType.SKILL_NAMES;
+				PrimarySkillType[] skillList = PrimarySkillType.values();
 				objects.add(skillList);
 				player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.invalid-skill", objects));
 			}
