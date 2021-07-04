@@ -1,9 +1,7 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'java'
-
 group = 'net.thirdshift'
-
  
 println """
 ==========================================================================
@@ -22,12 +20,12 @@ targetCompatibility = '1.8'
 repositories {
     mavenCentral()
     maven {
-        name = 'placeholderapi-repo'
-        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+        name = "SpigotMC"
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
     }
     maven {
-        name = "Vault-API"
-        url "http://nexus.hc.to/content/repositories/pub_releases"
+        name = 'placeholderapi-repo'
+        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
     maven {
         name = "Jitpack-io"
@@ -38,38 +36,44 @@ repositories {
         url = "https://repo.codemc.io/repository/maven-public/"
     }
     maven {
-        name = "maven NMS"
-        url = "https://repo.codemc.io/repository/nms/"
-    }
-    maven {
-        name = "worldguard because mcmmo is a needy dependency"
-        url = "https://maven.enginehub.org/repo/"
-    }
-
-    // Added for Factions
-    maven {
         name = "factions repo"
-        url = "https://repo.dustplanet.de/artifactory/ext-release-local/"
+        url = "https://ci.ender.zone/plugin/repository/everything/"
     }
-
-    // Added for Vault dependencies
-    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
-    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
 }
 
 dependencies {
-    implementation "org.spigotmc:spigot:$spigotVersion"
-    implementation "net.milkbowl.vault:VaultAPI:$vaultVersion"
-    implementation "me.clip:placeholderapi:$placeholderVersion"
-    implementation "com.gmail.nossr50.mcMMO:mcMMO:$mcmmoVersion"
+    implementation "org.spigotmc:spigot-api:$spigotVersion"
+    implementation ("com.github.MilkBowl:VaultAPI:$vaultVersion") {
+        exclude group: "org.bukkit"
+    }
+    implementation ("me.clip:placeholderapi:$placeholderVersion") {
+        exclude group: "org.bstats"
+    }
+    implementation ("com.github.mcMMO-Dev:mcMMO:$mcmmoVersion") {
+        exclude group: "com.sk89q.worldguard"
+    }
     implementation "com.SirBlobman.combatlogx:CombatLogX-API:$combatlogxVersion"
-    implementation "com.massivecraft:Factions:$factionsVersion"
-    implementation "com.github.brcdev-minecraft:shopgui-api:$shopguiplusVersion"
-    
-    testCompile 'junit:junit:4.12'
+    implementation ("com.massivecraft:Factions:$factionsVersion") {
+        exclude group: "org.spongepowered"
+        exclude group: "com.darkblade12"
+        exclude group: "com.mojang"
+        exclude group: "org.kitteh"
+        exclude group: "io.papermc"
+    }
+    implementation ("com.github.brcdev-minecraft:shopgui-api:$shopguiplusVersion") {
+        exclude group: "org.spigotmc"
+    }
+
+    implementation "junit:junit:4.13"
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:deprecation"
 }
 
 processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
     from(sourceSets.main.resources.srcDirs) {
         expand 'version': project.version
         include 'plugin.yml'
