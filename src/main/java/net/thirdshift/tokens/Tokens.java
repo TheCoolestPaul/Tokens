@@ -46,7 +46,7 @@ public final class Tokens extends JavaPlugin {
 
 	public static Economy vaultEcon;
 
-	private final TokensUpdateEventListener tokensUpdateEventListener = new TokensUpdateEventListener(this);
+	private TokensUpdateEventListener tokensUpdateEventListener;
 	private final TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 	private FileConfiguration keyConfig = null;
 	private File keyFile = null;
@@ -74,13 +74,16 @@ public final class Tokens extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.saveDefaultConfig();
+
 		tokensConfigHandler = new TokensConfigHandler(this);
-
-		getServer().getPluginManager().registerEvents(tokensUpdateEventListener, this);
-		tokensHandler = new TokensHandler();
 		keyHandler = new KeyHandler(this);
-		messageHandler = new MessageHandler(this);
 
+		tokensUpdateEventListener = new TokensUpdateEventListener(this);
+		getServer().getPluginManager().registerEvents(tokensUpdateEventListener, this);
+
+		tokensHandler = new TokensHandler();
+
+		messageHandler = new MessageHandler(this);
 		messageHandler.loadMessages();
 
 		tokensCommand = this.getCommand("tokens");
