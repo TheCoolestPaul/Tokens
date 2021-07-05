@@ -15,12 +15,10 @@ import net.thirdshift.tokens.hooks.TokensBaseHooks;
 import net.thirdshift.tokens.hooks.TokensHookManager;
 import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.messages.MessageHandler;
-import net.thirdshift.tokens.papi.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.Metrics;
 import net.thirdshift.tokens.util.TokensConfigHandler;
 import net.thirdshift.tokens.util.TokensUpdateEventListener;
 import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;
-import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -102,14 +100,6 @@ public final class Tokens extends JavaPlugin {
 		tokensMetrics = new Metrics(this, 5849);
 
 		this.workCommands();
-		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
-			boolean tokensExpansion = new TokensPAPIExpansion(this).register();
-			if(tokensExpansion) {
-				this.getLogger().info("Successfully registered into PlaceholderAPI");
-			}else{
-				this.getLogger().warning("Couldn't register into PlaceholderAPI!");
-			}
-		}
 		this.reloadConfig();
 
 		// Auto-check updates related code
