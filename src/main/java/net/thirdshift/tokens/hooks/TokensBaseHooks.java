@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.hooks;
 
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.hooks.bsp.BossRequirement;
 import net.thirdshift.tokens.hooks.papi.PapiRequirement;
 import net.thirdshift.tokens.hooks.picojobs.PicoRequirements;
 import net.thirdshift.tokens.hooks.rankup3.RankUpRequirement;
@@ -23,5 +24,9 @@ public final class TokensBaseHooks {
         TokensHookRequirement papiHook = new PapiRequirement(tokens);
         if (papiHook.hasPassed())
             hookManager.addHook(papiHook.initHook());
+
+        TokensHookRequirement bspHook = new BossRequirement(tokens);
+        if (bspHook.hasPassed())
+            hookManager.addHook(bspHook.initHook());
     }
 }

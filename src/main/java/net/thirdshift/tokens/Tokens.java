@@ -76,7 +76,6 @@ public final class Tokens extends JavaPlugin {
 		this.saveDefaultConfig();
 
 		hookManager = new TokensHookManager(this);
-		TokensBaseHooks.registerBaseHooks(this, hookManager);
 
 		tokensConfigHandler = new TokensConfigHandler(this);
 		keyHandler = new KeyHandler(this);
@@ -112,6 +111,8 @@ public final class Tokens extends JavaPlugin {
 				getLogger().info("Will check for updates every " +getTokensConfigHandler().getHoursToCheck()+" hours.");
 			}
 		}
+
+		TokensBaseHooks.registerBaseHooks(this, hookManager);
 	}
 
 	public TokensHookManager getHookManager() {

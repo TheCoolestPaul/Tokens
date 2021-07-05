@@ -43,31 +43,31 @@ repositories {
 
 dependencies {
     implementation "org.spigotmc:spigot-api:$spigotVersion"
+    implementation group: 'org.jetbrains', name: 'annotations', version: '21.0.1'
     implementation ("com.github.MilkBowl:VaultAPI:$vaultVersion") {
-        exclude group: "org.bukkit"
+        transitive = false
     }
     implementation ("me.clip:placeholderapi:$placeholderVersion") {
-        exclude group: "org.bstats"
+        transitive = false
     }
     implementation ("com.github.mcMMO-Dev:mcMMO:$mcmmoVersion") {
-        exclude group: "com.sk89q.worldguard"
+        transitive = false
     }
     implementation "com.SirBlobman.combatlogx:CombatLogX-API:$combatlogxVersion"
     implementation ("com.massivecraft:Factions:$factionsVersion") {
-        exclude group: "org.spongepowered"
-        exclude group: "com.darkblade12"
-        exclude group: "com.mojang"
-        exclude group: "org.kitteh"
-        exclude group: "io.papermc"
+        transitive = false
     }
     implementation ("com.github.brcdev-minecraft:shopgui-api:$shopguiplusVersion") {
-        exclude group: "org.spigotmc"
+        transitive = false
     }
     implementation ("com.github.Picono435:PicoJobs:$picoJobsVersion"){
-        transitive = true
+        transitive = false
     }
     implementation ("com.github.okx-code:Rankup3:$rankUpVersion") {
-        transitive = true
+        transitive = false
+    }
+    implementation ("com.github.Blackixx:BossShopPro:$bossShopProVersion") {
+        transitive = false
     }
 
     testImplementation ("junit:junit:4.13") {
