@@ -11,12 +11,13 @@ import net.thirdshift.tokens.commands.tokens.TokensCommandExecutor;
 import net.thirdshift.tokens.commands.tokens.tokenscommands.*;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
+import net.thirdshift.tokens.hooks.TokensBaseHooks;
+import net.thirdshift.tokens.hooks.TokensHookManager;
 import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.messages.MessageHandler;
-import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
+import net.thirdshift.tokens.papi.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.Metrics;
 import net.thirdshift.tokens.util.TokensConfigHandler;
-import net.thirdshift.tokens.papi.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.TokensUpdateEventListener;
 import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;
 import org.bukkit.Bukkit;
@@ -61,10 +62,11 @@ public final class Tokens extends JavaPlugin {
 	private TokensHandler tokensHandler;
 
 	private TokensCombatManager tokensCombatManager;
-	private TokenShopGUIPlus tokenShopGUIPlus;
 
 	private RedeemCommandExecutor redeemCommandExecutor;
 	private TokensCommandExecutor tokensCommandExecutor;
+
+	private TokensHookManager hookManager;
 
 	@Override
 	public void onLoad() {
@@ -74,6 +76,9 @@ public final class Tokens extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.saveDefaultConfig();
+
+		hookManager = new TokensHookManager(this);
+		TokensBaseHooks.registerBaseHooks(this, hookManager);
 
 		tokensConfigHandler = new TokensConfigHandler(this);
 		keyHandler = new KeyHandler(this);
@@ -119,6 +124,10 @@ public final class Tokens extends JavaPlugin {
 		}
 	}
 
+	public TokensHookManager getHookManager() {
+		return hookManager;
+	}
+
 	public TokensConfigHandler getTokensConfigHandler() {
 		return tokensConfigHandler;
 	}
@@ -137,14 +146,6 @@ public final class Tokens extends JavaPlugin {
 
 	public static Tokens getInstance(){
 		return instance;
-	}
-
-	public TokenShopGUIPlus getTokenShopGUIPlus() {
-		return tokenShopGUIPlus;
-	}
-
-	public void setTokenShopGUIPlus(TokenShopGUIPlus tokenShopGUIPlus) {
-		this.tokenShopGUIPlus = tokenShopGUIPlus;
 	}
 
 	public TokensCombatManager getTokensCombatManager() {
@@ -342,7 +343,7 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	private void checkUpdates(){
-		this.getLogger().info("Checking for an update");
+		this.getLogger().info("Checking for updates");
 		try {
 			if (updater.checkForUpdates()) {
 				this.getLogger().info("An update was found! New version: " + updater.getLatestVersion() + " download link: " + updater.getResourceURL());

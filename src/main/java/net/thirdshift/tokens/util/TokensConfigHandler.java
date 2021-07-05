@@ -5,7 +5,6 @@ import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemCommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemCommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemCommandModule;
-import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -141,17 +140,8 @@ public class TokensConfigHandler {
 			isRunningMCMMO = false;
 		}
 
-		// ShopGUIPlus Check
-		boolean shopGUIPlus = false;
-		Plugin shopPlugin = Bukkit.getPluginManager().getPlugin("ShopGUIPlus");
-		if( shopPlugin != null && shopPlugin.isEnabled() ){
-			plugin.setTokenShopGUIPlus( new TokenShopGUIPlus(plugin.getHandler()) );
-			plugin.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
-			shopGUIPlus = true;
-		}
-
 		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
-		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled && !shopGUIPlus) {
+		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled && !plugin.getHookManager().HasConsumable()) {
 			plugin.getLogger().warning("You don't have any supported plugins enabled.");
 		}
 	}
