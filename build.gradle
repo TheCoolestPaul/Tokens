@@ -63,6 +63,9 @@ dependencies {
     implementation ("com.github.brcdev-minecraft:shopgui-api:$shopguiplusVersion") {
         exclude group: "org.spigotmc"
     }
+    implementation ("com.github.Picono435:PicoJobs:$picoJobsVersion"){
+
+    }
 
     implementation "junit:junit:4.13"
 }
