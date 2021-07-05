@@ -33,6 +33,10 @@ public abstract class TokensCustomCommandExecutor implements CommandExecutor {
 		}
 	}
 
+	public Tokens getPlugin() {
+		return plugin;
+	}
+
 	public HashMap<String, CommandModule> getCommandModules() {
 		return commandModules;
 	}

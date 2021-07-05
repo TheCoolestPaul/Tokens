@@ -33,9 +33,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public final class Tokens extends JavaPlugin {
-
-	private static Tokens instance;
-
 	private TokensConfigHandler tokensConfigHandler;
 
 	private Metrics tokensMetrics;
@@ -65,11 +62,6 @@ public final class Tokens extends JavaPlugin {
 	private TokensCommandExecutor tokensCommandExecutor;
 
 	private TokensHookManager hookManager;
-
-	@Override
-	public void onLoad() {
-		instance = this;
-	}
 
 	@Override
 	public void onEnable() {
@@ -135,10 +127,6 @@ public final class Tokens extends JavaPlugin {
 		return tokensUpdateEventListener;
 	}
 
-	public static Tokens getInstance(){
-		return instance;
-	}
-
 	public TokensCombatManager getTokensCombatManager() {
 		return tokensCombatManager;
 	}
@@ -155,9 +143,7 @@ public final class Tokens extends JavaPlugin {
 	public void onDisable() {
 
 		TokenCache.onDisable();
-
 		keyHandler.saveKeyCooldown();
-		instance = null;
 
 		// The database connections are shutdown in TokenCacheDatabase but
 		// providing final attempts here just to ensure they are shutdown to
