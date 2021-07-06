@@ -1,3 +1,8 @@
+---
+title: Tokens Docs Home
+has_children: false
+nav_order: 1
+---
 ## Welcome to the wonderful land of the Tokens Documentation!
 
 These documents are a _BIG_ work in progress as an upgrade from the
