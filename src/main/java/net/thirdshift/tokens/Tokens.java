@@ -67,7 +67,7 @@ public final class Tokens extends JavaPlugin {
 	public void onEnable() {
 		this.saveDefaultConfig();
 
-		hookManager = new TokensHookManager(this);
+		hookManager = new TokensHookManager();
 
 		tokensConfigHandler = new TokensConfigHandler(this);
 		keyHandler = new KeyHandler(this);
@@ -91,7 +91,6 @@ public final class Tokens extends JavaPlugin {
 		tokensMetrics = new Metrics(this, 5849);
 
 		this.workCommands();
-		this.reloadConfig();
 
 		// Auto-check updates related code
 		if (getTokensConfigHandler().isUpdateCheck()) {

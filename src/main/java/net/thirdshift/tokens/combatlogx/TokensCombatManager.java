@@ -7,12 +7,16 @@ import org.bukkit.plugin.Plugin;
 
 public class TokensCombatManager {
 	ICombatManager combatManager;
-	public TokensCombatManager(Plugin combatPlugin){
+	public TokensCombatManager(Plugin combatPlugin) {
 		ICombatLogX combatLog =  (ICombatLogX) combatPlugin;
 		combatManager = combatLog.getCombatManager();
 	}
 
-	public boolean isInCombat(Player player){
+	public boolean isInCombat(Player player) {
 		return combatManager.isInCombat(player);
+	}
+
+	public int secondsLeft(Player player) {
+		return combatManager.getTimerSecondsLeft(player);
 	}
 }

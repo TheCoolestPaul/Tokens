@@ -4,8 +4,10 @@ import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.TokensHandler;
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
-import net.thirdshift.tokens.messages.messageData.PlayerSender;
-import net.thirdshift.tokens.messages.messageData.PlayerTarget;
+import net.thirdshift.tokens.messages.messageComponents.MessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.SenderMessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.TargetMessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.TokensMessageComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -13,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TokensCommandExecutor extends TokensCustomCommandExecutor {
 
@@ -29,9 +30,9 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
 		if (commandSender instanceof Player) {
 			if ( plugin.getTokensCombatManager() != null && plugin.getTokensCombatManager().isInCombat( (Player) commandSender) ) {
 				if (!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
-					List<Object> objects = new ArrayList<>();
-					objects.add(new PlayerSender((Player) commandSender));
-					commandSender.sendMessage(plugin.messageHandler.useMessage("combatlogx.deny", objects));
+					ArrayList<MessageComponent> components = new ArrayList<>();
+					components.add(new SenderMessageComponent(commandSender));
+					commandSender.sendMessage(plugin.messageHandler.useMessage("combatlogx.deny", components));
 				}
 			}
 		}
@@ -40,10 +41,10 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
 				if (plugin.messageHandler.getMessage("tokens.main").isEmpty()) {
 					return true;
 				}
-				List<Object> objects = new ArrayList<>();
-				objects.add(new PlayerSender((Player) commandSender));
-				objects.add(plugin.getHandler().getTokens((Player) commandSender));
-				commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.main", objects));
+				ArrayList<MessageComponent> components = new ArrayList<>();
+				components.add(new SenderMessageComponent(commandSender));
+				components.add(new TokensMessageComponent(plugin.getHandler().getTokens((Player) commandSender)));
+				commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.main", components));
 			}
 			return true;
 		} else {
@@ -75,18 +76,18 @@ public class TokensCommandExecutor extends TokensCustomCommandExecutor {
 				Player target = Bukkit.getPlayer(args[0]);
 				if (target != null) {
 					if (!plugin.messageHandler.getMessage("tokens.others").isEmpty()) {
-						List<Object> objects = new ArrayList<>();
-						objects.add(new PlayerTarget(target));
-						objects.add(new PlayerSender(commandSender));
-						objects.add(tokensHandler.getTokens(target));
-						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.others", objects));
+						ArrayList<MessageComponent> components = new ArrayList<>();
+						components.add(new TargetMessageComponent(target));
+						components.add(new SenderMessageComponent(commandSender));
+						components.add(new TokensMessageComponent(tokensHandler.getTokens(target)));
+						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.others", components));
 					}
 				} else {
 					if (!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()) {
-						List<Object> objects = new ArrayList<>();
-						objects.add(new PlayerSender(commandSender));
-						objects.add(new PlayerTarget(args[0]));
-						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+						ArrayList<MessageComponent> components = new ArrayList<>();
+						components.add(new SenderMessageComponent(commandSender));
+						components.add(new TargetMessageComponent(args[0]));
+						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", components));
 					}
 				}
 				return true;

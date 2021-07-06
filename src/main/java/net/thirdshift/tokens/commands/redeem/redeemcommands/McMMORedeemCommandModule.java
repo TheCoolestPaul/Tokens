@@ -7,7 +7,7 @@ import com.gmail.nossr50.util.EventUtils;
 import com.gmail.nossr50.util.skills.SkillTools;
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
-import net.thirdshift.tokens.messages.messageData.PlayerSender;
+import net.thirdshift.tokens.messages.messageComponents.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -18,12 +18,11 @@ import java.util.List;
 
 public class McMMORedeemCommandModule extends CommandModule {
 
-	private final mcMMO mcmmo;
 	private final SkillTools skillTools;
 
 	public McMMORedeemCommandModule(final TokensCustomCommandExecutor executor) {
 		super(executor);
-		this.mcmmo = (mcMMO) Bukkit.getPluginManager().getPlugin("mcMMO");
+		mcMMO mcmmo = (mcMMO) Bukkit.getPluginManager().getPlugin("mcMMO");
 		assert mcmmo != null;
 		this.skillTools = mcmmo.getSkillTools();
 	}
@@ -59,11 +58,11 @@ public class McMMORedeemCommandModule extends CommandModule {
 			return;
 
 		Player player = (Player) commandSender;
-		List<Object> objects = new ArrayList<>();
+		List<MessageComponent> components = new ArrayList<>();
 		if (args.length!=2){
-			objects.add(new PlayerSender(player));
-			objects.add(getCommandUsage());
-			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
+			components.add(new SenderMessageComponent(player));
+			components.add(new CommandMessageComponent(getCommandUsage()));
+			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", components));
 			return;
 		}
 
@@ -76,8 +75,8 @@ public class McMMORedeemCommandModule extends CommandModule {
 			return;
 		}
 
-		objects.add(toRedeem);
-		objects.add(player);
+		components.add(new TokensMessageComponent(toRedeem));
+		components.add(new SenderMessageComponent(player));
 
 		if (plugin.getHandler().hasEnoughTokens(player, toRedeem)) {
 			if (skillTools.matchSkill(skillName) != null) {
@@ -86,17 +85,16 @@ public class McMMORedeemCommandModule extends CommandModule {
 					return;
 				}
 				McMMOPlayer senderMcMMO = EventUtils.getMcMMOPlayer(player);
-				objects.add(skill);
+				components.add(new McMMOSkillMessageComponent(skillTools.getLocalizedSkillName(skill)));
 				senderMcMMO.addLevels(skill, toRedeem * plugin.getTokensConfigHandler().getTokensToMCMMOLevels());
-				player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.redeemed", objects));
+				player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.redeemed", components));
 				plugin.getHandler().removeTokens(player, toRedeem);
 			} else {
-				PrimarySkillType[] skillList = PrimarySkillType.values();
-				objects.add(skillList);
-				player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.invalid-skill", objects));
+				components.add(new McMMOSkillListMessageComponent(skillTools, PrimarySkillType.values()));
+				player.sendMessage(plugin.messageHandler.useMessage("redeem.mcmmo.invalid-skill", components));
 			}
 		} else {
-			player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.not-enough", objects));
+			player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.not-enough", components));
 		}
 	}
 }

@@ -1,16 +1,12 @@
 package net.thirdshift.tokens.hooks;
 
-import net.thirdshift.tokens.Tokens;
-
 import java.util.HashSet;
 
 public class TokensHookManager {
     private final HashSet<TokensHook> hooks;
-    private final Tokens tokens;
     private boolean hasConsumable = false;
 
-    public TokensHookManager(Tokens tokens) {
-        this.tokens = tokens;
+    public TokensHookManager() {
         hooks = new HashSet<>();
     }
 
@@ -19,6 +15,10 @@ public class TokensHookManager {
             hasConsumable = true;
         }
         hooks.add(hook);
+    }
+
+    public HashSet<TokensHook> getHooks() {
+        return hooks;
     }
 
     public boolean HasConsumable() {

@@ -3,7 +3,7 @@ package net.thirdshift.tokens.commands.redeem.redeemcommands;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
-import net.thirdshift.tokens.messages.messageData.PlayerSender;
+import net.thirdshift.tokens.messages.messageComponents.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -48,11 +48,11 @@ public class VaultRedeemCommandModule extends CommandModule {
 			return;
 
 		Player player = (Player) commandSender;
-		List<Object> objects = new ArrayList<>();
+		List<MessageComponent> components = new ArrayList<>();
 		if (args.length!=1){
-			objects.add(new PlayerSender(player));
-			objects.add(getCommandUsage());
-			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
+			components.add(new SenderMessageComponent(player));
+			components.add(new CommandMessageComponent(getCommandUsage()));
+			player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", components));
 			return;
 		}
 
@@ -66,20 +66,20 @@ public class VaultRedeemCommandModule extends CommandModule {
 
 		double money = plugin.getTokensConfigHandler().getVaultSellPrice()*toRedeem;
 
-		objects.add(toRedeem);
-		objects.add(new PlayerSender(player));
-		objects.add(money);
+		components.add(new TokensMessageComponent(toRedeem));
+		components.add(new SenderMessageComponent(player));
+		components.add(new MoneyMessageComponent(money));
 
 		if (plugin.getHandler().hasEnoughTokens(player, toRedeem)){
 			EconomyResponse r = plugin.getEconomy().depositPlayer(player, money);
 			if (r.transactionSuccess()) {
 				plugin.getHandler().removeTokens(player, toRedeem);
-				player.sendMessage(plugin.messageHandler.useMessage("redeem.vault.sell", objects));
+				player.sendMessage(plugin.messageHandler.useMessage("redeem.vault.sell", components));
 			} else {
 				player.sendMessage(String.format("An error occurred: %s", r.errorMessage));
 			}
 		} else {
-			player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.not-enough", objects));
+			player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.not-enough", components));
 		}
 
 	}
