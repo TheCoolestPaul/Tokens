@@ -210,26 +210,6 @@ public final class Tokens extends JavaPlugin {
 			messageFile = new File(getDataFolder(), "messages.yml");
 		}
 		messageConfig = YamlConfiguration.loadConfiguration(messageFile);
-
-		// Look for defaults in the jar
-		InputStreamReader stream = null;
-		Reader defConfigStream = null;
-		try{
-			stream = new InputStreamReader(Objects.requireNonNull(this.getResource("messages.yml")), StandardCharsets.UTF_8);
-			defConfigStream = stream;
-			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-			messageConfig.setDefaults(defConfig);
-		}finally{
-			try{
-				if(stream!=null)
-					stream.close();
-				if(defConfigStream!=null)
-					defConfigStream.close();
-			}catch(IOException ex){
-				this.getLogger().severe("Error reading keys.yml");
-			}
-		}
-		messageHandler.loadMessages();
 	}
 
 	public FileConfiguration getMessageConfig(){
@@ -261,6 +241,14 @@ public final class Tokens extends JavaPlugin {
 		if (!messageFile.exists()){
 			saveResource("messages.yml", false);
 		}
+	}
+
+	public File getMessageFile() {
+		return messageFile;
+	}
+
+	public void setMessageFile(File messageFile) {
+		this.messageFile = messageFile;
 	}
 
 	@Override

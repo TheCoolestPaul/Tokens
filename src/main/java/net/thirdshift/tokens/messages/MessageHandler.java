@@ -4,7 +4,10 @@ import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.messages.messageComponents.MessageComponent;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MessageHandler {
 
@@ -66,6 +69,7 @@ public class MessageHandler {
         }
         messageList = new HashMap<>();
         HashMap<String, String> paths = new HashMap<>();
+        //FORMAT: path, default value
         paths.put("tokens.main", "&7You have &6%tokens% &7Tokens");
         paths.put("tokens.others", "&e%target% &7has &6%tokens% &7Tokens");
         paths.put("tokens.deny-console", "&7You cannot run this command from console.");
@@ -117,21 +121,26 @@ public class MessageHandler {
             String pathVal=tryPath(pathName, paths.get(pathName));
             messageList.put(pathName, new Message(pathVal));
         }
+        plugin.getLogger().fine("Loaded "+messageList.size() +" messages");
+        try {
+            messageConfig.save(plugin.getMessageFile());
+        } catch (IOException e) {
+            plugin.getLogger().warning("Error updating messages.yml");
+        }
     }
 
     public String tryPath(String path, String defaultMessage){
-        if(messageConfig.contains(path) && messageConfig.getString(path) != null ){
+        if( messageConfig.getString(path) != null ){
+            plugin.getLogger().fine("Loaded "+path+" "+messageConfig.getString(path));
             String message = messageConfig.getString(path);
             assert message != null;
             if (!message.equalsIgnoreCase("none"))
                 return messageConfig.getString(path);
             return "";
-        }else if ( !messageConfig.contains(path) || messageConfig.getString(path) == null ) {
+        }else {
             messageConfig.set(path, defaultMessage);
-            plugin.getLogger().info("We added a new path! "+path+" With message "+defaultMessage);
+            plugin.getLogger().fine("We added a new path! "+path+" With message "+defaultMessage);
             return defaultMessage;
-        } else {
-            return "";
         }
     }
 
