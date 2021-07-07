@@ -29,12 +29,12 @@ public class VaultRedeemCommandModule extends CommandModule {
 
 	@Override
 	public String getCommand() {
-		return "vault";
+		return "money";
 	}
 
 	@Override
 	public String[] getCommandAliases() {
-		return new String[]{"vault", "cash", "eco"};
+		return new String[]{"sell, vault", "cash", "eco"};
 	}
 
 	@Override

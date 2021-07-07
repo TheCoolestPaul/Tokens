@@ -3,6 +3,10 @@ remote_theme: pmarsceill/just-the-docs
 color_scheme: "dark"
 search_enabled: true
 
+aux_links:
+  "Spigot Page":
+    - "https://www.spigotmc.org/resources/71941/"
+
 # Footer "Edit this page on GitHub" link text
 gh_edit_link: true # show or hide edit this page link
 gh_edit_link_text: "Edit this page on GitHub."
