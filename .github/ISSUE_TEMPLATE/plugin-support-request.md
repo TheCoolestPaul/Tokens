@@ -8,14 +8,10 @@ assignees: ''
 ---
 
 **Plugin name:** (Plugin's Name)
-> Change to the plugin's name
 
 **Plugin version:** (Version number OR LATEST)
-> Change to LATEST or the plugin's version
 
-**Spigot MC link:** [Link](https://www.spigotmc.org/)
-> Change to the plugin's link
+**Spigot MC link:** [Plugin Link](https://www.PLUGIN_LINK_HERE.com)
 
 **How should it work?**
-> What should a Token do? Give a level? Enhance a stat? Add an item? Let me know here!
 <!-- Start typing down here -->

@@ -2,8 +2,10 @@ package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
-import net.thirdshift.tokens.messages.messageData.PlayerSender;
-import net.thirdshift.tokens.messages.messageData.PlayerTarget;
+import net.thirdshift.tokens.messages.messageComponents.MessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.SenderMessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.TargetMessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.TokensMessageComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -68,20 +70,18 @@ public class GiveTokensCommandModule extends CommandModule {
 						}
 						plugin.getHandler().removeTokens((Player) commandSender, toGive);
 						plugin.getHandler().addTokens(target, toGive);
-						PlayerSender sender = new PlayerSender((Player) commandSender);
-						PlayerTarget playerTarget = new PlayerTarget(target);
-						List<Object> stuff = new ArrayList<>();
-						stuff.add(sender);
-						stuff.add(playerTarget);
-						stuff.add(toGive);
-						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.give.sender", stuff));
-						target.sendMessage(plugin.messageHandler.useMessage("tokens.give.receiver", stuff));
+						List<MessageComponent> components = new ArrayList<>();
+						components.add(new SenderMessageComponent(commandSender));
+						components.add(new TargetMessageComponent(target));
+						components.add(new TokensMessageComponent(toGive));
+						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.give.sender", components));
+						target.sendMessage(plugin.messageHandler.useMessage("tokens.give.receiver", components));
 					} else {
 						if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
-							List<Object> objects = new ArrayList<>();
-							objects.add(new PlayerSender(commandSender.getName()));
-							objects.add(new PlayerTarget(args[0]));
-							commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+							List<MessageComponent> components = new ArrayList<>();
+							components.add(new SenderMessageComponent(commandSender));
+							components.add(new TargetMessageComponent(args[0]));
+							commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", components));
 						}
 					}
 				}else{

@@ -62,7 +62,7 @@ public class TokenCachePlayerData {
 	 *  and the protected side of this class which is the database transaction
 	 *  side of things.
 	 */
-	private Object lock = new Object();
+	private final Object lock = new Object();
 	
 	private boolean asyncDatabaseUpdateSubmitted = false;
 	
@@ -81,16 +81,13 @@ public class TokenCachePlayerData {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
 
-		sb.append( getPlayer().getName() ).append( " [tokens= " ).append( getTokens() )
-				.append( " (uncommitted= " ).append( getValueUncommitted() )
-				.append( isAsyncDatabaseUpdateSubmitted() ? " *UpdateSubmitted*" : "" )
-				.append( " db= " ).append( valueDB )
-				.append( " transition= " ).append( valueTransition )
-				.append( " )]  " );
-
-		return sb.toString();
+		return getPlayer().getName() + " [tokens= " + getTokens() +
+				" (uncommitted= " + getValueUncommitted() +
+				(isAsyncDatabaseUpdateSubmitted() ? " *UpdateSubmitted*" : "") +
+				" db= " + valueDB +
+				" transition= " + valueTransition +
+				" )]  ";
 	}
 	
 	/**
@@ -98,7 +95,7 @@ public class TokenCachePlayerData {
 	 * It uses a lock when adding to the valueUncommitted.
 	 * </p>
 	 * 
-	 * @param tokens
+	 * @param tokens Tokens to add
 	 */
 	public int addTokens( int tokens ) {
 		
@@ -110,7 +107,7 @@ public class TokenCachePlayerData {
 	}
 	
 	public int getTokens() {
-		int tokens = 0;
+		int tokens;
 		
 		synchronized ( lock ) {
 			tokens = valueDB + valueTransition + valueUncommitted;
@@ -141,7 +138,7 @@ public class TokenCachePlayerData {
 	 * complete.
 	 * </p>
 	 * 
-	 * @param tokens
+	 * @param tokens Tokens to set
 	 */
 	public void setTokens( int tokens ) {
 			
@@ -155,7 +152,7 @@ public class TokenCachePlayerData {
 	 * It negates the value of tokens and then calls addTokens.
 	 * </p>
 	 * 
-	 * @param tokens
+	 * @param tokens Tokens to remove
 	 */
 	public int removeTokens( int tokens ) {
 		return addTokens( -1 * tokens );
@@ -164,11 +161,11 @@ public class TokenCachePlayerData {
 	
 	/**
 	 * <p>The player's total token 
-	 * @param tokens
-	 * @return
+	 * @param tokens Tokens to check for
+	 * @return True if they have that many Tokens
 	 */
 	public boolean hasTokens( int tokens ) {
-		boolean results = false;
+		boolean results;
 		
 		synchronized ( lock ) {
 			results = ( tokens <= getTokens());
@@ -179,7 +176,7 @@ public class TokenCachePlayerData {
 
 	
 	protected int databaseStageTokens() {
-		int tokens = 0;
+		int tokens;
 		synchronized ( lock ) {
 			valueTransition += valueUncommitted;
 			valueUncommitted = 0;
@@ -213,7 +210,7 @@ public class TokenCachePlayerData {
 			
 			valueDB = tokens;
 		}
-		return "### TokenCachePlayer: setInitialValue: " + toString();
+		return "### TokenCachePlayer: setInitialValue: " + this;
 	}
 	
 
@@ -223,7 +220,7 @@ public class TokenCachePlayerData {
 	 * the value in the database.
 	 * </p>
 	 * 
-	 * @param tokensDB
+	 * @param tokensDB Value in the DB
 	 * @return boolean indicating if the player was synchronized with the database
 	 */
 	protected boolean synchronizeFromDatabase( int tokensDB ) {

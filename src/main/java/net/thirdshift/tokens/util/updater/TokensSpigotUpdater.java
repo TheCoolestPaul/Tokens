@@ -1,14 +1,14 @@
 package net.thirdshift.tokens.util.updater;
 
+import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.semver.BluesSemanticVersionData;
+import net.thirdshift.tokens.util.TokensUpdateEventListener;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-
-import net.thirdshift.tokens.Tokens;
-import net.thirdshift.tokens.semver.BluesSemanticVersionData;
-import net.thirdshift.tokens.util.TokensUpdateEventListener;
 
 public class TokensSpigotUpdater {
 	
@@ -74,7 +74,7 @@ public class TokensSpigotUpdater {
         	setLatestVersion( buff.readLine() );
         }
         catch ( Exception e ) {
-        	getPlugin().getLogger().info("TokensSpigotUpdater.checkForUpdates: " +
+        	getPlugin().getLogger().warning("TokensSpigotUpdater.checkForUpdates: " +
         			"Failed to load data from api.spigotmc.org. [" + e.getMessage() + "]");
 
         	return true;
@@ -84,7 +84,7 @@ public class TokensSpigotUpdater {
         
         BluesSemanticVersionData svCurrentVersion = new BluesSemanticVersionData(currentVersion);
         if ( !svCurrentVersion.isValid() ) {
-        	getPlugin().getLogger().info("TokensSpigotUpdater.checkForUpdates: " +
+        	getPlugin().getLogger().warning("TokensSpigotUpdater.checkForUpdates: " +
         			"Current version has an invalid semantic version. " +
         			"It is unknown if a newer version is available.");
             return true;
@@ -93,7 +93,7 @@ public class TokensSpigotUpdater {
         BluesSemanticVersionData svAvailableVersion = new BluesSemanticVersionData(
         											getLatestVersion() );
         if ( !svCurrentVersion.isValid() ) {
-        	getPlugin().getLogger().info("TokensSpigotUpdater.checkForUpdates: " +
+        	getPlugin().getLogger().warning("TokensSpigotUpdater.checkForUpdates: " +
         			"Available version has an invalid semantic version. It maybe a newer version.");
         	return true;
         }
@@ -106,7 +106,7 @@ public class TokensSpigotUpdater {
         
         if( compare == 0 ) {
         	// Same version: 
-        	getPlugin().getLogger().info("Tokens is up to date." );
+        	getPlugin().getLogger().fine("Tokens is up to date." );
             return false;
         }
         else if( compare > 0 ) {
@@ -120,14 +120,14 @@ public class TokensSpigotUpdater {
             if ( !teListener.isOutdated() ){
             	teListener.setOutdated(true);
             	teListener.setUpdateURL(getResourceURL());
-            	getPlugin().getLogger().info("We're notifying all operators of an available update on join.");
+            	getPlugin().getLogger().fine("We're notifying all operators of an available update on join.");
             } 
             else {
                 // I added this if-statement in case there are multiple updates while a server is live and hasn't updated.
                 if (!teListener.getUpdateURL().equals(getResourceURL())){
                 	teListener.setUpdateURL(getResourceURL());
                 }
-                getPlugin().getLogger().info("We're already notifying all operators of an available update on join.");
+                getPlugin().getLogger().fine("We're already notifying all operators of an available update on join.");
             }
 
             return true;

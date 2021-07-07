@@ -1,13 +1,13 @@
 package net.thirdshift.tokens.database.sqllite;
 
+import net.thirdshift.tokens.Tokens;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
-
-import net.thirdshift.tokens.Tokens;
 
 public class SQLLite extends Database{
     private String dbname;
@@ -54,7 +54,7 @@ public class SQLLite extends Database{
         File storageFolder = new File(getPlugin().getDataFolder(), "Storage");
         if (!storageFolder.exists()){
             if(storageFolder.mkdirs())
-            	getPlugin().getLogger().info("SQLite openConnection: Created dirs: plugins/Tokens/Storage/");
+            	getPlugin().getLogger().fine("SQLite openConnection: Created dirs: plugins/Tokens/Storage/");
         }
 
         String databaseFileName = dbname + ".db";
@@ -62,11 +62,11 @@ public class SQLLite extends Database{
         if (!dataFolder.exists()){
             try {
                 if(dataFolder.createNewFile())
-                	getPlugin().getLogger().info( String.format( 
+                	getPlugin().getLogger().fine( String.format(
                     		"SQLite openConnection: Created file: /Tokens/%s", databaseFileName));
             } 
             catch (IOException e) {
-            	getPlugin().getLogger().log(Level.SEVERE, String.format( 
+            	getPlugin().getLogger().severe(String.format(
                 		"SQLite openConnection: Could not created file: /Tokens/%s", databaseFileName));
             }
         }
@@ -95,8 +95,7 @@ public class SQLLite extends Database{
             s.executeUpdate(sql);
         } 
         catch (SQLException e) {
-            getPlugin().getLogger().log( Level.SEVERE,
-            		String.format("SQLite ERROR: cannot create tokens_table: %s", e.getMessage()), e);
+            getPlugin().getLogger().severe( String.format("SQLite ERROR: cannot create tokens_table: %s", e.getMessage()));
         }
     }
 }

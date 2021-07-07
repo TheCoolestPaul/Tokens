@@ -11,13 +11,17 @@ Tokens was initially developed for use in my private server, the idea was to giv
 
 **What plugins are supported?**  
 
--   **[Factions UUID](https://www.spigotmc.org/resources/factionsuuid.1035/)**
--   **[mcMMO Classic](https://www.spigotmc.org/resources/official-mcmmo-classic.2445/)**
--   **[mcMMO Revived](https://www.spigotmc.org/resources/official-mcmmo-original-author-returns.64348/)**
--   **[CombatLogX](https://www.spigotmc.org/resources/combatlogx.31689/)**
--   **[PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)**
--   **[Any Vault Economy](https://www.spigotmc.org/resources/vault.34315/)**
--   **[Prison](https://www.spigotmc.org/resources/prison.1223/history/)**
+-   **[Factions UUID](https://www.spigotmc.org/resources/1035/)**
+-   **[mcMMO Classic](https://www.spigotmc.org/resources/2445/)**
+-   **[mcMMO Revived](https://www.spigotmc.org/resources/64348/)**
+-   **[BossShopPro](https://www.spigotmc.org/resources/222/)**
+-   **[ShopGUI+](https://www.spigotmc.org/resources/6515/)**
+-   **[RankUp](https://www.spigotmc.org/resources/17933/)**
+-   **[RankUp3](https://www.spigotmc.org/resources/76964/)**
+-   **[CombatLogX](https://www.spigotmc.org/resources/31689/)**
+-   **[PlaceholderAPI](https://www.spigotmc.org/resources/6245/)**
+-   **[Any Vault Economy](https://www.spigotmc.org/resources/34315/)**
+-   **[Prison](https://www.spigotmc.org/resources/1223/)**
 
 Want a plugin on this list? Let me know  [here](https://github.com/TheCoolestPaul/Tokens/issues), make sure to include a link to the plugin, what a token should be spent on, and any information you think I'll need to add it.​
 

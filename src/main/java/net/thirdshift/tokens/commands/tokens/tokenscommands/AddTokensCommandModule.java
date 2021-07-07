@@ -2,8 +2,7 @@ package net.thirdshift.tokens.commands.tokens.tokenscommands;
 
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
-import net.thirdshift.tokens.messages.messageData.PlayerSender;
-import net.thirdshift.tokens.messages.messageData.PlayerTarget;
+import net.thirdshift.tokens.messages.messageComponents.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -57,36 +56,36 @@ public class AddTokensCommandModule extends CommandModule {
 					int num = Integer.parseInt(args[1]);
 					tokensHandler.addTokens(target, num);
 					if(!plugin.messageHandler.getMessage("tokens.add.sender").isEmpty()){
-						List<Object> objects = new ArrayList<>();
-						objects.add(new PlayerSender(commandSender));
-						objects.add(num);
-						objects.add(new PlayerTarget(target));
-						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.add.sender", objects));
+						List<MessageComponent> components = new ArrayList<>();
+						components.add(new SenderMessageComponent(commandSender));
+						components.add(new TokensMessageComponent(num));
+						components.add(new TargetMessageComponent(target));
+						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.add.sender", components));
 					}
 					if(!plugin.messageHandler.getMessage("tokens.add.receiver").isEmpty()){
-						List<Object> objects = new ArrayList<>();
-						objects.add(new PlayerSender(commandSender));
-						objects.add(num);
-						objects.add(new PlayerTarget(target));
-						target.sendMessage(plugin.messageHandler.useMessage("tokens.add.receiver", objects));
+						List<MessageComponent> components = new ArrayList<>();
+						components.add(new SenderMessageComponent(commandSender));
+						components.add(new TokensMessageComponent(num));
+						components.add(new TargetMessageComponent(target));
+						target.sendMessage(plugin.messageHandler.useMessage("tokens.add.receiver", components));
 					}
 				} catch (NumberFormatException e){
 					commandSender.sendMessage(ChatColor.RED + args[1] + " is not a valid number!");
 				}
 			} else {
 				if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
-					List<Object> objects = new ArrayList<>();
-					objects.add(new PlayerSender(commandSender));
-					objects.add(new PlayerTarget(args[0]));
-					commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", objects));
+					List<MessageComponent> components = new ArrayList<>();
+					components.add(new SenderMessageComponent(commandSender));
+					components.add(new TargetMessageComponent(args[0]));
+					commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.no-player", components));
 				}
 			}
 		} else {
 			if(!plugin.messageHandler.getMessage("tokens.errors.invalid-command.correction").isEmpty()){
-				List<Object> objects = new ArrayList<>();
-				objects.add(new PlayerSender(commandSender));
-				objects.add(this.getCommandUsage());
-				commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
+				List<MessageComponent> components = new ArrayList<>();
+				components.add(new SenderMessageComponent(commandSender));
+				components.add(new CommandMessageComponent(this.getCommandUsage()));
+				commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", components));
 			}
 		}
 

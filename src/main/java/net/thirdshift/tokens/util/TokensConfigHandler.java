@@ -5,13 +5,12 @@ import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemCommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemCommandModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemCommandModule;
-import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 public class TokensConfigHandler {
 	private boolean mySQLEnabled = false;
-	private boolean sqlliteEnabled = true;
+	private boolean SQLiteEnabled = true;
 	private boolean isRunningMySQL = false;
 
 	private boolean hasFactions = false;
@@ -24,11 +23,7 @@ public class TokensConfigHandler {
 	private boolean isRunningMCMMO = false;
 	private int tokensToMCMMOLevels;
 
-	private boolean hasCombatLogX = false;
 	private boolean combatLogXEnabled = false;
-	private boolean combatLogXBlockTokens = false;
-	private boolean isRunningCombatLogX = false;
-	private TokensCombatManager tokensCombatManager;
 
 	private boolean hasVault = false;
 	private boolean vaultEnabled = false;
@@ -40,8 +35,6 @@ public class TokensConfigHandler {
 
 	private boolean updateCheck = false;
 	private int hoursToCheck = 5;
-
-	private boolean shopGUIPlus = false;
 
 	private final Tokens plugin;
 
@@ -63,15 +56,12 @@ public class TokensConfigHandler {
 		factionsEnabled = plugin.getConfig().getBoolean("Factions.Enabled", false);
 		tokenToFactionPower = plugin.getConfig().getInt("Factions.Tokens-To-Power", 1);
 
-		// combatlogx related config options
+		// CombatLogX related config options
 		combatLogXEnabled = plugin.getConfig().getBoolean("CombatLogX.Enabled", false);
 
 		// mcmmo related config options
 		mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled", false);
 		tokensToMCMMOLevels = plugin.getConfig().getInt("mcMMO.Tokens-To-Levels", 1);
-
-		// ShopGUIPlus
-		shopGUIPlus = plugin.getConfig().getBoolean("ShopGUIPlus.Enabled", false);
 
 		// Update-check
 		updateCheck = plugin.getConfig().getBoolean("UpdateCheck.Enabled", true);
@@ -82,7 +72,7 @@ public class TokensConfigHandler {
 			if(plugin.getSqllite()!=null){
 				plugin.nullSQLLite();
 			}
-			sqlliteEnabled = false;
+			SQLiteEnabled = false;
 			plugin.mySQLWork();
 			isRunningMySQL = true;
 			plugin.getLogger().info("Storage Type: SQLLite | [ MySQL ]");
@@ -92,7 +82,7 @@ public class TokensConfigHandler {
 				plugin.nullMySQL();
 			}
 			isRunningMySQL = false;
-			sqlliteEnabled = true;
+			SQLiteEnabled = true;
 			plugin.doSQLLiteWork();
 			plugin.getLogger().info("Storage Type: [ SQLLite ] | MySQL ( Default )");
 		}
@@ -131,16 +121,8 @@ public class TokensConfigHandler {
 		if (combatLogXEnabled) {
 			Plugin combPlug = Bukkit.getPluginManager().getPlugin("CombatLogX");
 			if (combPlug != null && combPlug.isEnabled()) {
-				hasCombatLogX = true;
-				isRunningCombatLogX = true;
-				if (tokensCombatManager==null)
-					tokensCombatManager = new TokensCombatManager(this);
-			} else if (combPlug == null || !combPlug.isEnabled()) {
-				isRunningCombatLogX = false;
-				plugin.getLogger().warning("CombatLogX addon is enabled but CombatLogX is not installed on the server!");
+				plugin.setTokensCombatManager(new TokensCombatManager(combPlug));
 			}
-		} else {
-			isRunningCombatLogX = false;
 		}
 
 		// mcMMO Check
@@ -158,17 +140,8 @@ public class TokensConfigHandler {
 			isRunningMCMMO = false;
 		}
 
-		// ShopGUIPlus Check
-		if (shopGUIPlus){
-			Plugin shopPlugin = Bukkit.getPluginManager().getPlugin("ShopGUIPlus");
-			if( shopPlugin != null && shopPlugin.isEnabled() ){
-				new TokenShopGUIPlus(plugin.getHandler());
-				plugin.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
-			}
-		}
-
 		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
-		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled && !shopGUIPlus) {
+		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled && !plugin.getHookManager().HasConsumable()) {
 			plugin.getLogger().warning("You don't have any supported plugins enabled.");
 		}
 	}
@@ -187,14 +160,6 @@ public class TokensConfigHandler {
 
 	public void setHoursToCheck(int hoursToCheck) {
 		this.hoursToCheck = hoursToCheck;
-	}
-
-	public boolean isShopGUIPlus() {
-		return shopGUIPlus;
-	}
-
-	public void setShopGUIPlus(boolean shopGUIPlus) {
-		this.shopGUIPlus = shopGUIPlus;
 	}
 
 	public boolean isRunningMySQL(){
@@ -221,10 +186,6 @@ public class TokensConfigHandler {
 		return tokenToFactionPower;
 	}
 
-	public boolean isRunningCombatLogX() {
-		return isRunningCombatLogX;
-	}
-
 	public boolean isVaultBuy() {
 		return vaultBuy;
 	}
@@ -241,7 +202,4 @@ public class TokensConfigHandler {
 		return vaultSellPrice;
 	}
 
-	public TokensCombatManager getTokensCombatManager() {
-		return tokensCombatManager;
-	}
 }

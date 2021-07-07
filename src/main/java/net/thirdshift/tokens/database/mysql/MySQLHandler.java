@@ -1,15 +1,10 @@
 package net.thirdshift.tokens.database.mysql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-
+import net.thirdshift.tokens.Tokens;
 import org.bukkit.entity.Player;
 
-import net.thirdshift.tokens.Tokens;
+import java.sql.*;
+import java.util.logging.Level;
 
 public class MySQLHandler {
 
@@ -50,7 +45,7 @@ public class MySQLHandler {
             url = String.format( "jdbc:mysql://%s:%s/%s?useSSL=%s",
             								dbAddress, dbPORT, dbName, dbSSL );
             connection = DriverManager.getConnection(url,username,password);
-            plugin.getLogger().info("Connection to MySQL was successful");
+            plugin.getLogger().fine("Connection to MySQL was successful");
             
             createTable();
         }

@@ -93,7 +93,7 @@ public class TokenCache {
 		setEnabled( config.isBoolean( TOKEN_CACHE_IS_ENABLED ));
 		setWriteDelay( config.getLong( TOKEN_CACHE_WRITE_DELAY ) );
 
-		getPlugin().getLogger().info( "TokenCache: " + 
+		getPlugin().getLogger().fine( "TokenCache: " +
 				TOKEN_CACHE_IS_ENABLED + ": " + isEnabled() + "  " +
 				"  " + TOKEN_CACHE_WRITE_DELAY + ": " + getWriteDelay() );
 	}

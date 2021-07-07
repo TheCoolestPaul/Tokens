@@ -20,7 +20,7 @@ implements Runnable
 		int tokens = tCache.getCacheDatabase().getTokens( playerData.getPlayer() );
 		
 		String stats = playerData.setInitialValue( tokens );
-		tCache.getPlugin().getLogger().info( stats );
+		tCache.getPlugin().getLogger().fine( stats );
 
 		tCache.journal( playerData, "TokenCacheLoadPlayerTask.run(): finished loading from DB.");
 		

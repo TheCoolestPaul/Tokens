@@ -13,19 +13,19 @@
 tokens:
   main: "&7You have &6%tokens% &7Tokens"
   others: "&e%target% &7has &6%tokens% &7Tokens"
-  console: "&7You cannot run this command from console."
+  deny-console: "&7You cannot run this command from console."
   add:
     sender: "&7You added &6%tokens% &7Tokens to %target%&7's Tokens."
-    receiver: "" # I left this blank so the player doesn't know who added the Tokens.
+    receiver: "none"
   give:
     sender: "&7You sent &6%tokens% &7Tokens to &e%target%"
     receiver: "&e%sender%&7 sent &6%tokens% &7Tokens to you"
   remove:
     sender: "&7You removed &5%tokens% &7Tokens from &e%target%"
-    receiver: "" # I left this blank so the player doesn't know who removed the Tokens.
+    receiver: "none"
   set:
     sender: "&7You set &e%target% &7Tokens to &5%tokens%"
-    receiver: "" # I left this blank so the player doesn't know who set the Tokens.
+    receiver: "none"
   errors:
     no-player: "&4Couldn't find player &7%target%&4. Did you spell their username correctly?"
     invalid-command:
@@ -59,8 +59,8 @@ redeem:
   vault:
     sell: "&7You redeemed &6%tokens% &7Tokens for &a$%money%"
     buy: "&7You bought &6%tokens%&7 Tokens for &a$%money%"
-  errors:
-    not-enough: "&4You don't have enough Tokens for that!"
-    no-money: "&4You don't have &a$%money%&7 for &6%tokens%&7 Tokens!"
+  deny:
+    no-tokens: "&4You don't have enough Tokens for that!"
+    no-money: "&4You don't have enough money for that!"
 combatlogx:
   deny: "&4You can't use Tokens while in combat!"

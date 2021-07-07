@@ -44,15 +44,15 @@ public class KeyHandler {
 
         if (!storageFolder.exists()){
             if(storageFolder.mkdirs())
-                plugin.getLogger().info("Made /Tokens/Storage/");
+                plugin.getLogger().fine("Made /Tokens/Storage/");
         }
 
         if (!keyData.exists()){
             if(keyData.mkdirs())
-                plugin.getLogger().info("Made /Tokens/Storage/KeyData/");
+                plugin.getLogger().fine("Made /Tokens/Storage/KeyData/");
         }
 
-        plugin.getLogger().info("Loading keys");
+        plugin.getLogger().fine("Loading keys");
         List<String> keyStrings = keyConfig.getStringList("keys");
         for(String s : keyStrings){
             Key key = new Key(s);
@@ -70,16 +70,16 @@ public class KeyHandler {
             key.setCooldown(cooldown);
 
             keys.put(s,key);
-            plugin.getLogger().info("Added "+key);
+            plugin.getLogger().fine("Added "+key);
         }
-        plugin.getLogger().info("Finished adding "+keyStrings.size()+" keys");
+        plugin.getLogger().info("Loaded "+keyStrings.size()+" keys");
 
         keysFromYAML(keyData);
 
     }
 
     public void saveKeyCooldown(){
-        plugin.getLogger().info("Saving KeyData");
+        plugin.getLogger().fine("Saving KeyData");
         keys.forEach((k,v) -> keysToYAML(keyData, v));
     }
 
@@ -94,37 +94,37 @@ public class KeyHandler {
             try {
                 fileconfig.save(file);
             }catch(IOException ex){
-                plugin.getLogger().severe("Problem saving KeyData for key "+v.toString());
+                plugin.getLogger().severe("Problem saving KeyData for key "+ v);
                 plugin.getLogger().severe(ex.toString());
             }
         }
     }
 
     public void keysFromYAML(File storage){// Needs to run AFTER initKeys()
-        plugin.getLogger().info("Starting to load KeyData");
+        plugin.getLogger().fine("Starting to load KeyData");
         File[] files = storage.listFiles();
         for(String s : keys.keySet()){
             if(files!=null) {
                 for (File file : files) {
                     String keyName = file.getName().substring(0,file.getName().indexOf('.'));
                     if(isValidKey(keyName)) {
-                        YamlConfiguration fileconfig = YamlConfiguration.loadConfiguration(file);
-                        keys.get(keyName).cooldowns= fileconfig.getConfigurationSection("cooldowns").getValues(false);
+                        YamlConfiguration fileConfig = YamlConfiguration.loadConfiguration(file);
+                        keys.get(keyName).cooldowns= fileConfig.getConfigurationSection("cooldowns").getValues(false);
                     }else{
                         if(file.exists()){
-                            boolean hapened = file.delete();
-                            if(hapened){
-                                plugin.getLogger().info("We removed an old key data file");
+                            boolean happened = file.delete();
+                            if(happened){
+                                plugin.getLogger().fine("We removed an old key data file");
                             }else{
-                                plugin.getLogger().info("We didn't remove an old key data file?");
+                                plugin.getLogger().fine("We didn't remove an old key data file?");
                             }
                         }
                     }
                 }
             }else{
-                plugin.getLogger().info("No KeyData to load");
+                plugin.getLogger().fine("No KeyData to load");
             }
         }
-        plugin.getLogger().info("Finished loading KeyData");
+        plugin.getLogger().fine("Finished loading KeyData");
     }
 }
