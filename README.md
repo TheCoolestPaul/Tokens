@@ -7,13 +7,11 @@
 
 **What is the Tokens plugin?**  
 
-Tokens was initially developed for use in my private server, the idea was to give players a special currency "Tokens" that they can use to allocate to mcMMO Levels, faction power, or convert straight into money. I plan on adding support for many more plugins as the request come in, I will be keeping this plugin up-to-date.​
+Tokens initially was developed for use in my private server, the idea was to give players a special currency "Tokens" that they can use to allocate to mcMMO Levels, faction power, or convert straight into money. I plan on adding support for many more plugins as the request come in, I will be keeping this plugin up-to-date.​
 
-**What plugins are supported?**  
-
--   **[Factions UUID](https://www.spigotmc.org/resources/1035/)**
--   **[mcMMO Classic](https://www.spigotmc.org/resources/2445/)**
--   **[mcMMO Revived](https://www.spigotmc.org/resources/64348/)**
+**Supported Plugins**  
+- Most Factions Plugins ([Factions](https://www.spigotmc.org/resources/factions.1900/), [FactionsUUID](https://www.spigotmc.org/resources/1035/), [SaberFactions](https://www.spigotmc.org/resources/69771/))
+- mcMMO ([Classic](https://www.spigotmc.org/resources/2445/), [Revived](https://www.spigotmc.org/resources/64348/))
 -   **[BossShopPro](https://www.spigotmc.org/resources/222/)**
 -   **[ShopGUI+](https://www.spigotmc.org/resources/6515/)**
 -   **[RankUp](https://www.spigotmc.org/resources/17933/)**
