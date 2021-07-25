@@ -58,16 +58,22 @@ public class RemoveTokensCommandModule extends CommandModule {
 					commandSender.sendMessage(getCommandUsage());
 					return;
 				}
-				plugin.getHandler().removeTokens(target, num);
 				components.add(new SenderMessageComponent(commandSender));
 				components.add(new TargetMessageComponent(target));
 				components.add(new TokensMessageComponent(num));
+				if ( num > plugin.getHandler().getTokens(target) && !plugin.getTokensConfigHandler().negativeTokens()) {
+					if (!plugin.messageHandler.getMessage("tokens.errors.target-not-enough-tokens").isEmpty()) {
+						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.target-not-enough-tokens", components));
+					}
+					return;
+				}
 				if(!plugin.messageHandler.getMessage("tokens.remove.sender").isEmpty()){
 					commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.remove.sender", components));
 				}
 				if(!plugin.messageHandler.getMessage("tokens.remove.receiver").isEmpty()){
 					target.sendMessage(plugin.messageHandler.useMessage("tokens.remove.receiver", components));
 				}
+				plugin.getHandler().removeTokens(target, num);
 			}else{
 				if(!plugin.messageHandler.getMessage("tokens.errors.no-player").isEmpty()){
 					components.add(new SenderMessageComponent(commandSender));

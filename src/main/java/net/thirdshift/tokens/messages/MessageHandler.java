@@ -86,6 +86,8 @@ public class MessageHandler {
         paths.put("tokens.set.sender", "&7You set &e%target% &7Tokens to &5%tokens%");
         paths.put("tokens.set.receiver", "none");
 
+        paths.put("tokens.errors.target-not-enough-tokens", "&e%target% &7doesn't have &5%tokens% &7Tokens.");
+        paths.put("tokens.errors.negative-balance", "&7You can't set &e%target% &7balance to &5%tokens% &7Tokens.");
         paths.put("tokens.errors.no-player", "&4Couldn't find player &7%target%&4. Did you spell their username correctly?");
         paths.put("tokens.errors.invalid-command.message", "&4Invalid command use.");
         paths.put("tokens.errors.invalid-command.correction", "&7Command usage: %command_usage%");

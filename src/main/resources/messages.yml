@@ -27,6 +27,8 @@ tokens:
     sender: "&7You set &e%target% &7Tokens to &5%tokens%"
     receiver: "none"
   errors:
+    target-not-enough-tokens: "&e%target% &7doesn't have &5%tokens% &7Tokens."
+    negative-balance: "&7You can't set &e%target% &7balance to &5%tokens% &7Tokens."
     no-player: "&4Couldn't find player &7%target%&4. Did you spell their username correctly?"
     invalid-command:
       message: "&4Invalid command use."

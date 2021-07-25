@@ -19,6 +19,7 @@ nav_order: 3
 | `/tokens add <username> <number>` | `tokens.add` | Adds Tokens to another user's balance. |
 | `/tokens remove <username> <number>` | `tokens.remove` | Removes Tokens from another user's balance. |
 | `/tokens reload` | `tokens.reload` | Reloads the plugin's configuration files. |
+
 ---
 ### Tokens Redeem Commands
 

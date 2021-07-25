@@ -58,10 +58,16 @@ public class SetTokensCommandModule extends CommandModule {
 					commandSender.sendMessage(args[1]+" is not a valid number!");
 					return;
 				}
-				tokensHandler.setTokens(target, num);
 				components.add(new TokensMessageComponent(num));
 				components.add(new SenderMessageComponent(commandSender));
 				components.add(new TargetMessageComponent(target));
+				if ( num < 0 && !plugin.getTokensConfigHandler().negativeTokens()) {
+					if (!plugin.messageHandler.getMessage("tokens.errors.negative-balance").isEmpty()) {
+						commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.errors.negative-balance", components));
+					}
+					return;
+				}
+				tokensHandler.setTokens(target, num);
 				if (!plugin.messageHandler.useMessage("tokens.set.sender", components).isEmpty())
 					commandSender.sendMessage(plugin.messageHandler.useMessage("tokens.set.sender", components));
 				if (!plugin.messageHandler.useMessage("tokens.set.receiver", components).isEmpty())
