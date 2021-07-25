@@ -3,7 +3,9 @@ package net.thirdshift.tokens.commands.redeem;
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
-import net.thirdshift.tokens.messages.messageData.PlayerSender;
+import net.thirdshift.tokens.messages.messageComponents.CombatMessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.MessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.SenderMessageComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RedeemCommandExecutor extends TokensCustomCommandExecutor {
 
@@ -22,11 +23,12 @@ public class RedeemCommandExecutor extends TokensCustomCommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] args) {
         if(commandSender instanceof Player && commandSender.hasPermission("tokens.redeem")){
-            if( plugin.getTokensConfigHandler().isRunningCombatLogX() && plugin.getTokensConfigHandler().getTokensCombatManager().isInCombat((Player) commandSender) ){
+            if( plugin.getTokensCombatManager() != null && plugin.getTokensCombatManager().isInCombat( (Player) commandSender) ){
                 if(!plugin.messageHandler.getMessage("combatlogx.deny").isEmpty()) {
-                    List<Object> objects = new ArrayList<>();
-                    objects.add(new PlayerSender((Player) commandSender));
-                    commandSender.sendMessage(plugin.messageHandler.useMessage("combatlogx.deny", objects));
+                    ArrayList<MessageComponent> components = new ArrayList<>();
+                    components.add(new SenderMessageComponent(commandSender));
+                    components.add(new CombatMessageComponent(plugin.getTokensCombatManager().secondsLeft((Player) commandSender)));
+                    commandSender.sendMessage(plugin.messageHandler.useMessage("combatlogx.deny", components));
                 }
                 return true;
             }

@@ -17,7 +17,7 @@ public abstract class CommandModule {
 	protected TokensCustomCommandExecutor parentExecutor;
 
 	public CommandModule(final TokensCustomCommandExecutor executor) {
-		plugin = Tokens.getInstance();
+		plugin = executor.getPlugin();
 		tokensHandler = plugin.getHandler();
 		this.parentExecutor = executor;
 	}

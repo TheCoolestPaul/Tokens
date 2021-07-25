@@ -2,7 +2,8 @@ name: Tokens
 version: ${version}
 main: net.thirdshift.tokens.Tokens
 website: https://www.spigotmc.org/resources/tokens-multi-plugin-support-mysql-support.71941/
-softdepend: [Factions, mcMMO, Vault, CombatLogX, PlaceholderAPI, ShopGUIPlus]
+loadbefore: []
+softdepend: [Factions, mcMMO, Vault, CombatLogX, PlaceholderAPI, ShopGUIPlus, PicoJobs, Rankup, BossShopPro]
 api-version: 1.14
 authors: [TheCoolestPaul]
 description: Adding another currency into Minecraft

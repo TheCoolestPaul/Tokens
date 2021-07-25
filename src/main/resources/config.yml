@@ -1,4 +1,18 @@
 #
+# General Tokens Settings
+#
+# Negative-Balances-Enabled: (true/false) Can players go into the negatives?
+# UpdateCheck:
+#   Enabled: (true/false) Will Tokens automatically check for updates?
+#   Interval: (any whole number) If enabled, how many hours does Tokens wait to check for updates?
+###
+Tokens:
+  Negative-Balances-Enabled: false
+  UpdateCheck:
+    Enabled: true
+    Interval: 6
+
+#
 #  Settings for using a mySQL database
 ###
 MySQL:
@@ -58,18 +72,7 @@ VaultEco:
   Sell-Price: 1000
 
 #
-# Settings for ShopGUIPlus compatibility
-# Enabled: (true/false) Is support enabled?
-#
-###
-ShopGUIPlus:
-  Enabled: false
-
-#
 # Settings for update checks
 # Enabled: (true/false) Will the plugin check for updates
 # Interval: (any number) Hours between checking for updates
 ###
-UpdateCheck:
-  Enabled: true
-  Interval: 5

@@ -2,6 +2,7 @@ package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
 import net.thirdshift.tokens.cache.TokenCache;
+import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.TabRedeem;
@@ -10,15 +11,14 @@ import net.thirdshift.tokens.commands.tokens.TokensCommandExecutor;
 import net.thirdshift.tokens.commands.tokens.tokenscommands.*;
 import net.thirdshift.tokens.database.mysql.MySQLHandler;
 import net.thirdshift.tokens.database.sqllite.SQLLite;
+import net.thirdshift.tokens.hooks.TokensBaseHooks;
+import net.thirdshift.tokens.hooks.TokensHookManager;
 import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.messages.MessageHandler;
-import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
-import net.thirdshift.tokens.util.BStats;
+import net.thirdshift.tokens.util.Metrics;
 import net.thirdshift.tokens.util.TokensConfigHandler;
-import net.thirdshift.tokens.util.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.TokensUpdateEventListener;
 import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;
-import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,17 +33,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public final class Tokens extends JavaPlugin {
-
-	private static Tokens instance;
-
 	private TokensConfigHandler tokensConfigHandler;
+
+	private Metrics tokensMetrics;
 
 	private MySQLHandler mysql;
 	private SQLLite sqllite;
 
 	public static Economy vaultEcon;
 
-	private final TokensUpdateEventListener tokensUpdateEventListener = new TokensUpdateEventListener(this);
+	private TokensUpdateEventListener tokensUpdateEventListener;
 	private final TokensSpigotUpdater updater = new TokensSpigotUpdater(this, 71941);
 	private FileConfiguration keyConfig = null;
 	private File keyFile = null;
@@ -56,26 +55,29 @@ public final class Tokens extends JavaPlugin {
 	private PluginCommand tokensCommand;
 	private PluginCommand redeemCommand;
 	private TokensHandler tokensHandler;
-	private TokenShopGUIPlus tokenShopGUIPlus;
+
+	private TokensCombatManager tokensCombatManager;
 
 	private RedeemCommandExecutor redeemCommandExecutor;
 	private TokensCommandExecutor tokensCommandExecutor;
 
-	@Override
-	public void onLoad() {
-		instance = this;
-	}
+	private TokensHookManager hookManager;
 
 	@Override
 	public void onEnable() {
 		this.saveDefaultConfig();
+
+		hookManager = new TokensHookManager();
+
 		tokensConfigHandler = new TokensConfigHandler(this);
-
-		getServer().getPluginManager().registerEvents(tokensUpdateEventListener, this);
-		tokensHandler = new TokensHandler();
 		keyHandler = new KeyHandler(this);
-		messageHandler = new MessageHandler(this);
 
+		tokensUpdateEventListener = new TokensUpdateEventListener(this);
+		getServer().getPluginManager().registerEvents(tokensUpdateEventListener, this);
+
+		tokensHandler = new TokensHandler();
+
+		messageHandler = new MessageHandler(this);
 		messageHandler.loadMessages();
 
 		tokensCommand = this.getCommand("tokens");
@@ -86,18 +88,9 @@ public final class Tokens extends JavaPlugin {
 
 		TokenCache.initialize( this );
 
-		new BStats(this, 5849);
+		tokensMetrics = new Metrics(this, 5849);
 
 		this.workCommands();
-		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI")!=null){
-			boolean tokensExpansion = new TokensPAPIExpansion(this).register();
-			if(tokensExpansion) {
-				this.getLogger().info("Successfully registered into PlaceholderAPI");
-			}else{
-				this.getLogger().warning("Couldn't register into PlaceholderAPI!");
-			}
-		}
-		this.reloadConfig();
 
 		// Auto-check updates related code
 		if (getTokensConfigHandler().isUpdateCheck()) {
@@ -109,22 +102,36 @@ public final class Tokens extends JavaPlugin {
 				getLogger().info("Will check for updates every " +getTokensConfigHandler().getHoursToCheck()+" hours.");
 			}
 		}
+
+		TokensBaseHooks.registerBaseHooks(this, hookManager);
+	}
+
+	public TokensHookManager getHookManager() {
+		return hookManager;
 	}
 
 	public TokensConfigHandler getTokensConfigHandler() {
 		return tokensConfigHandler;
 	}
 
+	public Metrics getTokensMetrics() {
+		return tokensMetrics;
+	}
+
+	public void setTokensMetrics(Metrics tokensMetrics) {
+		this.tokensMetrics = tokensMetrics;
+	}
+
 	public TokensUpdateEventListener getTokensEventListener() {
 		return tokensUpdateEventListener;
 	}
 
-	public static Tokens getInstance(){
-		return instance;
+	public TokensCombatManager getTokensCombatManager() {
+		return tokensCombatManager;
 	}
 
-	public TokenShopGUIPlus getTokenShopGUIPlus() {
-		return tokenShopGUIPlus;
+	public void setTokensCombatManager(TokensCombatManager tokensCombatManager) {
+		this.tokensCombatManager = tokensCombatManager;
 	}
 
 	public TokensHandler getHandler() {
@@ -135,9 +142,7 @@ public final class Tokens extends JavaPlugin {
 	public void onDisable() {
 
 		TokenCache.onDisable();
-
 		keyHandler.saveKeyCooldown();
-		instance = null;
 
 		// The database connections are shutdown in TokenCacheDatabase but
 		// providing final attempts here just to ensure they are shutdown to
@@ -205,26 +210,6 @@ public final class Tokens extends JavaPlugin {
 			messageFile = new File(getDataFolder(), "messages.yml");
 		}
 		messageConfig = YamlConfiguration.loadConfiguration(messageFile);
-
-		// Look for defaults in the jar
-		InputStreamReader stream = null;
-		Reader defConfigStream = null;
-		try{
-			stream = new InputStreamReader(Objects.requireNonNull(this.getResource("messages.yml")), StandardCharsets.UTF_8);
-			defConfigStream = stream;
-			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-			messageConfig.setDefaults(defConfig);
-		}finally{
-			try{
-				if(stream!=null)
-					stream.close();
-				if(defConfigStream!=null)
-					defConfigStream.close();
-			}catch(IOException ex){
-				this.getLogger().severe("Error reading keys.yml");
-			}
-		}
-		messageHandler.loadMessages();
 	}
 
 	public FileConfiguration getMessageConfig(){
@@ -258,6 +243,14 @@ public final class Tokens extends JavaPlugin {
 		}
 	}
 
+	public File getMessageFile() {
+		return messageFile;
+	}
+
+	public void setMessageFile(File messageFile) {
+		this.messageFile = messageFile;
+	}
+
 	@Override
 	public void reloadConfig() {
 		super.reloadConfig();
@@ -274,10 +267,10 @@ public final class Tokens extends JavaPlugin {
 			this.mysql = new MySQLHandler(this);
 		}else{
 			this.mysql.closeConnection();
-			this.getLogger().info("Closing old MySQL connection.");
+			this.getLogger().fine("Closing old MySQL connection.");
 		}
 		this.mysql.updateSettings();
-		this.getLogger().info("Updated MySQL connection.");
+		this.getLogger().fine("Updated MySQL connection.");
 		this.mysql.startSQLConnection();
 	}
 
@@ -314,7 +307,7 @@ public final class Tokens extends JavaPlugin {
 	}
 
 	private void checkUpdates(){
-		this.getLogger().info("Checking for an update");
+		this.getLogger().info("Checking for updates");
 		try {
 			if (updater.checkForUpdates()) {
 				this.getLogger().info("An update was found! New version: " + updater.getLatestVersion() + " download link: " + updater.getResourceURL());

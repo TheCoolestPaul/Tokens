@@ -4,7 +4,10 @@ import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import net.thirdshift.tokens.commands.CommandModule;
 import net.thirdshift.tokens.commands.TokensCustomCommandExecutor;
-import net.thirdshift.tokens.messages.messageData.PlayerSender;
+import net.thirdshift.tokens.messages.messageComponents.CommandMessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.MessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.SenderMessageComponent;
+import net.thirdshift.tokens.messages.messageComponents.TokensMessageComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -48,11 +51,11 @@ public class FactionsRedeemCommandModule extends CommandModule {
             return;
 
         Player player = (Player) commandSender;
-        List<Object> objects = new ArrayList<>();
+        List<MessageComponent> components = new ArrayList<>();
         if (args.length!=1){
-            objects.add(new PlayerSender(player));
-            objects.add(getCommandUsage());
-            player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", objects));
+            components.add(new SenderMessageComponent(player));
+            components.add(new CommandMessageComponent(getCommandUsage()));
+            player.sendMessage(plugin.messageHandler.useMessage("tokens.errors.invalid-command.correction", components));
             return;
         }
 
@@ -64,21 +67,20 @@ public class FactionsRedeemCommandModule extends CommandModule {
             return;
         }
 
-        objects.add(toRedeem);
-        objects.add(new PlayerSender(player));
+        components.add(new TokensMessageComponent(toRedeem));
+        components.add(new SenderMessageComponent(player));
 
         if(tokensHandler.hasEnoughTokens(player, toRedeem)){
             FPlayer fPlayer = FPlayers.getInstance().getByPlayer(player);
             if(fPlayer != null ){
                 fPlayer.setPowerBoost(fPlayer.getPowerBoost() + (double)(toRedeem * plugin.getTokensConfigHandler().getTokenToFactionPower()));
-                objects.add(fPlayer);
                 tokensHandler.removeTokens(player, toRedeem);
-                player.sendMessage(plugin.messageHandler.useMessage("redeem.factions", objects));
+                player.sendMessage(plugin.messageHandler.useMessage("redeem.factions", components));
             }else{
                 plugin.getLogger().severe("Couldn't get FPlayer for "+player.getName());
             }
         }else{
-            player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.not-enough", objects));
+            player.sendMessage(plugin.messageHandler.useMessage("redeem.errors.not-enough", components));
         }
     }
 }

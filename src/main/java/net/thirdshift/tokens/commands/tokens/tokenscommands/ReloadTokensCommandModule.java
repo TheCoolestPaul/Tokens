@@ -51,6 +51,7 @@ public class ReloadTokensCommandModule extends CommandModule {
 				commandSender.sendMessage(ChatColor.GRAY+"Reloaded the key config");
 			} else if (args[0].equalsIgnoreCase("messages")) {
 				plugin.reloadMessages();
+				plugin.messageHandler.loadMessages();
 				commandSender.sendMessage(ChatColor.GRAY+"Reloaded the messages config");
 			} else if (args[0].equalsIgnoreCase("cache")) {
 				// Shutdown the token cache prior to reloading:
