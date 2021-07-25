@@ -25,7 +25,4 @@ public class TokensHookManager {
         return hasConsumable;
     }
 
-    public void removeHook(TokensHook hook) {
-        hooks.remove(hook);
-    }
 }

@@ -114,14 +114,6 @@ public final class Tokens extends JavaPlugin {
 		return tokensConfigHandler;
 	}
 
-	public Metrics getTokensMetrics() {
-		return tokensMetrics;
-	}
-
-	public void setTokensMetrics(Metrics tokensMetrics) {
-		this.tokensMetrics = tokensMetrics;
-	}
-
 	public TokensUpdateEventListener getTokensEventListener() {
 		return tokensUpdateEventListener;
 	}
@@ -245,10 +237,6 @@ public final class Tokens extends JavaPlugin {
 
 	public File getMessageFile() {
 		return messageFile;
-	}
-
-	public void setMessageFile(File messageFile) {
-		this.messageFile = messageFile;
 	}
 
 	@Override
