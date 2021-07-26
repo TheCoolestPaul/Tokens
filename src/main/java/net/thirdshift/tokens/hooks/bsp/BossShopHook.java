@@ -46,7 +46,7 @@ public class BossShopHook extends TokensHook {
 
         @Override
         public void giveReward(Player p, BSBuy buy, Object reward, ClickType clickType, int multiplier) {
-            int toAdd = (int) ClassManager.manager.getMultiplierHandler().calculateRewardWithMultiplier(p, buy, clickType, new Double(reward.toString()));
+            int toAdd = (int) ClassManager.manager.getMultiplierHandler().calculateRewardWithMultiplier(p, buy, clickType, Double.parseDouble(reward.toString()));
             tokensHandler.addTokens(p, toAdd);
         }
 
@@ -74,7 +74,7 @@ public class BossShopHook extends TokensHook {
 
         @Override
         public String getDisplayReward(Player p, BSBuy buy, Object reward, ClickType clickType) {
-            int numTokens = (int) ClassManager.manager.getMultiplierHandler().calculateRewardWithMultiplier(p, buy, clickType, new Double(reward.toString()));
+            int numTokens = (int) ClassManager.manager.getMultiplierHandler().calculateRewardWithMultiplier(p, buy, clickType, Double.parseDouble(reward.toString()));
             return numTokens+" Tokens";
         }
 
@@ -101,7 +101,7 @@ public class BossShopHook extends TokensHook {
 
         @Override
         public String takePrice(Player p, BSBuy buy, Object price, ClickType clickType, int multiplier) {
-            int numTokens = (int) ClassManager.manager.getMultiplierHandler().calculateRewardWithMultiplier(p, buy, clickType, new Double(price.toString()));
+            int numTokens = (int) ClassManager.manager.getMultiplierHandler().calculateRewardWithMultiplier(p, buy, clickType, Double.parseDouble(price.toString()));
             tokensHandler.removeTokens(p, numTokens);
             return getDisplayBalance(p, buy, price, clickType);
         }
@@ -135,7 +135,7 @@ public class BossShopHook extends TokensHook {
 
         @Override
         public String getDisplayPrice(Player p, BSBuy buy, Object price, ClickType clickType) {
-            int numTokens = (int) ClassManager.manager.getMultiplierHandler().calculateRewardWithMultiplier(p, buy, clickType, new Double(price.toString()));
+            int numTokens = (int) ClassManager.manager.getMultiplierHandler().calculateRewardWithMultiplier(p, buy, clickType, Double.parseDouble(price.toString()));
             return numTokens+" Tokens";
         }
 
