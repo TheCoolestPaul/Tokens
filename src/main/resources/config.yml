@@ -70,9 +70,3 @@ VaultEco:
   Buy-Price: 1000
   Sell-Tokens: true
   Sell-Price: 1000
-
-#
-# Settings for update checks
-# Enabled: (true/false) Will the plugin check for updates
-# Interval: (any number) Hours between checking for updates
-###
