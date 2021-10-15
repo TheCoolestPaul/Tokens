@@ -44,7 +44,7 @@ public class ReloadTokensCommandModule extends CommandModule {
 			if (args.length == 0) {
 				// Shutdown the token cache prior to reloading:
 				TokenCache.onDisable();
-				plugin.reloadConfig();
+				plugin.reloadConfigs();
 				commandSender.sendMessage(ChatColor.GRAY + "Reloaded all the config files");
 			} else if (args[0].equalsIgnoreCase("keys")) {
 				plugin.reloadKeys();

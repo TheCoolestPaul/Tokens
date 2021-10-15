@@ -195,6 +195,7 @@ public final class Tokens extends JavaPlugin {
 				this.getLogger().severe("Error reading keys.yml");
 			}
 		}
+		getLogger().info("Reloaded keys");
 	}
 
 	public void reloadMessages() {
@@ -202,6 +203,8 @@ public final class Tokens extends JavaPlugin {
 			messageFile = new File(getDataFolder(), "messages.yml");
 		}
 		messageConfig = YamlConfiguration.loadConfiguration(messageFile);
+		messageHandler.loadMessages();
+		getLogger().info("Reloaded messages config");
 	}
 
 	public FileConfiguration getMessageConfig(){
@@ -243,6 +246,13 @@ public final class Tokens extends JavaPlugin {
 	public void reloadConfig() {
 		super.reloadConfig();
 		tokensConfigHandler.reloadConfig();
+		getLogger().info("Reloaded config");
+	}
+
+	public void reloadConfigs() {
+		this.reloadMessages();
+		this.reloadKeys();
+		this.reloadConfig();
 	}
 
 	public void doSQLLiteWork(){
